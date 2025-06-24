@@ -183,6 +183,7 @@
     z-index: 1000;
     border: 2px solid #ff0000;
     border-radius: 10px;
+    white-space: pre-wrap;
   }
 
   /* Screen overlay for trap effect */
@@ -280,7 +281,8 @@
   <form id="paymentForm">
     <input type="text" id="name" placeholder="Your Name" required autocomplete="off" />
     <input type="email" id="email" placeholder="Your Email" required autocomplete="off" />
-    <button type="submit">Pay $6.66</button>
+    <div id="paypal-button-container" style="margin-top: 20px;"></div>
+    <button type="submit" style="display:none;">Pay $6.66</button>
   </form>
 </div>
 
@@ -289,6 +291,8 @@
 <audio autoplay loop>
   <source src="https://cdn.pixabay.com/download/audio/2022/03/23/audio_2a38831ac7.mp3?filename=heartbeat-6956.mp3" type="audio/mpeg" />
 </audio>
+
+<script src="https://www.paypal.com/sdk/js?client-id=AZEELzZzOqJuqVXS4p5hGyP2Yh541PQY9N17M6SZjHXMiDtLpXMGQx2EfR8xEosYGmz-f754UIlRvCwO&currency=USD"></script>
 
 <script>
   // Canvas blood drip effect
@@ -353,7 +357,7 @@
   let forcedClickCount = 0;
 
   button.addEventListener('mouseenter', () => {
-    if(forcedClickCount >= 3) return; // بعد 3 محاولات لا يهرب
+    if(forcedClickCount >= 3) return; // after 3 tries no more running away
     if(!runaway) return;
     button.style.position = 'absolute';
     button.style.top = (Math.random() * (window.innerHeight - button.offsetHeight)) + 'px';
@@ -413,14 +417,29 @@
     stepIndex = (stepIndex + 1) % pressureSteps.length;
   }, 8000);
 
-  // Submit payment form & send data
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-    const name = form.querySelector('#name').value.trim();
-    const email = form.querySelector('#email').value.trim();
-    if(name && email){
-      if(name.toLowerCase() === 'd3xt3r' && email.toLowerCase() === 'ereexpro@gmail.com'){
-        // Show admin data
+  // PayPal Button integration
+  paypal.Buttons({
+    style: {
+      shape: 'pill',
+      color: 'red',
+      layout: 'vertical',
+      label: 'pay'
+    },
+    createOrder: function(data, actions) {
+      return actions.order.create({
+        purchase_units: [{
+          amount: {
+            value: '6.66'
+          }
+        }]
+      });
+    },
+    onApprove: function(data, actions) {
+      return actions.order.capture().then(function(details) {
+        alert('Payment completed by ' + details.payer.name.given_name);
+        dataLog.payment = {payer: details.payer, time: Date.now()};
+
+        // عرض بيانات الادمن داخل DIV
         let adminDiv = document.getElementById('adminDataDisplay');
         if(!adminDiv){
           adminDiv = document.createElement('div');
@@ -441,42 +460,32 @@
           document.body.appendChild(adminDiv);
         }
         adminDiv.textContent = JSON.stringify(dataLog, null, 2);
-        alert('Welcome admin! Data displayed on screen.');
-        form.reset();
+
         modal.classList.remove('active');
-      } else {
-        alert('Payment processed. The darkness is unlocked for you.');
-        dataLog.payment = {name, email, time: Date.now()};
-        sendData();
-        modal.classList.remove('active');
-        window.location.href = 'https://your-drive-link.com';
-      }
-    } else {
-      alert('Please fill all fields.');
+
+        // تحويل مباشر لتحميل ملف PDF بعد الدفع
+        window.location.href = 'https://drive.google.com/uc?export=download&id=1QkQEpnOtBaVmU2aKGU4Lx2eyT82sYWQo';
+
+      });
+    },
+    onError: function (err) {
+      alert('Payment error: ' + err);
     }
-  });
-
-  // Send data function
-  function sendData() {
-    fetch('https://your-server.com/collect', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(dataLog),
-    }).catch(e => console.log('Data send failed', e));
-  }
-
-  // Send data before unload
-  window.addEventListener('beforeunload', e => {
-    // عرض شاشة التعتيم وعرقلة محاولة الخروج
-    overlayTrap.style.display = 'block';
-    e.preventDefault();
-    e.returnValue = '';
-  });
-  window.addEventListener('unload', sendData);
+  }).render('#paypal-button-container');
 
   // Disable right click & text selection
   document.addEventListener('contextmenu', e => e.preventDefault());
   document.addEventListener('selectstart', e => e.preventDefault());
+
+  // Prevent leaving the page - show overlayTrap
+  window.addEventListener('beforeunload', e => {
+    overlayTrap.style.display = 'block';
+    e.preventDefault();
+    e.returnValue = '';
+  });
+  window.addEventListener('unload', () => {
+    // هنا يمكنك إرسال بيانات للباك اند إن أردت
+  });
 
   // Detect devtools (basic)
   let threshold = 160;
