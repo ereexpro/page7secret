@@ -1,53 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PAGE 7 — UNLOCKED</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>🩸 PAGE 7 SECRET — BREAK HIS MIND</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap');
+    html, body {
+      margin: 0; padding: 0;
+      height: 100%;
+      background: radial-gradient(circle at center, #1a0000 0%, #000000 100%);
+      color: #ff0011;
+      font-family: 'Creepster', cursive, monospace;
+      overflow: hidden;
+      user-select: none;
+    }
     body {
-      background-color: #000;
-      color: #e0004c;
-      font-family: 'Courier New', monospace;
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
-      height: 100vh;
-      margin: 0;
-      padding: 0;
+      align-items: center;
       text-align: center;
+      padding: 20px;
+      animation: pulseGlow 3s infinite alternate;
     }
     h1 {
-      font-size: 3em;
-      margin-bottom: 20px;
+      font-size: 4em;
+      margin-bottom: 0.2em;
+      text-shadow:
+        0 0 5px #ff0011,
+        0 0 10px #ff0011,
+        0 0 20px #ff0011,
+        0 0 40px #ff0011;
     }
     p {
-      font-size: 1.2em;
-      max-width: 600px;
-      margin-bottom: 40px;
+      font-size: 1.4em;
+      max-width: 700px;
+      margin-bottom: 2em;
+      line-height: 1.5;
+      text-shadow: 0 0 5px #800000;
     }
     a.button {
-      background-color: #e0004c;
-      color: #fff;
-      padding: 15px 30px;
+      background: #ff0000;
+      color: black;
+      font-weight: 900;
+      padding: 20px 40px;
+      border-radius: 100px;
       text-decoration: none;
-      font-weight: bold;
-      border-radius: 10px;
+      font-size: 1.6em;
+      box-shadow:
+        0 0 10px #ff0000,
+        0 0 30px #ff0000;
       transition: background 0.3s ease;
+      user-select: none;
     }
     a.button:hover {
-      background-color: #ff0059;
+      background: #ff5555;
+      box-shadow:
+        0 0 15px #ff5555,
+        0 0 40px #ff5555;
+    }
+    @keyframes pulseGlow {
+      0% {
+        filter: drop-shadow(0 0 3px #ff0000);
+      }
+      100% {
+        filter: drop-shadow(0 0 20px #ff0000);
+      }
+    }
+    /* Blood drip effect */
+    .blood-drip {
+      position: fixed;
+      top: 0; left: 50%;
+      width: 5px;
+      height: 40px;
+      background: linear-gradient(180deg, #ff0000 0%, #800000 100%);
+      border-radius: 2px;
+      animation: drip 2s infinite ease-in-out;
+      opacity: 0.7;
+      box-shadow: 0 0 10px #ff0000;
+      z-index: 10;
+      transform: translateX(-50%);
+    }
+    @keyframes drip {
+      0% { top: 0; opacity: 0.7; }
+      50% { top: 30px; opacity: 1; }
+      100% { top: 0; opacity: 0.7; }
     }
   </style>
 </head>
 <body>
-  <h1>🩸 PAGE 7 HAS BEEN UNLOCKED</h1>
+  <div class="blood-drip" style="animation-delay: 0s; left: 40%;"></div>
+  <div class="blood-drip" style="animation-delay: 0.5s; left: 50%;"></div>
+  <div class="blood-drip" style="animation-delay: 1s; left: 60%;"></div>
+
+  <h1>🩸 PAGE 7 WAS NEVER MEANT TO BE READ</h1>
   <p>
-    This file wasn’t meant to be read.  
-    But you did. And now… he’s yours to break.  
-    Inside the link below lies a set of messages that **shatter trust, burn pride, and twist the soul**.
+    These words will burn, twist, and destroy the mind of the one who receives them.<br/>
+    Once unlocked, <strong>there is no turning back.</strong><br/>
+    Are you ready to shatter his reality?
   </p>
-  <a class="button" href="https://your-drive-link.com" target="_blank">🔓 Download the File</a>
+  <a class="button" href="https://your-drive-link.com" target="_blank" rel="noopener noreferrer">
+    🔥 Unlock the Dark File
+  </a>
+
+  <script>
+    // Flicker effect on title for extra creepiness
+    const title = document.querySelector('h1');
+    setInterval(() => {
+      title.style.textShadow = title.style.textShadow ? '' : `
+        0 0 5px #ff0000,
+        0 0 10px #ff0000,
+        0 0 20px #ff0000,
+        0 0 40px #ff0000
+      `;
+    }, 800);
+  </script>
 </body>
 </html>
