@@ -3,18 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>🩸 PAGE 7 — BREAK HIS MIND — NO ESCAPE</title>
+  <title>🩸 PAGE 7 — MIND BREAKER — NO ESCAPE 🩸</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap');
 
+    /* Base & Body */
     html, body {
       margin: 0; padding: 0;
       height: 100%;
-      background: radial-gradient(circle at center, #100000 0%, #000000 100%);
+      background: radial-gradient(circle at center, #0a0000 0%, #000000 100%);
       color: #ff0000;
       font-family: 'Creepster', cursive, monospace;
       overflow: hidden;
       user-select: none;
+      position: relative;
     }
     body {
       display: flex;
@@ -23,121 +25,137 @@
       align-items: center;
       text-align: center;
       padding: 20px;
-      animation: pulseGlow 3s infinite alternate;
-      position: relative;
+      filter: drop-shadow(0 0 8px #ff0000);
+      animation: bloodPulse 3s infinite alternate;
     }
+
+    /* Title with Glitch & Flicker */
     h1 {
-      font-size: 4em;
-      margin-bottom: 0.2em;
-      text-shadow:
-        0 0 10px #ff0000,
-        0 0 20px #ff0000,
-        0 0 30px #ff0000,
-        0 0 50px #ff0000;
-      animation: flicker 1.5s infinite;
+      font-size: 5em;
+      margin-bottom: 0.3em;
+      position: relative;
+      color: #ff0000;
+      text-transform: uppercase;
+      animation: glitch 2.5s infinite;
+      filter: drop-shadow(0 0 15px #ff0000);
+      user-select: none;
     }
+    h1::before, h1::after {
+      content: attr(data-text);
+      position: absolute;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      opacity: 0.8;
+      clip: rect(0, 900px, 0, 0);
+    }
+    h1::before {
+      left: 2px;
+      text-shadow: -2px 0 #ff0040;
+      animation: glitchTop 2s infinite linear alternate-reverse;
+    }
+    h1::after {
+      left: -2px;
+      text-shadow: -2px 0 #ff00c8;
+      animation: glitchBottom 1.5s infinite linear alternate-reverse;
+    }
+
+    /* Paragraph */
     p {
-      font-size: 1.4em;
-      max-width: 700px;
-      margin-bottom: 2em;
+      font-size: 1.6em;
+      max-width: 720px;
       line-height: 1.6;
-      text-shadow: 0 0 7px #800000;
+      margin-bottom: 2.5em;
+      text-shadow: 0 0 10px #800000;
+      user-select: none;
     }
+
+    /* Button */
     a.button {
-      background: linear-gradient(45deg, #ff0000, #8b0000);
-      color: black;
+      font-size: 2em;
       font-weight: 900;
-      padding: 20px 50px;
+      padding: 25px 60px;
+      color: #000;
+      background: linear-gradient(45deg, #ff0000, #800000);
       border-radius: 100px;
       text-decoration: none;
-      font-size: 1.8em;
-      box-shadow:
-        0 0 15px #ff0000,
-        0 0 40px #8b0000;
-      transition: all 0.4s ease;
-      user-select: none;
+      box-shadow: 0 0 30px #ff0000, 0 0 60px #800000 inset;
       position: relative;
       overflow: hidden;
+      user-select: none;
+      transition: background 0.3s ease, color 0.3s ease;
       z-index: 10;
+    }
+    a.button:hover {
+      background: linear-gradient(45deg, #ff4444, #b30000);
+      color: #fff;
+      box-shadow: 0 0 40px #ff4444, 0 0 90px #b30000 inset;
     }
     a.button::before {
       content: "";
       position: absolute;
-      top: 0; left: -50%;
+      top: 0; left: -75%;
       width: 50%;
       height: 100%;
       background: rgba(255,255,255,0.2);
-      transform: skewX(-20deg);
+      transform: skewX(-25deg);
       transition: left 0.7s ease;
       z-index: 20;
     }
     a.button:hover::before {
-      left: 150%;
-    }
-    a.button:hover {
-      background: linear-gradient(45deg, #ff4444, #660000);
-      box-shadow:
-        0 0 25px #ff4444,
-        0 0 55px #660000;
-      color: white;
-    }
-    @keyframes pulseGlow {
-      0% {
-        filter: drop-shadow(0 0 5px #ff0000);
-      }
-      100% {
-        filter: drop-shadow(0 0 25px #ff0000);
-      }
-    }
-    @keyframes flicker {
-      0%, 100% { opacity: 1; text-shadow: 0 0 20px #ff0000, 0 0 30px #ff0000; }
-      50% { opacity: 0.7; text-shadow: 0 0 8px #880000, 0 0 12px #880000; }
+      left: 175%;
     }
 
-    /* Blood drips effect */
+    /* Blood Drips */
     .blood-drip {
       position: fixed;
-      width: 6px;
-      height: 60px;
+      width: 7px;
+      height: 70px;
       background: linear-gradient(180deg, #ff0000 0%, #500000 100%);
-      border-radius: 3px;
-      box-shadow: 0 0 15px #ff0000;
-      animation: drip 2.2s infinite ease-in-out;
-      opacity: 0.8;
+      border-radius: 4px;
+      box-shadow: 0 0 25px #ff0000;
+      animation: drip 2.3s infinite ease-in-out;
+      opacity: 0.9;
       z-index: 100;
+      user-select: none;
     }
     .blood-drip:nth-child(1) {
-      left: 25%;
+      left: 22%;
       animation-delay: 0s;
     }
     .blood-drip:nth-child(2) {
-      left: 45%;
-      animation-delay: 0.7s;
-      height: 80px;
+      left: 44%;
+      animation-delay: 0.8s;
+      height: 90px;
     }
     .blood-drip:nth-child(3) {
-      left: 65%;
-      animation-delay: 1.4s;
-      height: 70px;
-    }
-    @keyframes drip {
-      0% { top: -60px; opacity: 0.8; }
-      50% { top: 80vh; opacity: 1; }
-      100% { top: -60px; opacity: 0.8; }
+      left: 66%;
+      animation-delay: 1.5s;
+      height: 80px;
     }
 
-    /* Glitch effect on text */
+    /* Animations */
+    @keyframes drip {
+      0% { top: -80px; opacity: 0.9; }
+      50% { top: 85vh; opacity: 1; }
+      100% { top: -80px; opacity: 0.9; }
+    }
+
+    @keyframes bloodPulse {
+      0% { filter: drop-shadow(0 0 10px #ff0000); }
+      100% { filter: drop-shadow(0 0 30px #ff0000); }
+    }
+
     @keyframes glitch {
       0% {
         clip-path: inset(0 0 0 0);
         transform: translate(0);
       }
       20% {
-        clip-path: inset(20% 0 10% 0);
+        clip-path: inset(10% 0 15% 0);
         transform: translate(-2px, -2px);
       }
       40% {
-        clip-path: inset(10% 0 30% 0);
+        clip-path: inset(15% 0 20% 0);
         transform: translate(2px, 2px);
       }
       60% {
@@ -145,7 +163,7 @@
         transform: translate(-2px, 2px);
       }
       80% {
-        clip-path: inset(20% 0 30% 0);
+        clip-path: inset(15% 0 30% 0);
         transform: translate(2px, -2px);
       }
       100% {
@@ -153,25 +171,66 @@
         transform: translate(0);
       }
     }
-    .glitch {
-      position: relative;
-      color: #ff0000;
-      animation: glitch 2s infinite;
+    @keyframes glitchTop {
+      0% {
+        clip-path: inset(0 0 50% 0);
+        transform: translate(0);
+      }
+      50% {
+        clip-path: inset(10% 0 40% 0);
+        transform: translate(-2px, -2px);
+      }
+      100% {
+        clip-path: inset(0 0 50% 0);
+        transform: translate(0);
+      }
+    }
+    @keyframes glitchBottom {
+      0% {
+        clip-path: inset(50% 0 0 0);
+        transform: translate(0);
+      }
+      50% {
+        clip-path: inset(40% 0 10% 0);
+        transform: translate(2px, 2px);
+      }
+      100% {
+        clip-path: inset(50% 0 0 0);
+        transform: translate(0);
+      }
+    }
+
+    /* Dark flicker background */
+    #darkness {
+      position: fixed;
+      top:0; left:0;
+      width: 100%; height: 100%;
+      background: radial-gradient(circle at center, rgba(255,0,0,0.1) 0%, rgba(0,0,0,0.9) 100%);
+      pointer-events: none;
+      animation: flickerDark 4s infinite alternate;
+      z-index: 0;
+    }
+    @keyframes flickerDark {
+      0% { opacity: 0.12; }
+      100% { opacity: 0.3; }
     }
   </style>
 </head>
 <body>
+  <div id="darkness"></div>
+
   <div class="blood-drip"></div>
   <div class="blood-drip"></div>
   <div class="blood-drip"></div>
 
-  <h1 class="glitch">🩸 PAGE 7 — BREAK HIS MIND — NO ESCAPE</h1>
+  <h1 data-text="🩸 PAGE 7 — MIND BREAKER — NO ESCAPE">🩸 PAGE 7 — MIND BREAKER — NO ESCAPE</h1>
   <p>
-    These messages are designed to cut deep.<br />
-    They burn pride, twist reality, and shatter souls.<br />
-    Once you unlock this file… there’s no going back.
+    These messages cut deeper than any blade.<br/>
+    They burn pride, twist reality, and shatter the mind.<br/>
+    Once unlocked... <strong>your soul is trapped forever.</strong>
   </p>
-  <a class="button" href="https://your-drive-link.com" target="_blank" rel="noopener noreferrer">
+
+  <a class="button" href="https://your-drive-link.com" target="_blank" rel="noopener noreferrer" tabindex="-1">
     🔥 Unlock the Darkness Now
   </a>
 
@@ -180,11 +239,15 @@
   </audio>
 
   <script>
-    // Flicker glitch effect on heading
-    const glitchEl = document.querySelector('.glitch');
+    // Flicker opacity on heading
+    const glitchEl = document.querySelector('h1');
     setInterval(() => {
       glitchEl.style.opacity = glitchEl.style.opacity === '1' ? '0.7' : '1';
-    }, 600);
+    }, 550);
+
+    // Prevent right click & selection
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('selectstart', e => e.preventDefault());
   </script>
 </body>
 </html>
