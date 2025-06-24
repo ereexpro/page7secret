@@ -1,16 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>🩸 PAGE 7 SECRET — BREAK HIS MIND</title>
+  <title>🩸 PAGE 7 — BREAK HIS MIND — NO ESCAPE</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap');
+
     html, body {
       margin: 0; padding: 0;
       height: 100%;
-      background: radial-gradient(circle at center, #1a0000 0%, #000000 100%);
-      color: #ff0011;
+      background: radial-gradient(circle at center, #100000 0%, #000000 100%);
+      color: #ff0000;
       font-family: 'Creepster', cursive, monospace;
       overflow: hidden;
       user-select: none;
@@ -23,98 +24,167 @@
       text-align: center;
       padding: 20px;
       animation: pulseGlow 3s infinite alternate;
+      position: relative;
     }
     h1 {
       font-size: 4em;
       margin-bottom: 0.2em;
       text-shadow:
-        0 0 5px #ff0011,
-        0 0 10px #ff0011,
-        0 0 20px #ff0011,
-        0 0 40px #ff0011;
+        0 0 10px #ff0000,
+        0 0 20px #ff0000,
+        0 0 30px #ff0000,
+        0 0 50px #ff0000;
+      animation: flicker 1.5s infinite;
     }
     p {
       font-size: 1.4em;
       max-width: 700px;
       margin-bottom: 2em;
-      line-height: 1.5;
-      text-shadow: 0 0 5px #800000;
+      line-height: 1.6;
+      text-shadow: 0 0 7px #800000;
     }
     a.button {
-      background: #ff0000;
+      background: linear-gradient(45deg, #ff0000, #8b0000);
       color: black;
       font-weight: 900;
-      padding: 20px 40px;
+      padding: 20px 50px;
       border-radius: 100px;
       text-decoration: none;
-      font-size: 1.6em;
+      font-size: 1.8em;
       box-shadow:
-        0 0 10px #ff0000,
-        0 0 30px #ff0000;
-      transition: background 0.3s ease;
+        0 0 15px #ff0000,
+        0 0 40px #8b0000;
+      transition: all 0.4s ease;
       user-select: none;
+      position: relative;
+      overflow: hidden;
+      z-index: 10;
+    }
+    a.button::before {
+      content: "";
+      position: absolute;
+      top: 0; left: -50%;
+      width: 50%;
+      height: 100%;
+      background: rgba(255,255,255,0.2);
+      transform: skewX(-20deg);
+      transition: left 0.7s ease;
+      z-index: 20;
+    }
+    a.button:hover::before {
+      left: 150%;
     }
     a.button:hover {
-      background: #ff5555;
+      background: linear-gradient(45deg, #ff4444, #660000);
       box-shadow:
-        0 0 15px #ff5555,
-        0 0 40px #ff5555;
+        0 0 25px #ff4444,
+        0 0 55px #660000;
+      color: white;
     }
     @keyframes pulseGlow {
       0% {
-        filter: drop-shadow(0 0 3px #ff0000);
+        filter: drop-shadow(0 0 5px #ff0000);
       }
       100% {
-        filter: drop-shadow(0 0 20px #ff0000);
+        filter: drop-shadow(0 0 25px #ff0000);
       }
     }
-    /* Blood drip effect */
+    @keyframes flicker {
+      0%, 100% { opacity: 1; text-shadow: 0 0 20px #ff0000, 0 0 30px #ff0000; }
+      50% { opacity: 0.7; text-shadow: 0 0 8px #880000, 0 0 12px #880000; }
+    }
+
+    /* Blood drips effect */
     .blood-drip {
       position: fixed;
-      top: 0; left: 50%;
-      width: 5px;
-      height: 40px;
-      background: linear-gradient(180deg, #ff0000 0%, #800000 100%);
-      border-radius: 2px;
-      animation: drip 2s infinite ease-in-out;
-      opacity: 0.7;
-      box-shadow: 0 0 10px #ff0000;
-      z-index: 10;
-      transform: translateX(-50%);
+      width: 6px;
+      height: 60px;
+      background: linear-gradient(180deg, #ff0000 0%, #500000 100%);
+      border-radius: 3px;
+      box-shadow: 0 0 15px #ff0000;
+      animation: drip 2.2s infinite ease-in-out;
+      opacity: 0.8;
+      z-index: 100;
+    }
+    .blood-drip:nth-child(1) {
+      left: 25%;
+      animation-delay: 0s;
+    }
+    .blood-drip:nth-child(2) {
+      left: 45%;
+      animation-delay: 0.7s;
+      height: 80px;
+    }
+    .blood-drip:nth-child(3) {
+      left: 65%;
+      animation-delay: 1.4s;
+      height: 70px;
     }
     @keyframes drip {
-      0% { top: 0; opacity: 0.7; }
-      50% { top: 30px; opacity: 1; }
-      100% { top: 0; opacity: 0.7; }
+      0% { top: -60px; opacity: 0.8; }
+      50% { top: 80vh; opacity: 1; }
+      100% { top: -60px; opacity: 0.8; }
+    }
+
+    /* Glitch effect on text */
+    @keyframes glitch {
+      0% {
+        clip-path: inset(0 0 0 0);
+        transform: translate(0);
+      }
+      20% {
+        clip-path: inset(20% 0 10% 0);
+        transform: translate(-2px, -2px);
+      }
+      40% {
+        clip-path: inset(10% 0 30% 0);
+        transform: translate(2px, 2px);
+      }
+      60% {
+        clip-path: inset(50% 0 10% 0);
+        transform: translate(-2px, 2px);
+      }
+      80% {
+        clip-path: inset(20% 0 30% 0);
+        transform: translate(2px, -2px);
+      }
+      100% {
+        clip-path: inset(0 0 0 0);
+        transform: translate(0);
+      }
+    }
+    .glitch {
+      position: relative;
+      color: #ff0000;
+      animation: glitch 2s infinite;
     }
   </style>
 </head>
 <body>
-  <div class="blood-drip" style="animation-delay: 0s; left: 40%;"></div>
-  <div class="blood-drip" style="animation-delay: 0.5s; left: 50%;"></div>
-  <div class="blood-drip" style="animation-delay: 1s; left: 60%;"></div>
+  <div class="blood-drip"></div>
+  <div class="blood-drip"></div>
+  <div class="blood-drip"></div>
 
-  <h1>🩸 PAGE 7 WAS NEVER MEANT TO BE READ</h1>
+  <h1 class="glitch">🩸 PAGE 7 — BREAK HIS MIND — NO ESCAPE</h1>
   <p>
-    These words will burn, twist, and destroy the mind of the one who receives them.<br/>
-    Once unlocked, <strong>there is no turning back.</strong><br/>
-    Are you ready to shatter his reality?
+    These messages are designed to cut deep.<br />
+    They burn pride, twist reality, and shatter souls.<br />
+    Once you unlock this file… there’s no going back.
   </p>
   <a class="button" href="https://your-drive-link.com" target="_blank" rel="noopener noreferrer">
-    🔥 Unlock the Dark File
+    🔥 Unlock the Darkness Now
   </a>
 
+  <audio autoplay loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/23/audio_2a38831ac7.mp3?filename=heartbeat-6956.mp3" type="audio/mpeg" />
+  </audio>
+
   <script>
-    // Flicker effect on title for extra creepiness
-    const title = document.querySelector('h1');
+    // Flicker glitch effect on heading
+    const glitchEl = document.querySelector('.glitch');
     setInterval(() => {
-      title.style.textShadow = title.style.textShadow ? '' : `
-        0 0 5px #ff0000,
-        0 0 10px #ff0000,
-        0 0 20px #ff0000,
-        0 0 40px #ff0000
-      `;
-    }, 800);
+      glitchEl.style.opacity = glitchEl.style.opacity === '1' ? '0.7' : '1';
+    }, 600);
   </script>
 </body>
 </html>
