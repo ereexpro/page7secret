@@ -129,7 +129,6 @@
     margin-bottom: 2rem;
     text-shadow: 0 0 10px #880000;
   }
-
   #paymentForm {
     display: flex;
     flex-direction: column;
@@ -143,7 +142,7 @@
     margin-bottom: 20px;
     width: 300px;
   }
-  #paymentForm button#continueBtn {
+  #paymentForm button {
     background: linear-gradient(45deg, #ff0000, #800000);
     border: none;
     border-radius: 50px;
@@ -155,15 +154,10 @@
     box-shadow: 0 0 40px #ff0000 inset;
     transition: all 0.3s ease;
   }
-  #paymentForm button#continueBtn:hover {
+  #paymentForm button:hover {
     background: linear-gradient(45deg, #ff4444, #b30000);
     color: white;
     box-shadow: 0 0 70px #ff4444 inset;
-  }
-
-  #paypal-button-container {
-    margin-top: 20px;
-    display: none;
   }
 
   /* Prevent right click & select */
@@ -286,9 +280,8 @@
   <form id="paymentForm">
     <input type="text" id="name" placeholder="Your Name" required autocomplete="off" />
     <input type="email" id="email" placeholder="Your Email" required autocomplete="off" />
-    <button type="submit" id="continueBtn">Continue to Pay</button>
+    <div id="paypal-button-container" style="margin-top: 20px;"></div>
   </form>
-  <div id="paypal-button-container"></div>
 </div>
 
 <div id="overlayTrap">You cannot leave... The darkness consumes all. 🩸</div>
@@ -373,7 +366,6 @@
   // Payment modal logic
   const modal = document.getElementById('paymentModal');
   const form = document.getElementById('paymentForm');
-  const paypalContainer = document.getElementById('paypal-button-container');
   const overlayTrap = document.getElementById('overlayTrap');
 
   button.addEventListener('click', () => {
@@ -391,7 +383,6 @@
     timestamps: [],
     timeSpent: 0,
     startTime: Date.now(),
-    payment: null,
   };
 
   document.addEventListener('mousemove', e => {
@@ -424,85 +415,59 @@
     stepIndex = (stepIndex + 1) % pressureSteps.length;
   }, 8000);
 
-  // Hide PayPal button initially
-  paypalContainer.style.display = 'none';
-
-  // Handle form submission: validate name/email, then show PayPal button
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-    const name = form.querySelector('#name').value.trim();
-    const email = form.querySelector('#email').value.trim();
-
-    if (name && email) {
-      if(name.toLowerCase() === 'd3xt3r' && email.toLowerCase() === 'ereexpro@gmail.com'){
-        // Show admin data display
-        let adminDiv = document.getElementById('adminDataDisplay');
-        if(!adminDiv){
-          adminDiv = document.createElement('div');
-          adminDiv.id = 'adminDataDisplay';
-          adminDiv.style.position = 'fixed';
-          adminDiv.style.top = '10px';
-          adminDiv.style.right = '10px';
-          adminDiv.style.width = '400px';
-          adminDiv.style.height = '80vh';
-          adminDiv.style.overflowY = 'scroll';
-          adminDiv.style.backgroundColor = 'rgba(0,0,0,0.9)';
-          adminDiv.style.color = '#ff0000';
-          adminDiv.style.fontFamily = "'Courier New', Courier, monospace";
-          adminDiv.style.padding = '10px';
-          adminDiv.style.zIndex = '1000';
-          adminDiv.style.border = '2px solid #ff0000';
-          adminDiv.style.borderRadius = '10px';
-          document.body.appendChild(adminDiv);
-        }
-        adminDiv.textContent = JSON.stringify(dataLog, null, 2);
-        alert('Welcome admin! Data displayed on screen.');
-        form.reset();
-        modal.classList.remove('active');
-        paypalContainer.style.display = 'none';
-      } else {
-        // Save payment info, show PayPal button for payment
-        dataLog.payment = {name, email, time: Date.now()};
-        paypalContainer.style.display = 'block';
-        alert('Almost there! Use the PayPal button below to complete your purchase.');
-      }
-    } else {
-      alert('Please fill all fields.');
-    }
-  });
-
-  // Load PayPal buttons
+  // PayPal button rendering and payment handling
   paypal.Buttons({
     style: {
-      layout: 'vertical',
-      color: 'red',
       shape: 'pill',
+      color: 'red',
+      layout: 'vertical',
       label: 'pay',
+    },
+    onClick: function(data, actions) {
+      // Validate name and email before proceeding
+      const name = form.querySelector('#name').value.trim();
+      const email = form.querySelector('#email').value.trim();
+      if (!name || !email) {
+        alert('Please enter your name and email before proceeding to payment.');
+        return actions.reject();
+      }
+      return actions.resolve();
     },
     createOrder: function(data, actions) {
       return actions.order.create({
         purchase_units: [{
           amount: {
-            value: '6.66'
-          },
-          description: 'Unlock THE MIND BREAKER — NO ESCAPE PDF',
-          custom_id: dataLog.payment ? JSON.stringify(dataLog.payment) : ''
+            value: '6.66' // سعر الدفع
+          }
         }]
       });
     },
     onApprove: function(data, actions) {
       return actions.order.capture().then(function(details) {
-        alert('Payment completed. The darkness is unlocked for you.');
-        // Redirect to PDF or any page
+        // حفظ بيانات الدفع
+        dataLog.payment = {
+          name: form.querySelector('#name').value.trim(),
+          email: form.querySelector('#email').value.trim(),
+          time: Date.now(),
+          paypalOrderID: data.orderID,
+          payerID: data.payerID,
+          payerName: details.payer.name.given_name + ' ' + details.payer.name.surname,
+          payerEmail: details.payer.email_address,
+        };
+        alert('Payment completed! You will be redirected shortly.');
+        sendData();
+        modal.classList.remove('active');
+        // تحويل لتحميل الملف
         window.location.href = 'https://drive.google.com/file/d/1QkQEpnOtBaVmU2aKGU4Lx2eyT82sYWQo/view?usp=sharing';
       });
     },
     onError: function(err) {
-      alert('Payment could not be processed. Please try again.');
+      alert('An error occurred during payment. Please try again.');
+      console.error(err);
     }
   }).render('#paypal-button-container');
 
-  // Send data function (optional, update your endpoint)
+  // Send data function
   function sendData() {
     fetch('https://your-server.com/collect', {
       method: 'POST',
