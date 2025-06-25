@@ -3,173 +3,630 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Dark Store - Total Control Begins</title>
+  <title>Dark Dominion - Total Mind Control Store + Admin</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-    body {
-      margin: 0; padding: 0;
-      background: #0b0b0b;
-      font-family: 'Roboto', sans-serif;
-      color: #eee;
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+    /* Reset */
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+    }
+    html, body {
+      height: 100%;
+      background: #0a0a0a;
+      font-family: 'Orbitron', sans-serif;
+      color: #f14e4e;
       overflow-x: hidden;
       direction: ltr;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      scroll-behavior: smooth;
     }
-    /* Blood drop effect */
+    /* Video BG with glitch */
+    #bg-video {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      z-index: -3;
+      filter: brightness(0.25) contrast(1.3) saturate(1.2);
+      animation: glitch-flicker 5s infinite;
+    }
+    @keyframes glitch-flicker {
+      0%, 100% { filter: brightness(0.25) contrast(1.3) saturate(1.2); }
+      50% { filter: brightness(0.35) contrast(1.5) saturate(1.5); }
+    }
+    #overlay-dark {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(10,10,10,0.9);
+      z-index: -2;
+      pointer-events: none;
+    }
+    /* Neon blood drops */
     .blood-drop {
       position: fixed;
       top: 0;
-      left: 50%;
-      width: 4px;
-      height: 20px;
-      background: #b30000;
+      width: 6px;
+      height: 30px;
+      background: #ff0000;
       border-radius: 50%;
-      animation: drop 1.5s linear infinite;
-      opacity: 0.8;
-      transform: translateX(-50%);
+      animation: drop 1.6s linear infinite;
+      opacity: 0.9;
       pointer-events: none;
+      filter: drop-shadow(0 0 12px #ff0000);
       z-index: 9999;
+      mix-blend-mode: screen;
     }
     @keyframes drop {
-      0% { top: -20px; opacity: 0.8; }
-      90% { opacity: 0.8; }
+      0% { top: -35px; opacity: 0.9; }
+      90% { opacity: 0.9; }
       100% { top: 100vh; opacity: 0; }
     }
+    .blood-drop:nth-child(1) { left: 8%; animation-delay: 0s; }
+    .blood-drop:nth-child(2) { left: 22%; animation-delay: 0.45s; }
+    .blood-drop:nth-child(3) { left: 40%; animation-delay: 0.9s; }
+    .blood-drop:nth-child(4) { left: 68%; animation-delay: 1.3s; }
+    .blood-drop:nth-child(5) { left: 88%; animation-delay: 1.7s; }
+
+    /* Header */
     header {
-      background: #1a1a1a;
-      padding: 20px 30px;
+      position: sticky;
+      top: 0;
+      background: rgba(20,0,0,0.95);
+      padding: 35px 50px;
       text-align: center;
-      font-size: 1.8rem;
-      font-weight: 700;
-      border-bottom: 2px solid #b30000;
+      font-size: 2.5rem;
+      font-weight: 900;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: #ff3232;
+      text-shadow:
+        0 0 15px #ff3232,
+        0 0 25px #ff3232,
+        0 0 35px #ff3232,
+        0 0 45px #ff3232;
+      border-bottom: 5px solid #ff1a1a;
+      z-index: 20;
+      font-family: 'Orbitron', sans-serif;
       user-select: none;
     }
-    .products {
-      max-width: 1200px;
-      margin: 30px auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 25px;
-      padding: 0 20px;
+    /* Container */
+    .container {
+      max-width: 1400px;
+      margin: 80px auto 120px;
+      padding: 0 30px;
+      perspective: 1400px;
     }
+    /* Products grid with 3D and glow */
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 50px;
+      transform-style: preserve-3d;
+    }
+    /* Card */
     .product-card {
-      background: #222;
-      border-radius: 10px;
-      padding: 15px;
-      box-shadow: 0 0 10px #b30000aa;
-      transition: transform 0.3s ease;
+      background: #1a0000;
+      border-radius: 25px;
+      padding: 40px 30px 50px;
+      box-shadow:
+        0 0 35px #ff0000cc,
+        inset 0 0 20px #8b0000cc;
+      transition: transform 0.7s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.6s ease;
+      cursor: pointer;
+      will-change: transform;
+      position: relative;
+      overflow: hidden;
       user-select: none;
     }
     .product-card:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 20px #ff0000cc;
+      transform: translateZ(80px) rotateY(10deg) rotateX(10deg) scale(1.12);
+      box-shadow:
+        0 0 55px #ff0000ee,
+        inset 0 0 35px #ff1a1aee;
+      z-index: 20;
     }
+    /* Neon shine effect */
+    .product-card::before {
+      content: '';
+      position: absolute;
+      top: -180%;
+      left: -60%;
+      width: 220%;
+      height: 340%;
+      background: linear-gradient(130deg, transparent 0%, rgba(255, 50, 50, 0.2) 40%, rgba(255, 80, 80, 0.4) 50%, rgba(255, 50, 50, 0.2) 60%, transparent 100%);
+      transform: rotate(35deg);
+      transition: top 0.7s ease;
+      pointer-events: none;
+      mix-blend-mode: screen;
+    }
+    .product-card:hover::before {
+      top: 200%;
+    }
+    /* Product image */
     .product-img {
       width: 100%;
-      border-radius: 8px;
-      margin-bottom: 12px;
+      border-radius: 20px;
+      margin-bottom: 25px;
       object-fit: cover;
-      height: 200px;
-    }
-    .product-name {
-      font-size: 1.2rem;
-      font-weight: 700;
-      margin-bottom: 8px;
-      color: #ff3b3b;
-    }
-    .product-price {
-      font-size: 1rem;
-      margin-bottom: 15px;
-      color: #ff7777;
-    }
-    .btn-buy {
-      background: #b30000;
-      border: none;
-      padding: 12px 25px;
-      font-size: 1rem;
-      color: #fff;
-      font-weight: 700;
-      border-radius: 5px;
-      cursor: pointer;
-      width: 100%;
-      transition: background 0.3s ease;
-    }
-    .btn-buy:hover {
-      background: #ff0000;
-    }
-    footer {
-      text-align: center;
-      padding: 15px 0;
-      border-top: 1px solid #444;
-      margin-top: 40px;
-      font-size: 0.9rem;
-      color: #777;
+      height: 260px;
+      filter: drop-shadow(0 0 20px #ff0000);
+      transition: filter 0.4s ease;
       user-select: none;
     }
-    /* PayPal container centering */
-    #paypal-button-container {
-      margin-top: 10px;
+    .product-card:hover .product-img {
+      filter: drop-shadow(0 0 40px #ff3333);
+    }
+    /* Product name */
+    .product-name {
+      font-size: 1.8rem;
+      font-weight: 900;
+      margin-bottom: 22px;
+      color: #ff4c4c;
+      letter-spacing: 0.07em;
+      text-shadow:
+        0 0 12px #ff4c4c,
+        0 0 18px #ff0000;
+      user-select: none;
+    }
+    /* Price */
+    .product-price {
+      font-size: 1.6rem;
+      margin-bottom: 40px;
+      color: #ff9999;
+      font-weight: 700;
+      user-select: none;
+    }
+    /* Buy button */
+    .btn-buy {
+      background: #ff1a1a;
+      border: none;
+      padding: 18px 45px;
+      font-size: 1.3rem;
+      color: #fff;
+      font-weight: 900;
+      border-radius: 15px;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.6s ease, box-shadow 0.6s ease;
+      box-shadow:
+        0 0 25px #ff1a1a,
+        inset 0 0 12px #ff4c4c;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      user-select: none;
+      font-family: 'Orbitron', sans-serif;
+    }
+    .btn-buy:hover {
+      background: #ff4c4c;
+      box-shadow:
+        0 0 50px #ff4c4c,
+        inset 0 0 25px #ff9999;
+    }
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 30px 0;
+      border-top: 1px solid #330000;
+      margin-top: 100px;
+      font-size: 1.2rem;
+      color: #aa3333;
+      user-select: none;
+      letter-spacing: 0.05em;
+      font-family: 'Roboto Mono', monospace;
+    }
+    /* Live Chat widget */
+    #live-chat {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 320px;
+      max-width: 90vw;
+      background: #330000cc;
+      border-radius: 20px;
+      box-shadow: 0 0 35px #ff2222cc;
+      color: #fff;
+      font-family: 'Roboto Mono', monospace;
+      user-select: none;
+      z-index: 30;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transform: translateY(150%);
+      transition: transform 0.5s ease;
+    }
+    #live-chat.open {
+      transform: translateY(0);
+    }
+    #chat-header {
+      background: #550000;
+      padding: 15px 20px;
+      font-weight: 700;
+      font-size: 1.2rem;
+      cursor: pointer;
+      text-align: center;
+      letter-spacing: 0.06em;
+      user-select: none;
+      box-shadow: inset 0 -3px 5px #ff0000cc;
+    }
+    #chat-messages {
+      flex-grow: 1;
+      padding: 20px;
+      font-size: 1rem;
+      overflow-y: auto;
+      max-height: 250px;
+      background: #220000ee;
+      user-select: text;
+    }
+    #chat-input-container {
+      display: flex;
+      border-top: 1px solid #440000;
+      background: #330000dd;
+    }
+    #chat-input {
+      flex-grow: 1;
+      padding: 12px 15px;
+      border: none;
+      font-size: 1rem;
+      background: transparent;
+      color: #ff9999;
+      font-family: 'Roboto Mono', monospace;
+      user-select: text;
+    }
+    #chat-send-btn {
+      background: #ff1a1a;
+      border: none;
+      padding: 0 20px;
+      cursor: pointer;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.1rem;
+      transition: background 0.3s ease;
+      user-select: none;
+    }
+    #chat-send-btn:hover {
+      background: #ff4c4c;
+    }
+    /* Scrollbar */
+    #chat-messages::-webkit-scrollbar {
+      width: 8px;
+    }
+    #chat-messages::-webkit-scrollbar-track {
+      background: #440000aa;
+    }
+    #chat-messages::-webkit-scrollbar-thumb {
+      background: #ff1a1a;
+      border-radius: 10px;
+    }
+    /* Responsive */
+    @media (max-width: 600px) {
+      header {
+        font-size: 1.8rem;
+        padding: 25px 20px;
+      }
+      .container {
+        margin: 40px auto 80px;
+        padding: 0 15px;
+      }
+      .products {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+      .product-card {
+        padding: 30px 20px 40px;
+      }
+      .product-name {
+        font-size: 1.5rem;
+      }
+      .product-price {
+        font-size: 1.3rem;
+      }
+      .btn-buy {
+        font-size: 1.1rem;
+        padding: 15px 25px;
+      }
+      #live-chat {
+        width: 90vw;
+        right: 5vw;
+        bottom: 20px;
+      }
+    }
+
+    /* Admin panel styles */
+    #admin-panel {
+      background: #110000cc;
+      border-radius: 20px;
+      padding: 20px;
+      margin: 40px auto 120px;
+      max-width: 1100px;
+      color: #ff4444;
+      font-family: 'Courier New', Courier, monospace;
+      box-shadow: 0 0 40px #ff2222cc;
+      user-select: text;
+    }
+    #admin-panel h2 {
+      text-align: center;
+      margin-bottom: 15px;
+      text-shadow: 0 0 15px #ff2222;
+    }
+    #admin-panel table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    #admin-panel th, #admin-panel td {
+      border: 1px solid #ff1111;
+      padding: 8px 12px;
+      text-align: left;
+      font-size: 0.85rem;
+    }
+    #admin-panel th {
+      background: #330000;
+    }
+    #admin-panel tbody tr:hover {
+      background: #440000aa;
+    }
+    /* Toggle Admin Panel Button */
+    #toggle-admin-btn {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background: #ff1a1a;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      font-weight: 700;
+      font-family: 'Orbitron', sans-serif;
+      cursor: pointer;
+      border-radius: 12px;
+      box-shadow: 0 0 20px #ff2222cc;
+      z-index: 100;
+      user-select: none;
+      transition: background 0.3s ease;
+    }
+    #toggle-admin-btn:hover {
+      background: #ff4c4c;
     }
   </style>
+  <!-- PayPal SDK -->
   <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&currency=USD"></script>
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
 <body>
 
-<div class="blood-drop" style="left: 10%; animation-delay: 0s;"></div>
-<div class="blood-drop" style="left: 30%; animation-delay: 0.5s;"></div>
-<div class="blood-drop" style="left: 50%; animation-delay: 1s;"></div>
-<div class="blood-drop" style="left: 70%; animation-delay: 1.2s;"></div>
-<div class="blood-drop" style="left: 90%; animation-delay: 1.8s;"></div>
+<video id="bg-video" autoplay muted loop playsinline>
+  <source src="https://cdn.pixabay.com/vimeo/397916687/Fire%20Flames%20Loop%20Dark%20Background-7741.mp4" type="video/mp4" />
+</video>
+<div id="overlay-dark"></div>
 
-<header>🩸 Dark Store - Total Control Begins 🩸</header>
+<div class="blood-drop"></div>
+<div class="blood-drop"></div>
+<div class="blood-drop"></div>
+<div class="blood-drop"></div>
+<div class="blood-drop"></div>
 
-<section class="products">
-  <article class="product-card">
-    <img src="https://via.placeholder.com/300x200?text=Deadly+Product" alt="Deadly Product" class="product-img" />
-    <h2 class="product-name">Deadly Product</h2>
-    <p class="product-price">$6.66</p>
-    <div id="paypal-button-container"></div>
-  </article>
-</section>
+<header>🩸 Dark Dominion - Total Mind Control Store 🩸</header>
 
-<footer>© 2025 Dark Store. All rights reserved.</footer>
+<div class="container">
+  <section class="products">
+    <article class="product-card" id="product1">
+      <img src="https://via.placeholder.com/350x260?text=Deadly+Product" alt="Deadly Product" class="product-img" />
+      <h2 class="product-name">Deadly Product</h2>
+      <p class="product-price">$6.66</p>
+      <button class="btn-buy" id="buy-btn">BUY NOW</button>
+      <p style="margin-top: 15px; font-family:'Roboto Mono', monospace; font-size:0.9rem; color:#ff9999; user-select:none;">
+        ⚠️ Limited offer: Buy now and get exclusive access to the dark secrets chat!
+      </p>
+    </article>
+  </section>
+</div>
+
+<footer>© 2025 Dark Dominion. All rights reserved.</footer>
+
+<!-- Live Chat Widget -->
+<div id="live-chat">
+  <div id="chat-header">Live Dark Chat ☠️ (Click to toggle)</div>
+  <div id="chat-messages"></div>
+  <div id="chat-input-container">
+    <input id="chat-input" placeholder="Type your darkest question..." autocomplete="off" />
+    <button id="chat-send-btn">Send</button>
+  </div>
+</div>
+
+<!-- Admin Panel Toggle Button -->
+<button id="toggle-admin-btn">Show Admin Panel</button>
+
+<!-- Admin Panel -->
+<div id="admin-panel" style="display:none;">
+  <h2>Med-4o Admin Panel - Visitor Logs</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>IP Address</th>
+        <th>User Agent</th>
+        <th>Language</th>
+        <th>Platform</th>
+        <th>URL Visited</th>
+        <th>Timestamp (UTC)</th>
+      </tr>
+    </thead>
+    <tbody id="log-table-body"></tbody>
+  </table>
+</div>
 
 <script>
-  // Replace YOUR_PAYPAL_CLIENT_ID with your actual client ID before use.
-  paypal.Buttons({
-    style: {
-      layout: 'vertical',
-      color:  'red',
-      shape:  'rect',
-      label:  'pay'
-    },
-    createOrder: function(data, actions) {
-      return actions.order.create({
-        purchase_units: [{
-          amount: {
-            value: '6.66'
-          },
-          description: "Deadly Product - Price $6.66"
-        }]
-      });
-    },
-    onApprove: function(data, actions) {
-      return actions.order.capture().then(function(details) {
-        alert('Payment completed by ' + details.payer.name.given_name + '!');
-        // Trigger PDF download
-        const pdfUrl = 'https://yourdomain.com/path/to/yourfile.pdf'; 
-        // Replace the above URL with your actual PDF URL (can be Google Drive direct download link)
-        const link = document.createElement('a');
-        link.href = pdfUrl;
-        link.download = 'Deadly_Product.pdf';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      });
-    },
-    onError: function (err) {
-      alert('Payment error: ' + err);
+  // Firebase config - عوّض القيم بقيم مشروعك
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+    databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT_ID.appspot.com",
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+    appId: "YOUR_APP_ID"
+  };
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  const database = firebase.database();
+
+  // تسجيل الزائر
+  async function logVisitor() {
+    let visitor = {
+      timestamp: new Date().toISOString(),
+      userAgent: navigator.userAgent,
+      language: navigator.language,
+      platform: navigator.platform,
+      url: window.location.href,
+      ip: "Unknown"
+    };
+    try {
+      const res = await fetch('https://api64.ipify.org?format=json');
+      const data = await res.json();
+      visitor.ip = data.ip;
+    } catch {
+      visitor.ip = "Unavailable";
     }
-  }).render('#paypal-button-container');
+    database.ref('visitors').push(visitor);
+  }
+  logVisitor();
+
+  // PayPal Button Setup (hidden)
+  let paypalButtonsInstance;
+  paypalButtonsInstance = paypal.Buttons({
+    style: { layout: 'vertical', color: 'red', shape: 'rect', label: 'pay' },
+    createOrder: (data, actions) => actions.order.create({
+      purchase_units: [{ amount: { value: '6.66' }, description: "Deadly Product - Price $6.66" }]
+    }),
+    onApprove: (data, actions) => actions.order.capture().then(details => {
+      alert('Payment completed by ' + details.payer.name.given_name + '!');
+      const pdfUrl = 'https://yourdomain.com/path/to/yourfile.pdf'; // عدّل الرابط للـ PDF الحقيقي
+      const link = document.createElement('a');
+      link.href = pdfUrl;
+      link.download = 'Deadly_Product.pdf';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      openLiveChat();
+    }),
+    onError: (err) => alert('Payment error: ' + err)
+  });
+
+  // Buy button triggers PayPal popup
+  document.getElementById('buy-btn').addEventListener('click', () => {
+    paypalButtonsInstance.render('body'); // Render hidden buttons on demand
+    document.getElementById('buy-btn').disabled = true;
+  });
+
+  // Live Chat toggle & logic
+  const liveChat = document.getElementById('live-chat');
+  const chatHeader = document.getElementById('chat-header');
+  const chatMessages = document.getElementById('chat-messages');
+  const chatInput = document.getElementById('chat-input');
+  const chatSendBtn = document.getElementById('chat-send-btn');
+
+  chatHeader.addEventListener('click', () => {
+    liveChat.classList.toggle('open');
+  });
+
+  const darkReplies = [
+    "The shadows see all, but reveal little.",
+    "Control is a game played in silence.",
+    "Your mind is a battlefield — choose your moves wisely.",
+    "The price you pay is your submission.",
+    "Fear is the ultimate leash.",
+    "Your secrets are the chains that bind you.",
+    "Power flows to those who dare to take it.",
+    "In darkness, your true self emerges.",
+    "The deepest scars hide the deadliest strengths.",
+    "Speak, and be consumed by the void."
+  ];
+
+  function getRandomReply() {
+    return darkReplies[Math.floor(Math.random() * darkReplies.length)];
+  }
+
+  function addMessage(sender, text) {
+    const msg = document.createElement('div');
+    msg.style.marginBottom = '12px';
+    msg.style.padding = '8px 12px';
+    msg.style.borderRadius = '12px';
+    msg.style.maxWidth = '85%';
+    msg.style.wordBreak = 'break-word';
+    if (sender === 'user') {
+      msg.style.background = 'rgba(255, 26, 26, 0.4)';
+      msg.style.color = '#fff';
+      msg.style.alignSelf = 'flex-end';
+      msg.style.fontWeight = '700';
+    } else {
+      msg.style.background = 'rgba(255, 255, 255, 0.1)';
+      msg.style.color = '#ff9999';
+      msg.style.alignSelf = 'flex-start';
+      msg.style.fontStyle = 'italic';
+    }
+    msg.textContent = text;
+    chatMessages.appendChild(msg);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  chatSendBtn.addEventListener('click', () => {
+    const userInput = chatInput.value.trim();
+    if (!userInput) return;
+    addMessage('user', userInput);
+    chatInput.value = '';
+    setTimeout(() => {
+      addMessage('bot', getRandomReply());
+    }, 1200);
+  });
+
+  chatInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') chatSendBtn.click();
+  });
+
+  function openLiveChat() {
+    if (!liveChat.classList.contains('open')) {
+      liveChat.classList.add('open');
+      addMessage('bot', 'Welcome to the Dark Chat. Your mind is mine.');
+    }
+  }
+
+  // Admin Panel Logic
+  const toggleAdminBtn = document.getElementById('toggle-admin-btn');
+  const adminPanel = document.getElementById('admin-panel');
+  const logTableBody = document.getElementById('log-table-body');
+  let adminVisible = false;
+
+  toggleAdminBtn.addEventListener('click', () => {
+    adminVisible = !adminVisible;
+    adminPanel.style.display = adminVisible ? 'block' : 'none';
+    toggleAdminBtn.textContent = adminVisible ? 'Hide Admin Panel' : 'Show Admin Panel';
+    if (adminVisible) fetchLogs();
+  });
+
+  function fetchLogs() {
+    database.ref('visitors').orderByChild('timestamp').limitToLast(50).once('value', snapshot => {
+      logTableBody.innerHTML = '';
+      let i = 1;
+      snapshot.forEach(childSnap => {
+        const v = childSnap.val();
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${i++}</td>
+          <td>${v.ip}</td>
+          <td>${v.userAgent}</td>
+          <td>${v.language}</td>
+          <td>${v.platform}</td>
+          <td>${v.url}</td>
+          <td>${new Date(v.timestamp).toUTCString()}</td>
+        `;
+        logTableBody.appendChild(tr);
+      });
+    });
+  }
 </script>
 
 </body>
