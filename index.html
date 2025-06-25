@@ -15,27 +15,42 @@
     position: relative;
     overflow: hidden;
   }
-  /* تأثيرات الدم على الخلفية */
+  /* تأثيرات دم حقيقية حمراء قاتمة */
   .blood-drop {
     position: fixed;
-    top: -50px;
-    background: radial-gradient(circle at 50% 50%, #ff0000, #800000);
-    border-radius: 50% 50% 70% 70% / 60% 60% 90% 90%;
-    width: 15px;
-    height: 30px;
-    opacity: 0.8;
+    top: -40px;
+    width: 20px;
+    height: 25px;
+    background: radial-gradient(circle at 50% 40%, #8B0000 60%, #4B0000 100%);
+    border-radius: 50% 50% 60% 60% / 70% 70% 90% 90%;
+    box-shadow:
+      inset 0 5px 8px 0 #B22222,
+      0 0 10px 3px rgba(139, 0, 0, 0.6);
+    filter: drop-shadow(0 0 6px #8B0000);
+    opacity: 0.85;
     pointer-events: none;
-    filter: drop-shadow(0 0 5px #ff0000);
     animation-name: fallBlood;
-    animation-timing-function: linear;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    animation-iteration-count: infinite;
+    animation-fill-mode: forwards;
+    animation-direction: normal;
+    animation-play-state: running;
   }
   @keyframes fallBlood {
     0% {
-      transform: translateY(0) rotate(0deg);
+      transform: translateY(0) translateX(0) rotate(0deg);
+      opacity: 0.9;
+    }
+    30% {
+      transform: translateY(20vh) translateX(5vw) rotate(15deg);
       opacity: 0.8;
     }
+    60% {
+      transform: translateY(50vh) translateX(-10vw) rotate(-15deg);
+      opacity: 0.7;
+    }
     100% {
-      transform: translateY(110vh) rotate(720deg);
+      transform: translateY(110vh) translateX(0) rotate(360deg);
       opacity: 0;
     }
   }
@@ -74,23 +89,6 @@
     margin-bottom: 1.5rem;
     text-align: center;
     text-shadow: 0 0 8px #ff2200;
-  }
-  input[type="email"] {
-    font-size: 1.2rem;
-    padding: 1rem;
-    width: 100%;
-    max-width: 380px;
-    border-radius: 8px;
-    border: 2px solid #ff2200;
-    background: #220000;
-    color: #ff6666;
-    outline: none;
-    box-shadow: inset 0 0 12px #ff1100;
-    margin-bottom: 1.5rem;
-    text-align: center;
-  }
-  input::placeholder {
-    color: #aa0000;
   }
   button {
     background: #ff1100;
@@ -165,9 +163,7 @@
   <section id="step1" class="active">
     <h1>⚠️ ENTER THE HELL GATE ⚠️</h1>
     <p class="warning">This venom is deadly. It will destroy the mind<br>of anyone who dares to possess it.<br>Only fools proceed beyond this point.</p>
-    <input type="email" id="email" placeholder="Your cursed email here" autocomplete="off" />
     <button id="toStep2">Enter the Hell</button>
-    <p class="status" id="status1"></p>
   </section>
 
   <!-- المرحلة 2 -->
@@ -195,9 +191,7 @@
 
 <script>
   (function(){
-    const emailInput = document.getElementById('email');
     const toStep2Btn = document.getElementById('toStep2');
-    const status1 = document.getElementById('status1');
     const step1 = document.getElementById('step1');
     const step2 = document.getElementById('step2');
     const step3 = document.getElementById('step3');
@@ -214,28 +208,12 @@
     const itemName = "Unlock The Full File";
     const downloadUrl = "https://drive.google.com/uc?export=download&id=1QkQEpnOtBaVmU2aKGU4Lx2eyT82sYWQo";
 
-    function validateEmail(email) {
-      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return re.test(email.toLowerCase());
-    }
-
-    // المرحلة 1: الانتقال إلى المرحلة 2 بعد تحقق الإيميل
     toStep2Btn.addEventListener('click', () => {
-      const email = emailInput.value.trim();
-      if(!validateEmail(email)) {
-        status1.textContent = "🩸 Enter a valid cursed email!";
-        return;
-      }
-      status1.textContent = "🧠 Your soul is being marked...";
-      localStorage.setItem('buyerEmail', email);
-      setTimeout(() => {
-        step1.classList.remove('active');
-        step2.classList.add('active');
-        startCountdown();
-      }, 1200);
+      step1.classList.remove('active');
+      step2.classList.add('active');
+      startCountdown();
     });
 
-    // المرحلة 2: عداد تنازلي + دفع PayPal
     let countdown = 30;
     let timer;
 
@@ -260,11 +238,6 @@
     }
 
     payBtn.addEventListener('click', () => {
-      const email = localStorage.getItem('buyerEmail');
-      if(!email) {
-        status2.textContent = "🩸 No cursed email found! Go back.";
-        return;
-      }
       status2.textContent = "🔥 Opening PayPal portal to damnation...";
       clearInterval(timer);
       payBtn.disabled = true;
@@ -272,7 +245,6 @@
       window.open(paypalURL, '_blank');
     });
 
-    // إذا عاد الزائر للصفحة مع رابط "return" بعد الدفع، نعرض المرحلة 3 تلقائيًا
     window.onload = () => {
       const urlParams = new URLSearchParams(window.location.search);
       if(urlParams.has('return')) {
@@ -284,7 +256,6 @@
       }
     };
 
-    // تحكم في صوت دقات القلب
     audioControl.addEventListener('click', () => {
       if(heartbeatAudio.paused) {
         heartbeatAudio.play();
@@ -295,11 +266,9 @@
       }
     });
 
-    // ضبط رابط تحميل الملف
     downloadLink.href = downloadUrl;
 
-    // إضافة قطرات الدم في الخلفية
-    const bloodCount = 35; // عدد قطرات الدم
+    const bloodCount = 35;
     for(let i=0; i < bloodCount; i++) {
       const drop = document.createElement('div');
       drop.classList.add('blood-drop');
