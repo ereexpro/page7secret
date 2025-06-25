@@ -3,122 +3,109 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>🖤 This is not just a file. It’s a weapon.</title>
+<title>Unlock The Forbidden File</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
   body {
-    margin: 0; padding: 0;
-    background: #0a0a0a;
+    background: #111;
     color: #eee;
-    font-family: 'Roboto Slab', serif;
-    display: flex; justify-content: center; align-items: center;
-    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     text-align: center;
     padding: 2rem;
   }
-  .container {
-    max-width: 600px;
-    background: #111;
-    border: 2px solid #7f0000;
-    box-shadow: 0 0 20px #7f0000;
-    padding: 3rem 2rem;
-    border-radius: 12px;
-  }
   h1 {
-    color: #ff1a1a;
-    font-size: 2.8rem;
+    font-size: 3rem;
+    color: #e10600;
     margin-bottom: 1rem;
-    text-shadow: 0 0 10px #ff0000;
+    text-shadow: 0 0 8px #ff0000;
   }
-  p.subtitle {
-    font-size: 1.3rem;
+  p {
+    font-size: 1.2rem;
     margin-bottom: 2rem;
-    font-weight: 600;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
   }
-  ul {
-    list-style: none;
-    padding: 0;
-    margin-bottom: 2.5rem;
-    font-size: 1.1rem;
-  }
-  ul li {
-    margin: 0.8rem 0;
-    padding-left: 2.2rem;
-    position: relative;
-    font-weight: 500;
-  }
-  ul li::before {
-    content: "🔥";
-    position: absolute;
-    left: 0;
-    top: 0;
-  }
-  .warning {
-    font-weight: 700;
-    color: #ff3b3b;
-    margin-bottom: 2rem;
-    font-size: 1.1rem;
-  }
-  .btn-paypal {
-    background: #b30000;
-    color: white;
+  input[type="email"] {
+    padding: 1rem;
+    font-size: 1.2rem;
+    width: 300px;
+    max-width: 90%;
     border: none;
-    font-size: 1.4rem;
-    padding: 1rem 3rem;
     border-radius: 8px;
+    margin-bottom: 1.5rem;
+  }
+  button {
+    background: #e10600;
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1.5rem;
+    color: #fff;
+    border-radius: 12px;
     cursor: pointer;
-    box-shadow: 0 0 15px #b30000;
+    box-shadow: 0 0 10px #ff1a1a;
     transition: background 0.3s ease;
   }
-  .btn-paypal:hover {
-    background: #ff0000;
+  button:hover {
+    background: #b00000;
   }
-  footer {
-    margin-top: 3rem;
-    font-size: 0.85rem;
-    color: #7f7f7f;
-  }
-  a.download-link {
-    color: #ff4c4c;
-    text-decoration: none;
+  .warning {
+    color: #ff3333;
     font-weight: bold;
-  }
-  a.download-link:hover {
-    text-decoration: underline;
+    margin-top: 1rem;
+    font-size: 1rem;
   }
 </style>
 </head>
 <body>
-  <div class="container">
-    <h1>🖤 This is not just a file. It’s a weapon.</h1>
-    <p class="subtitle">
-      Have you been ignored? Ghosted? Replaced?<br />
-      These 80 messages are not for the weak.
-    </p>
-    <ul>
-      <li>Confuse his mind</li>
-      <li>Pull him back with obsession</li>
-      <li>Trigger jealousy</li>
-      <li>Deliver soft revenge</li>
-    </ul>
-    <p class="warning">⚠️ Use with caution.</p>
 
-    <!-- PayPal Button Form -->
-    <form id="paypal-form" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
-      <!-- PayPal required fields -->
-      <input type="hidden" name="cmd" value="_xclick" />
-      <input type="hidden" name="business" value="AXP450hJVzG4KrKF0CRxl6GGHop4uC4IL9Z9LHN-uziDOMEQEwxoxtjasp7rqcBwtAMtl2pATISTtTgK" />
-      <input type="hidden" name="item_name" value="80 Messages Weapon PDF" />
-      <input type="hidden" name="amount" value="6.66" />
-      <input type="hidden" name="currency_code" value="USD" />
-      <!-- Return URL after payment success -->
-      <input type="hidden" name="return" value="https://drive.google.com/uc?export=download&id=1QkQEpnOtBaVmU2aKGU4Lx2eyT82sYWQo" />
-      <input type="hidden" name="cancel_return" value="https://ereexpro.github.io/page7secret/" />
-      <input type="submit" class="btn-paypal" value="Buy Now - $6.66" />
-    </form>
-    <footer>
-      * After payment, you will be redirected automatically to download the PDF.
-    </footer>
-  </div>
+<h1>Unlock The Full File – $6.66</h1>
+<p>“The file is forbidden. Only those who pay directly… get the truth.”</p>
+
+<form id="paymentForm">
+  <input type="email" id="email" placeholder="Enter your email to receive the file" required />
+  <br />
+  <button type="submit">Pay with PayPal</button>
+</form>
+
+<p class="warning" id="status"></p>
+
+<script>
+  const form = document.getElementById("paymentForm");
+  const status = document.getElementById("status");
+
+  form.addEventListener("submit", function(e) {
+    e.preventDefault();
+    const email = document.getElementById("email").value.trim();
+
+    if (!validateEmail(email)) {
+      status.textContent = "🩸 Enter a valid email to proceed.";
+      return;
+    }
+
+    status.textContent = "🧠 Preparing your dark path to the truth...";
+
+    // رابط زر الدفع مع إعادة التوجيه بعد الدفع إلى رابط التحميل المباشر
+    const paypalURL = 
+      "https://www.paypal.com/cgi-bin/webscr?cmd=_xclick" +
+      "&business=YOUR_PAYPAL_EMAIL@example.com" +  // <-- عدّل هنا
+      "&item_name=Unlock+The+Full+File" +
+      "&amount=6.66" +
+      "&currency_code=USD" +
+      "&return=https://drive.google.com/uc?export=download&id=1QkQEpnOtBaVmU2aKGU4Lx2eyT82sYWQo" +
+      "&cancel_return=https://yourdomain.com/cancel.html" +
+      "&no_shipping=1" +
+      "&rm=2";
+
+    window.open(paypalURL, "_blank");
+
+    status.textContent = "🔥 PayPal window opened. Complete the payment to unlock.";
+  });
+
+  function validateEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email.toLowerCase());
+  }
+</script>
+
 </body>
 </html>
