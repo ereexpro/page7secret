@@ -1,110 +1,254 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Unlock The Forbidden File</title>
-<style>
-  body {
-    background: #111;
-    color: #eee;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    text-align: center;
-    padding: 2rem;
-  }
-  h1 {
-    font-size: 3rem;
-    color: #e10600;
-    margin-bottom: 1rem;
-    text-shadow: 0 0 8px #ff0000;
-  }
-  p {
-    font-size: 1.2rem;
-    margin-bottom: 2rem;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  input[type="email"] {
-    padding: 1rem;
-    font-size: 1.2rem;
-    width: 300px;
-    max-width: 90%;
-    border: none;
-    border-radius: 8px;
-    margin-bottom: 1.5rem;
-  }
-  button {
-    background: #e10600;
-    border: none;
-    padding: 1rem 2rem;
-    font-size: 1.5rem;
-    color: #fff;
-    border-radius: 12px;
-    cursor: pointer;
-    box-shadow: 0 0 10px #ff1a1a;
-    transition: background 0.3s ease;
-  }
-  button:hover {
-    background: #b00000;
-  }
-  .warning {
-    color: #ff3333;
-    font-weight: bold;
-    margin-top: 1rem;
-    font-size: 1rem;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>💀 Dark Web Unlock - The Forbidden File</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Share+Tech+Mono&display=swap');
+
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+    }
+
+    body {
+      background: radial-gradient(ellipse at center, #000000 0%, #0f0000 80%);
+      color: #f00;
+      font-family: 'Share Tech Mono', monospace;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      text-shadow:
+        0 0 5px #ff0000,
+        0 0 10px #ff0000,
+        0 0 20px #aa0000,
+        0 0 30px #550000;
+      padding: 2rem;
+    }
+
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 4rem;
+      color: #ff0000;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      margin-bottom: 1rem;
+      filter: drop-shadow(0 0 10px #ff0000);
+      animation: flicker 2s infinite alternate;
+    }
+
+    @keyframes flicker {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    p.subtitle {
+      color: #ff4444;
+      font-size: 1.25rem;
+      margin-bottom: 3rem;
+      max-width: 600px;
+      text-align: center;
+      line-height: 1.4;
+      filter: drop-shadow(0 0 5px #ff0000);
+    }
+
+    form {
+      background: #110000cc;
+      border: 1px solid #ff0000aa;
+      padding: 2rem 3rem;
+      border-radius: 12px;
+      box-shadow:
+        0 0 15px #ff0000cc,
+        inset 0 0 10px #ff0000cc;
+      width: 350px;
+      max-width: 90vw;
+      backdrop-filter: blur(6px);
+      position: relative;
+      z-index: 2;
+    }
+
+    input[type="email"] {
+      width: 100%;
+      padding: 1rem;
+      font-size: 1.1rem;
+      border: 1px solid #ff0000cc;
+      border-radius: 6px;
+      background: transparent;
+      color: #ff6666;
+      outline: none;
+      font-family: 'Share Tech Mono', monospace;
+    }
+    input[type="email"]::placeholder {
+      color: #aa0000;
+    }
+    input[type="email"]:focus {
+      border-color: #ff0000;
+      box-shadow: 0 0 10px #ff0000;
+    }
+
+    button {
+      margin-top: 1.5rem;
+      width: 100%;
+      padding: 1rem 0;
+      background: linear-gradient(90deg, #ff0000 0%, #aa0000 100%);
+      border: none;
+      border-radius: 8px;
+      font-size: 1.5rem;
+      color: #fff;
+      cursor: pointer;
+      letter-spacing: 0.05em;
+      font-family: 'Orbitron', sans-serif;
+      text-transform: uppercase;
+      box-shadow:
+        0 0 15px #ff0000,
+        0 0 30px #aa0000;
+      transition: background 0.3s ease;
+      user-select: none;
+    }
+    button:hover {
+      background: linear-gradient(90deg, #ff3333 0%, #cc0000 100%);
+      box-shadow:
+        0 0 25px #ff3333,
+        0 0 40px #cc0000;
+    }
+
+    .status {
+      margin-top: 1.5rem;
+      font-weight: bold;
+      color: #ff5555;
+      font-family: 'Share Tech Mono', monospace;
+      min-height: 1.4em;
+      user-select: none;
+      text-align: center;
+      text-shadow:
+        0 0 3px #ff0000,
+        0 0 5px #aa0000;
+      position: relative;
+      z-index: 2;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      pointer-events: none;
+      background:
+        repeating-linear-gradient(
+          180deg,
+          rgba(255, 0, 0, 0.05) 0,
+          rgba(255, 0, 0, 0.05) 1px,
+          transparent 1px,
+          transparent 3px
+        );
+      animation: scanlines 7s linear infinite;
+      z-index: 1;
+    }
+
+    @keyframes scanlines {
+      0% { background-position-y: 0; }
+      100% { background-position-y: 100%; }
+    }
+
+    /* صوتيات */
+    #audioControl {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #220000aa;
+      border: 1px solid #ff0000cc;
+      border-radius: 8px;
+      color: #ff4444;
+      font-family: 'Share Tech Mono', monospace;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      user-select: none;
+      z-index: 9999;
+      text-transform: uppercase;
+      box-shadow: 0 0 10px #ff0000cc;
+      transition: background 0.3s ease;
+    }
+    #audioControl:hover {
+      background: #ff0000cc;
+      color: #220000;
+      box-shadow: 0 0 20px #ff0000cc;
+    }
+  </style>
 </head>
 <body>
 
-<h1>Unlock The Full File – $6.66</h1>
-<p>“The file is forbidden. Only those who pay directly… get the truth.”</p>
+  <h1>Unlock The Full File</h1>
+  <p class="subtitle">“The file is forbidden. Only those who pay directly… get the truth.”</p>
 
-<form id="paymentForm">
-  <input type="email" id="email" placeholder="Enter your email to receive the file" required />
-  <br />
-  <button type="submit">Pay with PayPal</button>
-</form>
+  <form id="paymentForm" autocomplete="off" spellcheck="false">
+    <input type="email" id="email" name="email" placeholder="Enter your email to receive the file" required autocomplete="off" />
+    <button type="submit">Pay $6.66 via PayPal</button>
+  </form>
 
-<p class="warning" id="status"></p>
+  <p class="status" id="status"></p>
+
+  <!-- صوت دقات القلب -->
+  <audio id="heartbeatAudio" loop autoplay>
+    <source src="https://cdn.pixabay.com/download/audio/2022/02/03/audio_c687afc435.mp3?filename=heartbeat-6063.mp3" type="audio/mpeg" />
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- زر كتم الصوت -->
+  <div id="audioControl">Mute Heartbeat</div>
 
 <script>
-  const form = document.getElementById("paymentForm");
-  const status = document.getElementById("status");
+  (function() {
+    const form = document.getElementById('paymentForm');
+    const status = document.getElementById('status');
+    const audio = document.getElementById('heartbeatAudio');
+    const audioControl = document.getElementById('audioControl');
 
-  form.addEventListener("submit", function(e) {
-    e.preventDefault();
-    const email = document.getElementById("email").value.trim();
-
-    if (!validateEmail(email)) {
-      status.textContent = "🩸 Enter a valid email to proceed.";
-      return;
+    function validateEmail(email) {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(email.toLowerCase());
     }
 
-    status.textContent = "🧠 Preparing your dark path to the truth...";
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email = form.email.value.trim();
 
-    // رابط زر الدفع مع إعادة التوجيه بعد الدفع إلى رابط التحميل المباشر
-    const paypalURL = 
-      "https://www.paypal.com/cgi-bin/webscr?cmd=_xclick" +
-      "&business=YOUR_PAYPAL_EMAIL@example.com" +  // <-- عدّل هنا
-      "&item_name=Unlock+The+Full+File" +
-      "&amount=6.66" +
-      "&currency_code=USD" +
-      "&return=https://drive.google.com/uc?export=download&id=1QkQEpnOtBaVmU2aKGU4Lx2eyT82sYWQo" +
-      "&cancel_return=https://yourdomain.com/cancel.html" +
-      "&no_shipping=1" +
-      "&rm=2";
+      if (!validateEmail(email)) {
+        status.textContent = "🩸 Enter a valid email to proceed.";
+        return;
+      }
 
-    window.open(paypalURL, "_blank");
+      status.textContent = "🧠 Preparing your path to the forbidden truth...";
 
-    status.textContent = "🔥 PayPal window opened. Complete the payment to unlock.";
-  });
+      const paypalEmail = "YOUR_PAYPAL_EMAIL@example.com";
+      const amount = "6.66";
+      const currency = "USD";
+      const itemName = "Unlock The Full File";
 
-  function validateEmail(email) {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email.toLowerCase());
-  }
+      const downloadLink = "https://drive.google.com/uc?export=download&id=1QkQEpnOtBaVmU2aKGU4Lx2eyT82sYWQo";
+
+      const returnUrl = downloadLink;
+
+      const paypalURL = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=${encodeURIComponent(paypalEmail)}&item_name=${encodeURIComponent(itemName)}&amount=${encodeURIComponent(amount)}&currency_code=${encodeURIComponent(currency)}&return=${encodeURIComponent(returnUrl)}&cancel_return=${encodeURIComponent(window.location.href)}&no_shipping=1&rm=2`;
+
+      window.open(paypalURL, '_blank');
+
+      status.textContent = "🔥 PayPal window opened. Complete payment to unlock the file.";
+    });
+
+    // زر كتم/تشغيل الصوت
+    audioControl.addEventListener('click', () => {
+      if(audio.paused) {
+        audio.play();
+        audioControl.textContent = "Mute Heartbeat";
+      } else {
+        audio.pause();
+        audioControl.textContent = "Play Heartbeat";
+      }
+    });
+  })();
 </script>
 
 </body>
