@@ -156,7 +156,7 @@
     letter-spacing: 0.12em;
   }
 
-  /* Fake psychological test */
+  /* Psychological test */
   #psycho-test {
     margin-bottom: 40px;
     font-family: 'Roboto Mono', monospace;
@@ -182,7 +182,6 @@
     background: #ff5555;
   }
 
-  /* Fake analysis output */
   #analysis-result {
     margin-top: 20px;
     font-style: italic;
@@ -232,7 +231,7 @@
     font-family: 'Roboto Mono', monospace;
   }
 
-  /* Mouse fingerprint effect */
+  /* Fingerprint Effect */
   #fingerprint {
     position: fixed;
     pointer-events: none;
@@ -268,9 +267,9 @@
 <div class="container">
 
   <div id="psycho-test">
-    <h2>🧠 هل تملك السيطرة عليه؟ اختبر نفسك!</h2>
-    <p>أجب عن الأسئلة التالية بسرية... النتائج قد تصدمك.</p>
-    <button id="start-test-btn">ابدأ الاختبار الآن</button>
+    <h2>🧠 Do You Really Control Him? Take the Test!</h2>
+    <p>Answer the questions secretly... The results might shock you.</p>
+    <button id="start-test-btn">Start the Test Now</button>
     <div id="analysis-result"></div>
   </div>
 
@@ -279,40 +278,40 @@
     <h2 class="product-name">Messages That Destroy The Mind</h2>
     <p class="product-price">$6.66</p>
 
-    <div id="countdown">⏳ استعد.. الشراء متاح بعد العد التنازلي</div>
+    <div id="countdown">⏳ Prepare yourself... Purchase available in:</div>
 
-    <button class="btn-buy" id="buy-btn" disabled>شراء الآن</button>
+    <button class="btn-buy" id="buy-btn" disabled>BUY NOW</button>
 
     <p style="margin-top: 15px; font-family:'Roboto Mono', monospace; font-size:0.9rem; color:#ff9999; user-select:none;">
-      ⚠️ استخدمها بحذر — ليست للضعفاء. هذه رسالة ليست مجرد ملف، بل سلاح.
+      ⚠️ Use with caution — Not for the weak. This is not just a file, it’s a weapon.
     </p>
   </div>
 
   <section id="testimonials">
-    <h3>شهادات مستخدمين تمهيدية</h3>
+    <h3>User Testimonials</h3>
     <div class="testimonial">
-      <strong>رائد الغموض</strong>
-      <p>لم أتخيل أن الكلمات قد تكون أقوى من السكين. كل رسالة تُشعرني بالسيطرة التامة.</p>
+      <strong>Ryder of Shadows</strong>
+      <p>I never imagined words could be sharper than a blade. Each message fills me with total control.</p>
     </div>
     <div class="testimonial">
-      <strong>سارة المنتقم</strong>
-      <p>استعملتها بعد أن تم تجاهلي، ونتيجة مذهلة. لقد عادت إليه كالمجنون.</p>
+      <strong>Sara the Avenger</strong>
+      <p>I used it after being ignored, and the result was incredible. He went crazy for me.</p>
     </div>
     <div class="testimonial">
-      <strong>طارق الغامض</strong>
-      <p>ببساطة، السلاح النفسي الأفضل الذي اقتنيته. أغلق الفم وأشعل النار.</p>
+      <strong>Tarik the Enigma</strong>
+      <p>Simply the best psychological weapon I ever owned. Silence mouths and ignite fires.</p>
     </div>
   </section>
   
 </div>
 
-<footer>© 2025 Dark Dominion. كل الحقوق محفوظة.</footer>
+<footer>© 2025 Dark Dominion. All rights reserved.</footer>
 
 <!-- Fingerprint Effect -->
 <div id="fingerprint"></div>
 
 <script>
-  // Countdown timer logic (e.g. 30 seconds)
+  // Countdown timer logic (30 seconds)
   const buyBtn = document.getElementById('buy-btn');
   const countdownEl = document.getElementById('countdown');
   let countdown = 30;
@@ -320,29 +319,29 @@
     countdown--;
     if(countdown <= 0){
       clearInterval(countdownInterval);
-      countdownEl.textContent = "⚡️ يمكنك الآن الضغط على زر الشراء!";
+      countdownEl.textContent = "⚡️ You can now press the BUY button!";
       buyBtn.disabled = false;
     } else {
-      countdownEl.textContent = `⏳ استعد.. الشراء متاح بعد ${countdown} ثانية`;
+      countdownEl.textContent = `⏳ Prepare yourself... Purchase available in: ${countdown} seconds`;
     }
   }, 1000);
 
-  // Fake psychological test logic
+  // Psychological test logic
   const testBtn = document.getElementById('start-test-btn');
   const resultEl = document.getElementById('analysis-result');
 
   testBtn.onclick = () => {
     const results = [
-      "تحليل: أنت المتحكم المهيمن! لا شيء يفلت منك.",
-      "تحليل: أنت تلعب بعقله ببراعة، لكنه غير مدرك بعد.",
-      "تحليل: هناك ضباب في عقل الآخر، جاهز للانهيار.",
-      "تحليل: يستخدمك ولا يدري، أنت الغامض القوي.",
-      "تحليل: خطر عاطفي! السيطرة تقترب أكثر من اللازم."
+      "Analysis: You are the dominant controller! Nothing escapes you.",
+      "Analysis: You play his mind skillfully, but he’s still unaware.",
+      "Analysis: There’s fog in his mind, ready to collapse.",
+      "Analysis: He uses you unknowingly. You are the powerful enigma.",
+      "Analysis: Emotional danger! Control is closer than ever."
     ];
     const choice = results[Math.floor(Math.random() * results.length)];
     resultEl.textContent = choice;
     testBtn.disabled = true;
-    testBtn.textContent = "تم الاختبار";
+    testBtn.textContent = "Test Completed";
   };
 
   // PayPal Buttons integration
@@ -363,20 +362,18 @@
     },
     onApprove: (data, actions) => {
       return actions.order.capture().then(details => {
-        alert(`تم الدفع بواسطة ${details.payer.name.given_name}!\nتحميل الملف سيبدأ الآن...`);
-        // تحميل ملف PDF من Google Drive مباشرة
-        const pdfUrl = 'https://drive.google.com/uc?export=download&id=YOUR_GOOGLE_DRIVE_FILE_ID'; 
+        alert(`Payment completed by ${details.payer.name.given_name}!\nYour download will start now...`);
+        const pdfUrl = 'https://drive.google.com/uc?export=download&id=YOUR_GOOGLE_DRIVE_FILE_ID';
         const a = document.createElement('a');
         a.href = pdfUrl;
         a.download = 'Mind_Destroyer_Messages.pdf';
         document.body.appendChild(a);
         a.click();
         a.remove();
-        // يمكنك هنا إضافة فتح نافذة دردشة أو أي شيء آخر بعد الدفع
       });
     },
     onError: (err) => {
-      alert('حدث خطأ أثناء الدفع: ' + err);
+      alert('An error occurred during payment: ' + err);
     }
   }).render('#buy-btn');
 
@@ -386,10 +383,10 @@
     fingerprint.style.transform = `translate(${e.clientX - 60}px, ${e.clientY - 60}px)`;
   });
 
-  // Sound effect on buy click
+  // Working sound effect on buy click
   buyBtn.addEventListener('click', () => {
-    const audio = new Audio('https://www.soundjay.com/horror/sounds/scary-ghost-1.mp3');
-    audio.volume = 0.2;
+    const audio = new Audio('https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg');
+    audio.volume = 0.3;
     audio.play();
   });
 </script>
