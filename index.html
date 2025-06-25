@@ -8,16 +8,42 @@
   @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
   html, body {
     margin:0; padding:0; height:100%;
-    background: radial-gradient(ellipse at center, #000000 0%, #120000 90%);
+    background: radial-gradient(ellipse at center, #000000 0%, #1a0000 90%);
     color: #ff1100;
     font-family: 'Share Tech Mono', monospace;
     user-select:none;
+    position: relative;
+    overflow: hidden;
   }
+  /* تأثيرات الدم على الخلفية */
+  .blood-drop {
+    position: fixed;
+    top: -50px;
+    background: radial-gradient(circle at 50% 50%, #ff0000, #800000);
+    border-radius: 50% 50% 70% 70% / 60% 60% 90% 90%;
+    width: 15px;
+    height: 30px;
+    opacity: 0.8;
+    pointer-events: none;
+    filter: drop-shadow(0 0 5px #ff0000);
+    animation-name: fallBlood;
+    animation-timing-function: linear;
+  }
+  @keyframes fallBlood {
+    0% {
+      transform: translateY(0) rotate(0deg);
+      opacity: 0.8;
+    }
+    100% {
+      transform: translateY(110vh) rotate(720deg);
+      opacity: 0;
+    }
+  }
+  /* التصميم العام */
   body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
   }
   .container {
     max-width: 480px;
@@ -29,6 +55,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative; /* فوق الدم */
+    z-index: 10;
   }
   h1 {
     font-size: 3rem;
@@ -270,6 +298,18 @@
     // ضبط رابط تحميل الملف
     downloadLink.href = downloadUrl;
 
+    // إضافة قطرات الدم في الخلفية
+    const bloodCount = 35; // عدد قطرات الدم
+    for(let i=0; i < bloodCount; i++) {
+      const drop = document.createElement('div');
+      drop.classList.add('blood-drop');
+      drop.style.left = Math.random() * 100 + 'vw';
+      drop.style.width = (10 + Math.random() * 20) + 'px';
+      drop.style.height = (20 + Math.random() * 40) + 'px';
+      drop.style.animationDuration = (4 + Math.random() * 5) + 's';
+      drop.style.animationDelay = Math.random() * 5 + 's';
+      document.body.appendChild(drop);
+    }
   })();
 </script>
 
