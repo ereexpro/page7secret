@@ -13,13 +13,22 @@
     font-family: 'Share Tech Mono', monospace;
     user-select:none;
   }
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
   .container {
     max-width: 480px;
-    margin: 2rem auto;
-    padding: 1rem 2rem;
+    width: 90%;
+    padding: 2rem 3rem;
     background: #1a0000cc;
     border-radius: 16px;
     box-shadow: 0 0 25px #ff2200;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   h1 {
     font-size: 3rem;
@@ -42,6 +51,7 @@
     font-size: 1.2rem;
     padding: 1rem;
     width: 100%;
+    max-width: 380px;
     border-radius: 8px;
     border: 2px solid #ff2200;
     background: #220000;
@@ -146,11 +156,12 @@
     <h1>🔥 YOU HAVE CHOSEN THE DARKNESS</h1>
     <p class="message">Your mind is forever changed.<br>The venom is yours.<br>Download your doom below — if you dare.</p>
     <a id="downloadLink" class="download-link" href="#" target="_blank" rel="noopener noreferrer" download>Download The Venom PDF</a>
-    <audio id="heartbeat" loop autoplay>
+
+    <audio id="heartbeat" loop>
       <source src="https://cdn.pixabay.com/download/audio/2022/02/03/audio_c687afc435.mp3?filename=heartbeat-6063.mp3" type="audio/mpeg" />
       Your browser does not support the audio element.
     </audio>
-    <div id="audioControl">Mute Heartbeat</div>
+    <button id="audioControl">Play Heartbeat</button>
   </section>
 </div>
 
@@ -229,25 +240,23 @@
       status2.textContent = "🔥 Opening PayPal portal to damnation...";
       clearInterval(timer);
       payBtn.disabled = true;
-      const paypalURL = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=${encodeURIComponent(paypalEmail)}&item_name=${encodeURIComponent(itemName)}&amount=${encodeURIComponent(amount)}&currency_code=${encodeURIComponent(currency)}&return=${encodeURIComponent(window.location.href)}&cancel_return=${encodeURIComponent(window.location.href)}&no_shipping=1&rm=2`;
-      // فتح نافذة الدفع
+      const paypalURL = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=${encodeURIComponent(paypalEmail)}&item_name=${encodeURIComponent(itemName)}&amount=${encodeURIComponent(amount)}&currency_code=${encodeURIComponent(currency)}&return=${encodeURIComponent(window.location.href + '?return=1')}&cancel_return=${encodeURIComponent(window.location.href)}&no_shipping=1&rm=2`;
       window.open(paypalURL, '_blank');
-      // ثم ننتظر إغلاق النافذة والعودة (بما أن الدفع يتم خارجيًا، سننتقل يدويًا للخطوة 3)
-      // للحظة الآن، اضغط يدويًا على زر "أنا دفعت" للمتابعة، أو يمكنك تحديث الصفحة.
     });
 
     // إذا عاد الزائر للصفحة مع رابط "return" بعد الدفع، نعرض المرحلة 3 تلقائيًا
     window.onload = () => {
       const urlParams = new URLSearchParams(window.location.search);
       if(urlParams.has('return')) {
-        // عرض المرحلة 3
         step1.classList.remove('active');
         step2.classList.remove('active');
         step3.classList.add('active');
+        heartbeatAudio.play().catch(() => {});
+        audioControl.textContent = "Mute Heartbeat";
       }
     };
 
-    // المرحلة 3: تحكم الصوت
+    // تحكم في صوت دقات القلب
     audioControl.addEventListener('click', () => {
       if(heartbeatAudio.paused) {
         heartbeatAudio.play();
@@ -258,7 +267,7 @@
       }
     });
 
-    // رابط تحميل الملف
+    // ضبط رابط تحميل الملف
     downloadLink.href = downloadUrl;
 
   })();
