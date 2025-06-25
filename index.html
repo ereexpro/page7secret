@@ -1,275 +1,175 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>🔥 Hell Multi-Step Store</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
-  html, body {
-    margin:0; padding:0; height:100%;
-    background: radial-gradient(ellipse at center, #000000 0%, #1a0000 90%);
-    color: #ff1100;
-    font-family: 'Share Tech Mono', monospace;
-    user-select:none;
-    position: relative;
-    overflow: hidden;
-  }
-  /* تأثيرات دم حقيقية تسقط عمودياً فقط */
-  .blood-drop {
-    position: fixed;
-    top: -30px;
-    width: 15px;
-    height: 30px;
-    background: radial-gradient(circle at 50% 40%, #8B0000 70%, #4B0000 100%);
-    border-radius: 50% 50% 60% 60% / 70% 70% 90% 90%;
-    box-shadow:
-      inset 0 5px 8px 0 #B22222,
-      0 0 10px 3px rgba(139, 0, 0, 0.7);
-    filter: drop-shadow(0 0 6px #8B0000);
-    opacity: 0.85;
-    pointer-events: none;
-    animation-name: fallBlood;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    animation-fill-mode: forwards;
-  }
-  @keyframes fallBlood {
-    0% {
-      transform: translateY(0);
-      opacity: 0.9;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dark Store - Total Control Begins</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+    body {
+      margin: 0; padding: 0;
+      background: #0b0b0b;
+      font-family: 'Roboto', sans-serif;
+      color: #eee;
+      overflow-x: hidden;
+      direction: ltr;
     }
-    100% {
-      transform: translateY(110vh);
-      opacity: 0;
+    /* Blood drop effect */
+    .blood-drop {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      width: 4px;
+      height: 20px;
+      background: #b30000;
+      border-radius: 50%;
+      animation: drop 1.5s linear infinite;
+      opacity: 0.8;
+      transform: translateX(-50%);
+      pointer-events: none;
+      z-index: 9999;
     }
-  }
-  /* التصميم العام */
-  body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .container {
-    max-width: 480px;
-    width: 90%;
-    padding: 2rem 3rem;
-    background: #1a0000cc;
-    border-radius: 16px;
-    box-shadow: 0 0 25px #ff2200;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative; /* فوق الدم */
-    z-index: 10;
-  }
-  h1 {
-    font-size: 3rem;
-    text-shadow:
-      0 0 8px #ff2200,
-      0 0 20px #ff4400;
-    margin-bottom: 1rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    text-align: center;
-  }
-  p.warning, p.message {
-    font-size: 1.2rem;
-    line-height: 1.4;
-    margin-bottom: 1.5rem;
-    text-align: center;
-    text-shadow: 0 0 8px #ff2200;
-  }
-  button {
-    background: #ff1100;
-    border: none;
-    padding: 1rem 2rem;
-    font-size: 1.5rem;
-    color: #fff;
-    border-radius: 12px;
-    cursor: pointer;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    box-shadow: 0 0 18px #ff3300;
-    transition: background 0.3s ease;
-    display: block;
-    margin: 0 auto;
-  }
-  button:hover:not(:disabled) {
-    background: #cc0000;
-  }
-  button:disabled {
-    background: #660000;
-    cursor: not-allowed;
-  }
-  #countdown {
-    font-size: 2rem;
-    font-weight: 900;
-    letter-spacing: 0.15em;
-    text-align: center;
-    color: #ff5555;
-    text-shadow: 0 0 15px #ff5555;
-    margin-bottom: 1.5rem;
-  }
-  a.download-link {
-    background: #ff1100;
-    padding: 1rem 2rem;
-    border-radius: 14px;
-    color: #fff;
-    font-weight: 700;
-    font-size: 1.5rem;
-    text-decoration: none;
-    box-shadow: 0 0 20px #ff4400;
-    display: block;
-    text-align: center;
-    margin: 1rem auto 0;
-    width: fit-content;
-  }
-  a.download-link:hover {
-    background: #cc0000;
-  }
-  #audioControl {
-    margin-top: 2rem;
-    cursor: pointer;
-    font-family: 'Share Tech Mono', monospace;
-    font-weight: 700;
-    color: #ff4400;
-    user-select:none;
-    text-shadow: 0 0 10px #ff2200;
-    text-align: center;
-  }
-  section {
-    display: none;
-  }
-  section.active {
-    display: block;
-  }
-</style>
+    @keyframes drop {
+      0% { top: -20px; opacity: 0.8; }
+      90% { opacity: 0.8; }
+      100% { top: 100vh; opacity: 0; }
+    }
+    header {
+      background: #1a1a1a;
+      padding: 20px 30px;
+      text-align: center;
+      font-size: 1.8rem;
+      font-weight: 700;
+      border-bottom: 2px solid #b30000;
+      user-select: none;
+    }
+    .products {
+      max-width: 1200px;
+      margin: 30px auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 25px;
+      padding: 0 20px;
+    }
+    .product-card {
+      background: #222;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 0 10px #b30000aa;
+      transition: transform 0.3s ease;
+      user-select: none;
+    }
+    .product-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #ff0000cc;
+    }
+    .product-img {
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      object-fit: cover;
+      height: 200px;
+    }
+    .product-name {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #ff3b3b;
+    }
+    .product-price {
+      font-size: 1rem;
+      margin-bottom: 15px;
+      color: #ff7777;
+    }
+    .btn-buy {
+      background: #b30000;
+      border: none;
+      padding: 12px 25px;
+      font-size: 1rem;
+      color: #fff;
+      font-weight: 700;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.3s ease;
+    }
+    .btn-buy:hover {
+      background: #ff0000;
+    }
+    footer {
+      text-align: center;
+      padding: 15px 0;
+      border-top: 1px solid #444;
+      margin-top: 40px;
+      font-size: 0.9rem;
+      color: #777;
+      user-select: none;
+    }
+    /* PayPal container centering */
+    #paypal-button-container {
+      margin-top: 10px;
+    }
+  </style>
+  <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&currency=USD"></script>
 </head>
 <body>
 
-<div class="container">
-  <!-- المرحلة 1 -->
-  <section id="step1" class="active">
-    <h1>⚠️ ENTER THE HELL GATE ⚠️</h1>
-    <p class="warning">This venom is deadly. It will destroy the mind<br>of anyone who dares to possess it.<br>Only fools proceed beyond this point.</p>
-    <button id="toStep2">Enter the Hell</button>
-  </section>
+<div class="blood-drop" style="left: 10%; animation-delay: 0s;"></div>
+<div class="blood-drop" style="left: 30%; animation-delay: 0.5s;"></div>
+<div class="blood-drop" style="left: 50%; animation-delay: 1s;"></div>
+<div class="blood-drop" style="left: 70%; animation-delay: 1.2s;"></div>
+<div class="blood-drop" style="left: 90%; animation-delay: 1.8s;"></div>
 
-  <!-- المرحلة 2 -->
-  <section id="step2">
-    <h1>⚠️ THE PAYMENT ABYSS ⚠️</h1>
-    <p class="warning">Your payment is the final jump into the abyss.<br>Hesitate, and your mind is lost forever.</p>
-    <div id="countdown">00:30</div>
-    <button id="payBtn">Pay $6.66 via PayPal</button>
-    <p class="status" id="status2"></p>
-  </section>
+<header>🩸 Dark Store - Total Control Begins 🩸</header>
 
-  <!-- المرحلة 3 -->
-  <section id="step3">
-    <h1>🔥 YOU HAVE CHOSEN THE DARKNESS</h1>
-    <p class="message">Your mind is forever changed.<br>The venom is yours.<br>Download your doom below — if you dare.</p>
-    <a id="downloadLink" class="download-link" href="#" target="_blank" rel="noopener noreferrer" download>Download The Venom PDF</a>
+<section class="products">
+  <article class="product-card">
+    <img src="https://via.placeholder.com/300x200?text=Deadly+Product" alt="Deadly Product" class="product-img" />
+    <h2 class="product-name">Deadly Product</h2>
+    <p class="product-price">$6.66</p>
+    <div id="paypal-button-container"></div>
+  </article>
+</section>
 
-    <audio id="heartbeat" loop>
-      <source src="https://cdn.pixabay.com/download/audio/2022/02/03/audio_c687afc435.mp3?filename=heartbeat-6063.mp3" type="audio/mpeg" />
-      Your browser does not support the audio element.
-    </audio>
-    <button id="audioControl">Play Heartbeat</button>
-  </section>
-</div>
+<footer>© 2025 Dark Store. All rights reserved.</footer>
 
 <script>
-  (function(){
-    const toStep2Btn = document.getElementById('toStep2');
-    const step1 = document.getElementById('step1');
-    const step2 = document.getElementById('step2');
-    const step3 = document.getElementById('step3');
-    const countdownEl = document.getElementById('countdown');
-    const payBtn = document.getElementById('payBtn');
-    const status2 = document.getElementById('status2');
-    const downloadLink = document.getElementById('downloadLink');
-    const heartbeatAudio = document.getElementById('heartbeat');
-    const audioControl = document.getElementById('audioControl');
-
-    const paypalEmail = "YOUR_PAYPAL_EMAIL@example.com"; // عدل هنا
-    const amount = "6.66";
-    const currency = "USD";
-    const itemName = "Unlock The Full File";
-    const downloadUrl = "https://drive.google.com/uc?export=download&id=1QkQEpnOtBaVmU2aKGU4Lx2eyT82sYWQo";
-
-    toStep2Btn.addEventListener('click', () => {
-      step1.classList.remove('active');
-      step2.classList.add('active');
-      startCountdown();
-    });
-
-    let countdown = 30;
-    let timer;
-
-    function startCountdown() {
-      countdownEl.textContent = "00:30";
-      payBtn.disabled = false;
-      status2.textContent = "";
-      countdown = 30;
-      timer = setInterval(() => {
-        const minutes = Math.floor(countdown / 60);
-        const seconds = countdown % 60;
-        countdownEl.textContent = `${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
-        if(countdown === 0) {
-          clearInterval(timer);
-          status2.textContent = "⏳ Time's up! Your soul escapes...";
-          payBtn.disabled = true;
-          payBtn.style.background = '#660000';
-          payBtn.style.cursor = 'not-allowed';
-        }
-        countdown--;
-      }, 1000);
+  // Replace YOUR_PAYPAL_CLIENT_ID with your actual client ID before use.
+  paypal.Buttons({
+    style: {
+      layout: 'vertical',
+      color:  'red',
+      shape:  'rect',
+      label:  'pay'
+    },
+    createOrder: function(data, actions) {
+      return actions.order.create({
+        purchase_units: [{
+          amount: {
+            value: '6.66'
+          },
+          description: "Deadly Product - Price $6.66"
+        }]
+      });
+    },
+    onApprove: function(data, actions) {
+      return actions.order.capture().then(function(details) {
+        alert('Payment completed by ' + details.payer.name.given_name + '!');
+        // Trigger PDF download
+        const pdfUrl = 'https://yourdomain.com/path/to/yourfile.pdf'; 
+        // Replace the above URL with your actual PDF URL (can be Google Drive direct download link)
+        const link = document.createElement('a');
+        link.href = pdfUrl;
+        link.download = 'Deadly_Product.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      });
+    },
+    onError: function (err) {
+      alert('Payment error: ' + err);
     }
-
-    payBtn.addEventListener('click', () => {
-      status2.textContent = "🔥 Opening PayPal portal to damnation...";
-      clearInterval(timer);
-      payBtn.disabled = true;
-      const paypalURL = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=${encodeURIComponent(paypalEmail)}&item_name=${encodeURIComponent(itemName)}&amount=${encodeURIComponent(amount)}&currency_code=${encodeURIComponent(currency)}&return=${encodeURIComponent(window.location.href + '?return=1')}&cancel_return=${encodeURIComponent(window.location.href)}&no_shipping=1&rm=2`;
-      window.open(paypalURL, '_blank');
-    });
-
-    window.onload = () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      if(urlParams.has('return')) {
-        step1.classList.remove('active');
-        step2.classList.remove('active');
-        step3.classList.add('active');
-        heartbeatAudio.play().catch(() => {});
-        audioControl.textContent = "Mute Heartbeat";
-      }
-    };
-
-    audioControl.addEventListener('click', () => {
-      if(heartbeatAudio.paused) {
-        heartbeatAudio.play();
-        audioControl.textContent = "Mute Heartbeat";
-      } else {
-        heartbeatAudio.pause();
-        audioControl.textContent = "Play Heartbeat";
-      }
-    });
-
-    downloadLink.href = downloadUrl;
-
-    const bloodCount = 35;
-    for(let i=0; i < bloodCount; i++) {
-      const drop = document.createElement('div');
-      drop.classList.add('blood-drop');
-      drop.style.left = Math.random() * 100 + 'vw';
-      drop.style.width = (10 + Math.random() * 20) + 'px';
-      drop.style.height = (20 + Math.random() * 40) + 'px';
-      drop.style.animationDuration = (4 + Math.random() * 5) + 's';
-      drop.style.animationDelay = Math.random() * 5 + 's';
-      document.body.appendChild(drop);
-    }
-  })();
+  }).render('#paypal-button-container');
 </script>
 
 </body>
