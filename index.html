@@ -705,3 +705,334 @@
 
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>💀 إمبراطورية الظلام - لعبة اللوجستيك السوداء</title>
+  <style>
+    body {
+      background: #0d0d0d;
+      color: #eee;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    nav {
+      background: #330000;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      padding: 15px;
+      border-bottom: 3px solid #ff0000;
+    }
+    nav button {
+      background: #aa0000;
+      border: none;
+      padding: 10px 20px;
+      color: white;
+      font-weight: bold;
+      font-size: 1em;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: background 0.3s;
+    }
+    nav button:hover, nav button.active {
+      background: #ff0000;
+    }
+    .screen {
+      display: none;
+      padding: 20px;
+    }
+    .screen.active {
+      display: block;
+    }
+    .card {
+      background: #1a0a0a;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 8px;
+      box-shadow: 0 0 10px #aa0000a0;
+    }
+    .action-btn {
+      background: #aa0000;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      font-weight: bold;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    .action-btn:hover {
+      background: #ff0000;
+    }
+    h1, h2, h3 {
+      margin: 0 0 10px 0;
+    }
+    .data-line {
+      margin: 5px 0;
+    }
+    select, input {
+      padding: 8px;
+      border: none;
+      border-radius: 5px;
+      margin: 5px 0 10px 0;
+      width: 100%;
+      background: #330000;
+      color: white;
+    }
+    #log {
+      background: #220000;
+      padding: 10px;
+      font-family: monospace;
+      height: 150px;
+      overflow-y: scroll;
+      border: 1px solid #550000;
+      margin-top: 15px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+<script>
+  // بيانات أولية
+  let money = 10000;
+  let inventory = 0;
+  let trucks = [];
+  let workers = [];
+  let level = 1;
+  let reputation = 50;
+  let loan = { amount: 0, rate: 10, turnsLeft: 5 };
+
+  const items = [
+    { name: "AK-47", type: "سلاح", price: 2000 },
+    { name: "Cocaine", type: "مخدر", price: 3500 },
+    { name: "Pistol", type: "سلاح", price: 1000 },
+    { name: "Meth", type: "مخدر", price: 4000 }
+  ];
+
+  const routes = [
+    { name: "شارع الموت", risk: 70 },
+    { name: "الحدود الشرقية", risk: 40 },
+    { name: "نفق السوق السوداء", risk: 60 },
+    { name: "طريق آمن", risk: 20 }
+  ];
+
+  const availableTrucks = [
+    { name: "Truck Z", speed: 7, security: 4, capacity: 80 },
+    { name: "Armor Van", speed: 5, security: 9, capacity: 60 },
+    { name: "Fast Hauler", speed: 9, security: 3, capacity: 100 }
+  ];
+
+  const availableWorkers = [
+    { name: "أمين", skill: "مبتدئ", value: 1 },
+    { name: "فهد", skill: "متوسط", value: 2 },
+    { name: "ياسين", skill: "رائع", value: 3 },
+    { name: "جمال", skill: "أسطوري", value: 5 }
+  ];
+
+  const log = [];
+
+  // ====== دوال عرض اللعبة ======
+
+  function updateUI() {
+    document.getElementById("money").innerText = money;
+    document.getElementById("inventory").innerText = inventory;
+    document.getElementById("truckCount").innerText = trucks.length;
+    document.getElementById("workerCount").innerText = workers.length;
+    document.getElementById("level").innerText = level;
+    document.getElementById("reputation").innerText = reputation;
+    document.getElementById("logBox").innerText = log.join("\n");
+
+    document.getElementById("marketItems").innerHTML = items.map((item, i) => `
+      <div class="card">
+        ${item.type} - <b>${item.name}</b> | السعر: ${item.price} درهم
+        <button onclick="buyItem(${i})" class="action-btn">شراء</button>
+      </div>
+    `).join("");
+
+    document.getElementById("selectItem").innerHTML = items.map((item, i) => `
+      <option value="${i}">${item.name}</option>
+    `).join("");
+
+    document.getElementById("selectWorker").innerHTML = workers.map((w, i) => `
+      <option value="${i}">${w.name} (${w.skill})</option>
+    `).join("");
+
+    document.getElementById("selectTruck").innerHTML = trucks.map((t, i) => `
+      <option value="${i}">${t.name}</option>
+    `).join("");
+
+    document.getElementById("selectRoute").innerHTML = routes.map((r, i) => `
+      <option value="${i}">${r.name} - خطورة: ${r.risk}%</option>
+    `).join("");
+
+    document.getElementById("loanStatus").innerHTML = loan.amount > 0 ?
+      `💸 لديك قرض بـ ${loan.amount} درهم بنسبة ${loan.rate}%. باقي ${loan.turnsLeft} دورة.` :
+      `✔️ لا يوجد أي قرض حالياً.`;
+  }
+
+  function switchScreen(screen) {
+    document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+    document.getElementById(screen).classList.add("active");
+    document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
+    event.target.classList.add("active");
+  }
+
+  function addLog(entry) {
+    const time = new Date().toLocaleTimeString();
+    log.unshift(`[${time}] ${entry}`);
+    if (log.length > 100) log.pop();
+    updateUI();
+  }
+
+  // ====== الأحداث الأساسية ======
+
+  function buyItem(index) {
+    const item = items[index];
+    if (money >= item.price) {
+      money -= item.price;
+      inventory++;
+      addLog(`📦 اشتريت ${item.name} مقابل ${item.price} درهم.`);
+    } else {
+      alert("❌ ليس لديك مال كاف.");
+    }
+  }
+
+  function sendShipment() {
+    const qty = parseInt(document.getElementById("shipmentQty").value);
+    const item = items[document.getElementById("selectItem").value];
+    const worker = workers[document.getElementById("selectWorker").value];
+    const truck = trucks[document.getElementById("selectTruck").value];
+    const route = routes[document.getElementById("selectRoute").value];
+
+    if (!item || !worker || !truck || !route || isNaN(qty) || qty < 1 || qty > inventory) {
+      alert("❌ تأكد من كل البيانات بشكل صحيح.");
+      return;
+    }
+
+    let risk = route.risk - truck.security * 3 - worker.value * 4;
+    if (risk < 5) risk = 5;
+
+    document.getElementById("riskDisplay").innerText = `نسبة الخطر: ${risk}%`;
+
+    const caught = Math.random() * 100 < risk;
+
+    if (caught) {
+      inventory -= qty;
+      reputation -= 10;
+      addLog(`❌ تم ضبط شحنة من ${qty} × ${item.name} على طريق ${route.name}.`);
+    } else {
+      inventory -= qty;
+      const profit = qty * item.price * (1.2 + level * 0.1);
+      money += Math.round(profit);
+      reputation += 5;
+      addLog(`✅ شحنة ناجحة: ${qty} × ${item.name}. الربح: ${Math.round(profit)} درهم.`);
+    }
+
+    updateUI();
+  }
+
+  function takeLoan() {
+    const amt = parseInt(document.getElementById("loanAmountInput").value);
+    const rate = parseInt(document.getElementById("loanRateInput").value);
+
+    if (loan.amount > 0) {
+      alert("لديك قرض جاري بالفعل.");
+      return;
+    }
+
+    if (amt < 1000 || rate < 5) {
+      alert("❌ تحقق من المبلغ والنسبة.");
+      return;
+    }
+
+    loan.amount = amt;
+    loan.rate = rate;
+    loan.turnsLeft = 5;
+    money += amt;
+    addLog(`💸 تم الحصول على قرض بقيمة ${amt} درهم.`);
+    updateUI();
+  }
+
+  function payLoan() {
+    const total = loan.amount + Math.round(loan.amount * loan.rate / 100);
+    if (money >= total) {
+      money -= total;
+      loan = { amount: 0, rate: 10, turnsLeft: 0 };
+      addLog(`✅ تم سداد القرض بنجاح.`);
+    } else {
+      alert("❌ لا تملك المبلغ الكافي.");
+    }
+    updateUI();
+  }
+
+  // ====== الترقيات ======
+
+  function upgrade() {
+    document.getElementById("upgradeOptions").innerHTML = `
+      <div class="card">
+        <h3>🚛 شراء شاحنة</h3>
+        ${availableTrucks.map((t, i) => `
+          <div>${t.name} - سعة: ${t.capacity}, أمان: ${t.security}
+          <button onclick="buyTruck(${i})" class="action-btn">شراء</button></div>
+        `).join("")}
+        <hr />
+        <h3>🧍‍♂️ توظيف سائق</h3>
+        ${availableWorkers.map((w, i) => `
+          <div>${w.name} - ${w.skill}
+          <button onclick="hireWorker(${i})" class="action-btn">توظيف</button></div>
+        `).join("")}
+      </div>
+    `;
+  }
+
+  function buyTruck(i) {
+    const t = availableTrucks[i];
+    const cost = 10000 + t.security * 1000;
+    if (money >= cost) {
+      trucks.push(t);
+      money -= cost;
+      addLog(`🚛 اشتريت ${t.name}`);
+      updateUI();
+    } else {
+      alert("❌ لا تملك المال الكافي.");
+    }
+  }
+
+  function hireWorker(i) {
+    const w = availableWorkers[i];
+    const cost = 5000 + w.value * 1500;
+    if (money >= cost) {
+      workers.push(w);
+      money -= cost;
+      addLog(`🧍‍♂️ وظّفت ${w.name}`);
+      updateUI();
+    } else {
+      alert("❌ لا تملك المال الكافي.");
+    }
+  }
+
+  // ====== تقدم اللعبة ======
+  setInterval(() => {
+    level++;
+    if (loan.amount > 0) {
+      loan.turnsLeft--;
+      if (loan.turnsLeft <= 0) {
+        loan.rate += 5;
+        loan.turnsLeft = 5;
+        addLog(`⚠️ تأخير في سداد القرض. الفائدة ارتفعت لـ ${loan.rate}%`);
+      }
+    }
+    updateUI();
+  }, 15000); // كل 15 ثانية
+
+  window.onload = () => {
+    trucks.push(availableTrucks[0]);
+    workers.push(availableWorkers[0]);
+    upgrade();
+    updateUI();
+  };
+</script>
