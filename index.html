@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Empire Logistics: Blood & Deals</title>
+<title>إمبراطورية اللوجستيك: الدم والصفقات</title>
 <style>
-  /* Base Styles */
+  /* الأساسيات */
   * {
     box-sizing: border-box;
   }
@@ -14,14 +14,17 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: #0f0f0f;
     color: #eee;
+    direction: rtl;
   }
   header {
     background: #1a1a1a;
     padding: 20px;
-    font-size: 2em;
+    font-size: 2.5em;
     text-align: center;
     color: crimson;
     border-bottom: 3px solid crimson;
+    font-weight: bold;
+    letter-spacing: 2px;
   }
   nav {
     display: flex;
@@ -37,10 +40,10 @@
     font-size: 1.1em;
     cursor: pointer;
     transition: border-bottom 0.3s;
+    font-weight: bold;
   }
   nav button.active {
     border-bottom: 3px solid crimson;
-    font-weight: bold;
   }
   .screen {
     display: none;
@@ -87,7 +90,7 @@
     margin-top: 15px;
     background: #222;
     padding: 10px;
-    border-left: 5px solid crimson;
+    border-right: 5px solid crimson;
   }
   .log {
     background: #111;
@@ -98,6 +101,8 @@
     font-family: monospace;
     border: 1px solid #333;
     border-radius: 6px;
+    text-align: left;
+    direction: ltr;
   }
   .progress-bar {
     height: 20px;
@@ -119,95 +124,95 @@
 </style>
 </head>
 <body>
-<header>Empire Logistics: Blood & Deals</header>
+<header>🔥 إمبراطورية اللوجستيك: الدم والصفقات 🔥</header>
 <nav>
-  <button class="active" onclick="switchScreen('market')">💰 Market</button>
-  <button onclick="switchScreen('clients')">🤝 Clients</button>
-  <button onclick="switchScreen('police')">🚨 Police</button>
-  <button onclick="switchScreen('reputation')">📊 Reputation</button>
-  <button onclick="switchScreen('logistics')">🚚 Logistics</button>
-  <button onclick="switchScreen('events')">🔥 Events</button>
-  <button onclick="switchScreen('loans')">💵 Loans</button>
-  <button onclick="switchScreen('achievements')">🏆 Achievements</button>
+  <button class="active" onclick="switchScreen('market')">💰 السوق السوداء</button>
+  <button onclick="switchScreen('clients')">🤝 العملاء</button>
+  <button onclick="switchScreen('police')">🚨 الشرطة</button>
+  <button onclick="switchScreen('reputation')">📊 السمعة</button>
+  <button onclick="switchScreen('logistics')">🚚 اللوجستيك والشحن</button>
+  <button onclick="switchScreen('events')">🔥 الأحداث</button>
+  <button onclick="switchScreen('loans')">💵 القروض والتمويل</button>
+  <button onclick="switchScreen('achievements')">🏆 الإنجازات والأهداف</button>
 </nav>
 
 <div id="market" class="screen active">
-  <h2>Black Market Suppliers</h2>
+  <h2>الموردون في السوق السوداء</h2>
   <div id="supplier-list"></div>
 </div>
 
 <div id="clients" class="screen">
-  <h2>Potential Buyers</h2>
+  <h2>العملاء المحتملون</h2>
   <div id="client-list"></div>
 </div>
 
 <div id="police" class="screen">
-  <h2>Police Surveillance</h2>
+  <h2>مراقبة الشرطة</h2>
   <div id="police-info"></div>
-  <button class="action-btn" onclick="payBribe()">Pay Bribe ($2000)</button>
+  <button class="action-btn" onclick="payBribe()">دفع رشوة (2000 درهم)</button>
 </div>
 
 <div id="reputation" class="screen">
-  <h2>Reputation System</h2>
+  <h2>نظام السمعة</h2>
   <div id="reputation-info"></div>
 </div>
 
 <div id="logistics" class="screen">
-  <h2>Logistics & Shipping</h2>
+  <h2>اللوجستيك والشحن</h2>
   <div class="card">
-    <p>Choose Route:
+    <p>اختر المسار:
       <select id="route-select">
-        <option value="safe">Safe Route (slow)</option>
-        <option value="risky">Risky Route (fast)</option>
+        <option value="safe">مسار آمن (بطيء)</option>
+        <option value="risky">مسار محفوف بالمخاطر (سريع)</option>
       </select>
     </p>
-    <p>Choose Vehicle:
+    <p>اختر المركبة:
       <select id="vehicle-select">
-        <option value="van">Van</option>
-        <option value="armored">Armored Truck</option>
+        <option value="van">فان</option>
+        <option value="armored">شاحنة مدرعة</option>
       </select>
     </p>
-    <p>Choose Storage:
+    <p>اختر التخزين:
       <select id="storage-select">
-        <option value="internal">Internal Warehouse</option>
-        <option value="hidden">Hidden Cellar</option>
+        <option value="internal">مستودع داخلي</option>
+        <option value="hidden">قبو مخفي</option>
       </select>
     </p>
-    <p>Quantity to Ship: <input type="number" id="ship-qty" min="1" max="1000" value="10" /></p>
-    <button class="action-btn" onclick="startShipping()">Start Shipping</button>
+    <p>كمية الشحن: <input type="number" id="ship-qty" min="1" max="1000" value="10" /></p>
+    <button class="action-btn" onclick="startShipping()">ابدأ الشحن</button>
     <div class="status-bar" id="shipping-status"></div>
   </div>
 </div>
 
 <div id="events" class="screen">
-  <h2>Random Events</h2>
+  <h2>الأحداث العشوائية</h2>
   <div id="events-log" class="log"></div>
-  <button class="action-btn" onclick="triggerRandomEvent()">Trigger Random Event</button>
+  <button class="action-btn" onclick="triggerRandomEvent()">إثارة حدث عشوائي</button>
 </div>
 
 <div id="loans" class="screen">
-  <h2>Loans & Financing</h2>
+  <h2>القروض والتمويل</h2>
   <div id="loan-info" class="card"></div>
   <div class="card">
-    <p>Give Loan (locked until stage 2)</p>
-    <p>Amount: <input type="number" id="loan-amount" min="1000" max="50000" step="1000" disabled /></p>
-    <p>Interest %: <input type="number" id="loan-interest" min="5" max="50" step="1" value="10" disabled /></p>
-    <button class="action-btn disabled" id="give-loan-btn" disabled onclick="giveLoan()">Give Loan</button>
+    <p>إعطاء قرض (مقفل حتى المرحلة 2)</p>
+    <p>المبلغ: <input type="number" id="loan-amount" min="1000" max="50000" step="1000" disabled /></p>
+    <p>نسبة الفائدة %: <input type="number" id="loan-interest" min="5" max="50" step="1" value="10" disabled /></p>
+    <button class="action-btn disabled" id="give-loan-btn" disabled onclick="giveLoan()">أعط قرض</button>
   </div>
 </div>
 
 <div id="achievements" class="screen">
-  <h2>Achievements & Daily Goals</h2>
+  <h2>الإنجازات والأهداف اليومية</h2>
   <div id="achievements-list"></div>
   <div id="daily-goals"></div>
 </div>
 
 <script>
-  // Game State Variables
-  let money = 10000; // Starting loan from gang
+  // حالة اللعبة
+  let money = 10000; // قرض البداية من العصابة
   let loanAmount = 10000;
-  let loanInterest = 15; // % per cycle if unpaid
-  let loanDueTurns = 10; // turns to pay loan before penalty
+  let loanInterest = 15; // نسبة الفائدة المئوية لكل دورة تأخير
+  let loanDueTurns = 10; // عدد الأدوار لسداد القرض قبل الغرامة
   let currentTurn = 1;
   let debtUnpaidTurns = 0;
   let stage = 1;
@@ -227,8 +232,8 @@
     { id: 'corporacion', name: 'La Corporación', demand: 200, paymentMethod: 'monthly', temperament: 'loyal', loyalty: 80 }
   ];
   let policeActivity = [
-    { message: "Route 9 under surveillance. Avoid it.", active: true, penaltyTurns: 3 },
-    { message: "Officer Delgado offers a bribe for $2000.", active: true }
+    { message: "المسار 9 تحت المراقبة، تجنب المرور منه.", active: true, penaltyTurns: 3 },
+    { message: "الضابط ديلغادو يعرض رشوة بقيمة 2000 درهم.", active: true }
   ];
   let shippingInProgress = false;
   let shippingTimer = 0;
@@ -238,7 +243,7 @@
   let achievements = [];
   let dailyGoals = [];
   
-  // Initialize UI
+  // تهيئة واجهة المستخدم
   function init() {
     updateMoneyDisplay();
     renderSuppliers();
@@ -256,9 +261,9 @@
     event.target.classList.add('active');
   }
   function updateMoneyDisplay() {
-    document.title = `💰 ${money} MAD - Empire Logistics`;
+    document.title = `💰 ${money} درهم - إمبراطورية اللوجستيك`;
   }
-  // Render Suppliers List
+  // عرض الموردين
   function renderSuppliers() {
     const container = document.getElementById('supplier-list');
     container.innerHTML = '';
@@ -267,40 +272,39 @@
       card.className = 'card';
       card.innerHTML = `
         <h3>${s.name}</h3>
-        <p>Price per unit: $${s.price}</p>
-        <p>Quality: ${s.quality} | Risk: ${s.risk}</p>
-        <button class="action-btn" onclick="negotiateSupplier('${s.id}')">Negotiate</button>
+        <p>السعر للوحدة: $${s.price}</p>
+        <p>الجودة: ${s.quality} | المخاطرة: ${s.risk}</p>
+        <button class="action-btn" onclick="negotiateSupplier('${s.id}')">تفاوض</button>
       `;
       container.appendChild(card);
     });
   }
-  // Supplier negotiation simple AI logic
+  // التفاوض مع المورد - منطق مبسط
   function negotiateSupplier(id) {
     const supplier = suppliers.find(s => s.id === id);
-    if (!supplier) return alert("Supplier not found");
+    if (!supplier) return alert("المورد غير موجود");
     let basePrice = supplier.price;
     let offerPrice = basePrice;
-    let msg = `${supplier.name} says: `;
-    // simple AI temperament reaction
+    let msg = `${supplier.name} يقول: `;
     switch (supplier.temperament) {
       case 'aggressive':
         offerPrice = Math.floor(basePrice * 1.2);
-        msg += `"I don't do discounts easily. Take it or leave it at $${offerPrice}."`;
+        msg += `"لا أقدم خصومات بسهولة، هذا سعر $${offerPrice}."`;
         break;
       case 'chaotic':
         offerPrice = Math.floor(basePrice * (Math.random() * 0.5 + 1));
-        msg += `"Let's see if you're lucky. My price: $${offerPrice}."`;
+        msg += `"خمن السعر، عرضي هو $${offerPrice}."`;
         break;
       case 'hostile':
         offerPrice = Math.floor(basePrice * 1.5);
-        msg += `"If you want this, you pay $${offerPrice} or nothing."`;
+        msg += `"إذا تريد البضاعة، تدفع $${offerPrice} أو لا شيء."`;
         break;
       default:
-        msg += `"Price is $${offerPrice}."`;
+        msg += `"السعر هو $${offerPrice}."`;
     }
     alert(msg);
   }
-  // Render Clients
+  // عرض العملاء
   function renderClients() {
     const container = document.getElementById('client-list');
     container.innerHTML = '';
@@ -309,28 +313,28 @@
       card.className = 'card';
       card.innerHTML = `
         <h3>${c.name}</h3>
-        <p>Demand: ${c.demand} units</p>
-        <p>Payment method: ${c.paymentMethod}</p>
-        <button class="action-btn" onclick="negotiateClient('${c.id}')">Negotiate</button>
+        <p>الطلب: ${c.demand} وحدة</p>
+        <p>طريقة الدفع: ${c.paymentMethod}</p>
+        <button class="action-btn" onclick="negotiateClient('${c.id}')">تفاوض</button>
       `;
       container.appendChild(card);
     });
   }
-  // Client negotiation simple AI logic
+  // التفاوض مع العملاء - منطق مبسط
   function negotiateClient(id) {
     const client = clients.find(c => c.id === id);
-    if (!client) return alert("Client not found");
-    let msg = `${client.name} says: `;
+    if (!client) return alert("العميل غير موجود");
+    let msg = `${client.name} يقول: `;
     if (client.temperament === 'brutal') {
-      msg += `"You better pay upfront or I take my business elsewhere."`;
+      msg += `"ادفع مقدمًا أو سأذهب لغيرك."`;
     } else if (client.temperament === 'loyal') {
-      msg += `"I'm willing to build a long-term relationship if you're reliable."`;
+      msg += `"أنا مستعد لعلاقة طويلة الأمد إذا كنت موثوقًا."`;
     } else {
-      msg += `"Let's talk business."`;
+      msg += `"دعنا نتحدث عن العمل."`;
     }
     alert(msg);
   }
-  // Render Police Info
+  // عرض معلومات الشرطة
   function renderPolice() {
     const container = document.getElementById('police-info');
     container.innerHTML = '';
@@ -343,19 +347,19 @@
       }
     });
   }
-  // Pay Bribe to Police
+  // دفع رشوة للشرطة
   function payBribe() {
     if (money >= 2000) {
       money -= 2000;
       policeActivity.forEach(p => p.active = false);
-      addEventLog("You paid a bribe. Police activities decreased.");
+      addEventLog("دفعت رشوة. انخفضت نشاطات الشرطة.");
       updateMoneyDisplay();
       renderPolice();
     } else {
-      alert("Not enough money to pay bribe!");
+      alert("ليس لديك ما يكفي من المال لدفع الرشوة!");
     }
   }
-  // Render Reputation
+  // عرض السمعة
   function renderReputation() {
     const container = document.getElementById('reputation-info');
     container.innerHTML = '';
@@ -366,84 +370,82 @@
       container.appendChild(div);
     }
   }
-  // Shipping Logic
+  // الشحن
   function startShipping() {
-    if (shippingInProgress) return alert("Shipping already in progress.");
+    if (shippingInProgress) return alert("يوجد شحنة جارية بالفعل.");
     const route = document.getElementById('route-select').value;
     const vehicle = document.getElementById('vehicle-select').value;
     const storage = document.getElementById('storage-select').value;
     const qty = parseInt(document.getElementById('ship-qty').value);
-    if (qty <= 0 || qty > 1000) return alert("Invalid quantity.");
-    let cost = qty * 400; // base cost per unit simplified
-    if (cost > money) return alert("Not enough money for shipping cost.");
+    if (qty <= 0 || qty > 1000) return alert("كمية غير صالحة.");
+    let cost = qty * 400; // تكلفة الوحدة تقريبي
+    if (cost > money) return alert("لا يوجد مال كافٍ لتغطية تكلفة الشحن.");
     money -= cost;
     updateMoneyDisplay();
     shippingInProgress = true;
     shippingDuration = route === 'safe' ? 15 : 8;
     shippingTimer = shippingDuration;
     shippingDetails = { route, vehicle, storage, qty };
-    document.getElementById('shipping-status').textContent = `Shipping started: ${qty} units via ${route} route using ${vehicle}. Time: ${shippingDuration} turns.`;
-    addEventLog(`Started shipping ${qty} units via ${route} route with ${vehicle}.`);
+    document.getElementById('shipping-status').textContent = `بدأ الشحن: ${qty} وحدة عبر مسار ${route} باستخدام ${vehicle}. الوقت: ${shippingDuration} دورات.`;
+    addEventLog(`بدأ شحن ${qty} وحدة عبر مسار ${route} باستخدام ${vehicle}.`);
     runTurn();
   }
-  // Handle Turns & Events
+  // إدارة الأدوار والأحداث
   function runTurn() {
     if (shippingInProgress) {
       shippingTimer--;
       if (shippingTimer <= 0) {
         shippingInProgress = false;
-        // Random chance police intercept if risky route
+        // احتمال أن تعترض الشرطة إذا كان المسار محفوف بالمخاطر
         if (shippingDetails.route === 'risky' && Math.random() < 0.3) {
-          addEventLog("🚨 Risky shipment intercepted by police! Lost goods and paid fine.");
+          addEventLog("🚨 تم اعتراض الشحنة من قبل الشرطة! خسرت البضاعة ودُفعت غرامة.");
           money -= 2000;
           reputation.Police -= 10;
           if (money < 0) money = 0;
         } else {
-          addEventLog(`✅ Shipment of ${shippingDetails.qty} units arrived safely.`);
-          money += shippingDetails.qty * 700; // profit simplified
+          addEventLog(`✅ وصلت الشحنة من ${shippingDetails.qty} وحدة بأمان.`);
+          money += shippingDetails.qty * 700; // الربح تقديري
         }
         updateMoneyDisplay();
-        document.getElementById('shipping-status').textContent = "No active shipments.";
+        document.getElementById('shipping-status').textContent = "لا توجد شحنات نشطة.";
         checkLoanStatus();
       } else {
-        document.getElementById('shipping-status').textContent = `Shipping in progress... ${shippingTimer} turns left.`;
+        document.getElementById('shipping-status').textContent = `الشحن جارٍ... تبقى ${shippingTimer} دورات.`;
       }
     }
     currentTurn++;
     updateLoanCountdown();
     updateDailyGoals();
-    // Auto trigger random event sometimes
     if (Math.random() < 0.1) triggerRandomEvent();
     setTimeout(runTurn, 3000);
   }
-  // Events Log
+  // سجل الأحداث
   function addEventLog(text) {
-    eventsLog.unshift(`[Turn ${currentTurn}] ${text}`);
+    eventsLog.unshift(`[الدور ${currentTurn}] ${text}`);
     if (eventsLog.length > 50) eventsLog.pop();
     document.getElementById('events-log').textContent = eventsLog.join('\n');
   }
-  // Trigger Random Events
+  // أحداث عشوائية
   function triggerRandomEvent() {
     const events = [
-      () => { addEventLog("🔥 Internal betrayal detected! Lost 500 MAD."); money -= 500; if(money < 0) money=0; },
-      () => { addEventLog("🚨 Police set up a checkpoint. Shipping speed reduced."); },
-      () => { addEventLog("💀 Client backed out last minute, lost potential sale."); },
-      () => { addEventLog("🧨 Found a lucrative deal opportunity!"); money += 2000; }
+      () => { addEventLog("🔥 خيانة داخلية! خسرت 500 درهم."); money -= 500; if(money < 0) money=0; },
+      () => { addEventLog("🚨 الشرطة نشرت نقاط تفتيش. تم تقليل سرعة الشحن."); },
+      () => { addEventLog("💀 تراجع عميل في اللحظة الأخيرة، خسرت صفقة."); },
+      () => { addEventLog("🧨 وجدت فرصة صفقة مربحة! ربح 2000 درهم."); money += 2000; }
     ];
     const eventFn = events[Math.floor(Math.random()*events.length)];
     eventFn();
     updateMoneyDisplay();
   }
-  // Loan Info Rendering
+  // معلومات القرض
   function renderLoanInfo() {
     const container = document.getElementById('loan-info');
     container.innerHTML = `
-      <p><strong>Current Loan:</strong> ${loanAmount} MAD</p>
-      <p><strong>Interest Rate:</strong> ${loanInterest}% per turn unpaid</p>
-      <p><strong>Turns to pay:</strong> ${loanDueTurns - debtUnpaidTurns}</p>
-      <p><strong>Money:</strong> ${money} MAD</p>
+      <p><strong>القرض الحالي:</strong> ${loanAmount} درهم</p>
+      <p><strong>نسبة الفائدة:</strong> ${loanInterest}% لكل دورة تأخير</p>
+      <p><strong>الدورات المتبقية للسداد:</strong> ${loanDueTurns - debtUnpaidTurns}</p>
+      <p><strong>المال المتوفر:</strong> ${money} درهم</p>
     `;
-    // Unlock Give Loan feature at stage 2
     if (stage >= 2) {
       document.getElementById('loan-amount').disabled = false;
       document.getElementById('loan-interest').disabled = false;
@@ -451,37 +453,37 @@
       document.getElementById('give-loan-btn').classList.remove('disabled');
     }
   }
-  // Loan Payment Countdown & Penalties
+  // تحديث عداد سداد القرض والعقوبات
   function updateLoanCountdown() {
-    if (money >= loanAmount) {
-      // Player can pay loan anytime (for demo, auto-pay if enough)
+    if (money >= loanAmount && loanAmount > 0) {
       money -= loanAmount;
       loanAmount = 0;
-      addEventLog("💸 Loan paid off successfully.");
+      addEventLog("💸 تم سداد القرض بنجاح.");
       updateMoneyDisplay();
       renderLoanInfo();
       return;
     }
-    debtUnpaidTurns++;
-    if (debtUnpaidTurns >= loanDueTurns) {
-      // Increase interest
-      loanInterest += 5;
-      addEventLog(`🔥 Loan interest increased to ${loanInterest}% due to late payment!`);
-      debtUnpaidTurns = 0;
+    if(loanAmount > 0){
+      debtUnpaidTurns++;
+      if (debtUnpaidTurns >= loanDueTurns) {
+        loanInterest += 5;
+        addEventLog(`🔥 زادت نسبة الفائدة إلى ${loanInterest}% بسبب التأخير في السداد!`);
+        debtUnpaidTurns = 0;
+      }
     }
   }
-  // Give Loan to Others (locked initially)
+  // إعطاء قرض للآخرين (مقفل في البداية)
   function giveLoan() {
     const amount = parseInt(document.getElementById('loan-amount').value);
     const interest = parseInt(document.getElementById('loan-interest').value);
-    if (isNaN(amount) || amount < 1000) return alert("Enter valid loan amount >= 1000.");
-    if (isNaN(interest) || interest < 5) return alert("Interest must be at least 5%.");
-    if (money < amount) return alert("Not enough money to give loan.");
+    if (isNaN(amount) || amount < 1000) return alert("أدخل مبلغ قرض صالح >= 1000.");
+    if (isNaN(interest) || interest < 5) return alert("يجب أن تكون نسبة الفائدة على الأقل 5%.");
+    if (money < amount) return alert("ليس لديك ما يكفي من المال لإعطاء قرض.");
     money -= amount;
-    addEventLog(`💼 You gave a loan of ${amount} MAD at ${interest}% interest.`);
+    addEventLog(`💼 أعطيت قرضًا بقيمة ${amount} درهم بنسبة فائدة ${interest}%.`);
     updateMoneyDisplay();
   }
-  // Achievements & Goals
+  // عرض الإنجازات
   function renderAchievements() {
     const container = document.getElementById('achievements-list');
     container.innerHTML = '';
@@ -492,9 +494,10 @@
       container.appendChild(div);
     });
   }
+  // عرض الأهداف اليومية
   function renderDailyGoals() {
     const container = document.getElementById('daily-goals');
-    container.innerHTML = `<h3>Daily Goals</h3>`;
+    container.innerHTML = `<h3>الأهداف اليومية</h3>`;
     dailyGoals.forEach(g => {
       const div = document.createElement('div');
       div.className = 'card';
@@ -502,13 +505,17 @@
       container.appendChild(div);
     });
   }
+  // تحديث الأهداف اليومية
   function updateDailyGoals() {
-    // Example goals update
-    if (!dailyGoals.includes("Complete a shipment")) dailyGoals.push("Complete a shipment");
-    if (!dailyGoals.includes("Negotiate a deal")) dailyGoals.push("Negotiate a deal");
+    if (!dailyGoals.includes("إتمام شحنة")) dailyGoals.push("إتمام شحنة");
+    if (!dailyGoals.includes("التفاوض على صفقة")) dailyGoals.push("التفاوض على صفقة");
     renderDailyGoals();
   }
-  // Initial setup
+  // تحقق حالة القرض (مؤقت)
+  function checkLoanStatus() {
+    // هنا يمكن إضافة منطق متقدم
+  }
+  // بدء اللعبة
   init();
 </script>
 </body>
