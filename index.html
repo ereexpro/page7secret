@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>👑 سلطان اللوجيستيك - لعبة الإدارة الشيطانية</title>
+<title>👑 سلطان اللوجيستيك - الذكاء الاصطناعي الشيطاني</title>
 <style>
   body {
     background: #111;
@@ -11,83 +11,111 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     direction: rtl;
     padding: 20px;
-    max-width: 700px;
+    max-width: 900px;
     margin: auto;
+    user-select: none;
   }
   h1 {
     color: #00ffe1;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    text-shadow: 0 0 10px crimson;
   }
   .status-bar {
-    font-size: 14px;
+    font-size: 16px;
     color: #aaa;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     display: flex;
     justify-content: space-between;
+    user-select: text;
   }
   .client {
     background: #222;
-    padding: 15px;
-    margin-bottom: 15px;
-    border-radius: 10px;
-    box-shadow: 0 0 12px crimson;
+    padding: 18px;
+    margin-bottom: 18px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px crimson;
+    transition: box-shadow 0.3s ease;
+  }
+  .client:hover {
+    box-shadow: 0 0 25px #00ffe1;
   }
   .client h2 {
     margin-top: 0;
     color: #ff4c4c;
+    user-select: text;
   }
   .stock-bar {
     background: #444;
     border-radius: 10px;
     overflow: hidden;
-    margin: 8px 0 10px 0;
+    margin: 10px 0 15px 0;
+    height: 24px;
   }
   .stock-fill {
-    height: 20px;
+    height: 100%;
     background: #00ffe1;
     width: 0%;
-    transition: width 0.5s ease;
+    transition: width 0.6s ease;
   }
   button {
     background: #333;
     color: #eee;
     border: none;
-    border-radius: 8px;
-    padding: 10px 15px;
+    border-radius: 10px;
+    padding: 12px 20px;
     margin-top: 10px;
     cursor: pointer;
     font-weight: bold;
     width: 100%;
     transition: background 0.3s ease;
+    user-select: none;
   }
-  button:hover {
+  button:hover:not(:disabled) {
     background: #555;
+  }
+  button:disabled {
+    background: #111;
+    cursor: not-allowed;
+    color: #666;
   }
   #events {
     background: #222;
     border-radius: 12px;
-    padding: 10px;
-    max-height: 120px;
+    padding: 12px;
+    max-height: 180px;
     overflow-y: auto;
     margin-bottom: 20px;
-    font-size: 14px;
+    font-size: 15px;
+    box-shadow: inset 0 0 8px #000;
   }
   #feedback {
-    margin-top: 10px;
+    margin-top: 12px;
     font-weight: bold;
     text-align: center;
+    font-size: 20px;
+    min-height: 26px;
+    color: #ff4c4c;
+    user-select: text;
+  }
+  #start-btn {
+    background: crimson;
+    margin-bottom: 25px;
     font-size: 18px;
   }
 </style>
 </head>
 <body>
 
-<h1>👑 سلطان اللوجيستيك - الإدارة الشيطانية</h1>
+<h1>👑 سلطان اللوجيستيك - الذكاء الاصطناعي الشيطاني</h1>
+
 <div class="status-bar">
   <div>⏱️ الوقت: <span id="time">0</span> ثانية</div>
   <div>💠 النقاط: <span id="score">0</span></div>
+  <div>🔥 مستوى التحدي: <span id="difficulty">1</span></div>
 </div>
+
+<button id="start-btn">بدء اللعبة الشيطانية</button>
 
 <div id="clients-container"></div>
 
@@ -97,73 +125,135 @@
 
 <script>
 (() => {
-  // --- بيانات العملاء والمخازن ---
-  const clients = [
-    {
-      id: 1,
-      name: "العميل الأحمر",
-      stock: 100,
-      maxStock: 200,
-      dailyDemandRange: [15, 30],
-      reorderPoint: 50,
-      reorderAmount: 100,
-    },
-    {
-      id: 2,
-      name: "العميل الأزرق",
-      stock: 150,
-      maxStock: 300,
-      dailyDemandRange: [20, 40],
-      reorderPoint: 80,
-      reorderAmount: 120,
-    },
-    {
-      id: 3,
-      name: "العميل الأخضر",
-      stock: 80,
-      maxStock: 150,
-      dailyDemandRange: [10, 25],
-      reorderPoint: 40,
-      reorderAmount: 90,
-    },
-  ];
-
+  // --- متغيرات التحكم ---
   let score = 0;
   let timeElapsed = 0;
+  let difficultyLevel = 1;
+  const maxDifficulty = 10;
   let day = 1;
-  const totalDays = 7;
+  const totalDays = 15;
+  let gameActive = false;
+  let gameTimer;
 
+  // --- عناصر DOM ---
   const timeElem = document.getElementById("time");
   const scoreElem = document.getElementById("score");
+  const difficultyElem = document.getElementById("difficulty");
   const clientsContainer = document.getElementById("clients-container");
   const eventsElem = document.getElementById("events");
   const feedbackElem = document.getElementById("feedback");
+  const startBtn = document.getElementById("start-btn");
 
-  // إنشاء واجهة العميل
+  // --- تعريف العميل الذكي بالذكاء الاصطناعي ---
+  class AIClient {
+    constructor(id, name, baseStock, maxStock, price, personality) {
+      this.id = id;
+      this.name = name;
+      this.stock = baseStock;
+      this.maxStock = maxStock;
+      this.price = price;
+      this.personality = personality; // 'جشع', 'متردد', 'عنيد', 'ذكي'
+      this.mood = Math.random();
+      this.demandBase = Math.floor(baseStock * 0.25);
+      this.reorderPoint = Math.floor(baseStock * 0.5);
+      this.reorderAmount = Math.floor(baseStock * 0.7);
+      this.lastOfferPrice = price;
+      this.negotiationAttempts = 0;
+    }
+
+    decideDemand() {
+      // الطلب اليومي يتغير حسب الشخصية والمزاج
+      let base = this.demandBase;
+      switch(this.personality) {
+        case 'جشع': base *= 1.3; break;
+        case 'متردد': base *= 0.8; break;
+        case 'عنيد': base *= 1.1; break;
+        case 'ذكي': base *= 1.0; break;
+      }
+      let fluctuation = (Math.random() - 0.5) * 0.3; 
+      let demand = Math.floor(base * (1 + this.mood + fluctuation));
+      demand = Math.min(demand, this.stock);
+      return Math.max(1, demand);
+    }
+
+    negotiate(offerPrice) {
+      this.negotiationAttempts++;
+      // استراتيجيات تفاوض حسب الشخصية
+      if (offerPrice < this.price * 0.85 && this.personality === 'عنيد') {
+        // عنيد يرفض السعر المنخفض جداً
+        return {accept: false, counterOffer: this.price * 0.95};
+      }
+      if (offerPrice > this.price * 1.15 && this.personality === 'جشع') {
+        // جشع يحاول رفع السعر للحد الأقصى
+        return {accept: false, counterOffer: this.price * 1.1};
+      }
+      if (offerPrice >= this.price * 0.9 && offerPrice <= this.price * 1.1) {
+        // قبول السعر إذا كان منطقي
+        return {accept: true};
+      }
+      // متردد وأي حالات أخرى: 50% فرصة قبول
+      if (Math.random() < 0.5) return {accept: true};
+      return {accept: false, counterOffer: this.price};
+    }
+
+    needsReorder() {
+      return this.stock <= this.reorderPoint;
+    }
+
+    reorder() {
+      if (this.needsReorder()) {
+        this.stock += this.reorderAmount;
+        this.negotiationAttempts = 0;
+        return `العميل ${this.name} طلب إعادة توريد ${this.reorderAmount} وحدة بسعر ${this.price.toFixed(0)} درهم.`;
+      }
+      return null;
+    }
+
+    updateStock(used) {
+      this.stock -= used;
+      if (this.stock < 0) this.stock = 0;
+    }
+  }
+
+  // --- إنشاء عملاء ذكاء اصطناعي ---
+  let clientsAI = [];
+
+  function createClientsForDifficulty(level) {
+    const personalities = ['جشع', 'متردد', 'عنيد', 'ذكي'];
+    clientsAI = [];
+    for (let i = 1; i <= level + 2; i++) {
+      let baseStock = 100 + i * 30;
+      let price = 80 + i * 25;
+      let personality = personalities[i % personalities.length];
+      clientsAI.push(new AIClient(i, `العميل الشيطاني #${i}`, baseStock, baseStock * 2, price, personality));
+    }
+  }
+
+  // --- إنشاء واجهة عميل ---
   function createClientUI(client) {
     const div = document.createElement("div");
     div.className = "client";
     div.id = `client-${client.id}`;
 
     div.innerHTML = `
-      <h2>${client.name}</h2>
+      <h2>${client.name} (${client.personality})</h2>
       <div>المخزون الحالي: <span class="stock-value">${client.stock}</span> / ${client.maxStock}</div>
-      <div class="stock-bar"><div class="stock-fill" style="width: ${Math.min(100, (client.stock / client.maxStock) * 100)}%"></div></div>
-      <button onclick="reorder(${client.id})">طلب إعادة توريد (${client.reorderAmount} وحدة)</button>
+      <div class="stock-bar"><div class="stock-fill" style="width: ${(client.stock / client.maxStock) * 100}%"></div></div>
+      <div>السعر الحالي: <b>${client.price.toFixed(0)} درهم</b></div>
+      <button onclick="manualReorder(${client.id})">طلب إعادة توريد (يدوي)</button>
+      <button onclick="negotiateClient(${client.id})">التفاوض مع العميل</button>
     `;
 
     return div;
   }
 
-  // عرض كل العملاء
   function displayClients() {
     clientsContainer.innerHTML = "";
-    clients.forEach(client => {
+    clientsAI.forEach(client => {
       clientsContainer.appendChild(createClientUI(client));
     });
   }
 
-  // تحديث واجهة العميل
   function updateClientUI(client) {
     const clientDiv = document.getElementById(`client-${client.id}`);
     if (!clientDiv) return;
@@ -172,104 +262,171 @@
     clientDiv.querySelector(".stock-fill").style.width = fillPercent + "%";
   }
 
-  // إضافة حدث في صندوق الأحداث
+  // --- إضافة حدث ---
   function addEvent(text) {
     const p = document.createElement("p");
     p.textContent = `📢 ${text}`;
     eventsElem.prepend(p);
-    if (eventsElem.childElementCount > 5) {
+    if (eventsElem.childElementCount > 7) {
       eventsElem.removeChild(eventsElem.lastChild);
     }
   }
 
-  // طلب إعادة توريد
-  window.reorder = function(clientId) {
-    const client = clients.find(c => c.id === clientId);
+  // --- أمر إعادة التوريد اليدوي ---
+  window.manualReorder = function(clientId) {
+    if (!gameActive) return;
+    const client = clientsAI.find(c => c.id === clientId);
     if (!client) return;
+
     if (client.stock + client.reorderAmount > client.maxStock) {
-      feedbackElem.textContent = `⚠️ لا يمكنك زيادة المخزون فوق الحد الأقصى للعميل ${client.name}`;
+      feedbackElem.textContent = `⚠️ لا يمكنك زيادة مخزون ${client.name} فوق الحد الأقصى!`;
       return;
     }
     client.stock += client.reorderAmount;
-    score += 5;
+    score += 10;
     updateClientUI(client);
-    feedbackElem.textContent = `✔️ طلب إعادة التوريد للعميل ${client.name} تمت بنجاح! +5 نقاط`;
     scoreElem.textContent = score;
-    addEvent(`تم طلب توريد ${client.reorderAmount} وحدة للعميل ${client.name}`);
+    feedbackElem.textContent = `✔️ إعادة التوريد اليدوي لـ ${client.name} تمت +10 نقاط!`;
+    addEvent(`تم طلب إعادة توريد ${client.reorderAmount} وحدة للعميل ${client.name} (يدوي).`);
   };
 
-  // تنفيذ يوم جديد: خصم الطلب اليومي العشوائي من كل عميل
+  // --- تفاوض مع العميل ---
+  window.negotiateClient = function(clientId) {
+    if (!gameActive) return;
+    const client = clientsAI.find(c => c.id === clientId);
+    if (!client) return;
+
+    // أنت تقدم عرض سعر (نموذج عشوائي بين 80% و 120% من السعر)
+    let offerPrice = client.price * (0.8 + Math.random() * 0.4);
+    offerPrice = parseFloat(offerPrice.toFixed(2));
+    addEvent(`⚔️ تفاوض: قدمت عرض سعر ${offerPrice} درهم للعميل ${client.name}.`);
+
+    const result = client.negotiate(offerPrice);
+    if (result.accept) {
+      score += 15;
+      client.price = offerPrice; // تحديث السعر بعد التفاوض
+      feedbackElem.textContent = `🎉 العميل ${client.name} وافق على السعر ${offerPrice.toFixed(2)} درهم! +15 نقاط`;
+      addEvent(`✔️ العميل ${client.name} قبل العرض.`);
+    } else {
+      feedbackElem.textContent = `❌ العميل ${client.name} رفض العرض، قدم عرض مضاد ${result.counterOffer.toFixed(2)} درهم`;
+      addEvent(`💥 العميل ${client.name} رفض وطلب ${result.counterOffer.toFixed(2)} درهم.`);
+      client.price = result.counterOffer;
+    }
+    updateClientUI(client);
+    scoreElem.textContent = score;
+  };
+
+  // --- تحديث اليوم (يتم كل 12 ثانية) ---
   function nextDay() {
+    if (!gameActive) return;
+
     if (day > totalDays) {
-      endGame();
+      endGame(true);
       return;
     }
+
     feedbackElem.textContent = "";
     addEvent(`-- بدء اليوم ${day} --`);
+    difficultyElem.textContent = difficultyLevel;
 
-    clients.forEach(client => {
-      const demand = randomInt(client.dailyDemandRange[0], client.dailyDemandRange[1]);
-      client.stock -= demand;
-      addEvent(`العميل ${client.name} طلب ${demand} وحدة.`);
-      if (client.stock < 0) {
-        client.stock = 0;
-      }
+    clientsAI.forEach(client => {
+      const demand = client.decideDemand();
+      client.updateStock(demand);
+      addEvent(`🤖 ${client.name} طلب ${demand} وحدة.`);
       updateClientUI(client);
+
+      if (client.needsReorder()) {
+        const reorderMsg = client.reorder();
+        if (reorderMsg) {
+          addEvent(`⚠️ ${reorderMsg}`);
+          score += 5;
+          scoreElem.textContent = score;
+          updateClientUI(client);
+        }
+      }
     });
 
-    // تحقق خسارة إذا نفد المخزون عند أي عميل
-    const outOfStockClients = clients.filter(c => c.stock === 0);
+    // تحقق خسارة نفاد مخزون أي عميل
+    const outOfStockClients = clientsAI.filter(c => c.stock === 0);
     if (outOfStockClients.length > 0) {
-      feedbackElem.textContent = `❌ خسرت! نفد المخزون لدى ${outOfStockClients.map(c => c.name).join(", ")} في اليوم ${day}`;
-      clearInterval(gameTimer);
-      disableReorderButtons();
+      endGame(false, outOfStockClients.map(c => c.name));
       return;
+    }
+
+    // رفع مستوى الصعوبة تدريجياً كل 3 أيام
+    if (day % 3 === 0 && difficultyLevel < maxDifficulty) {
+      difficultyLevel++;
+      createClientsForDifficulty(difficultyLevel);
+      displayClients();
+      addEvent(`🔥 تم رفع مستوى التحدي إلى ${difficultyLevel}!`);
     }
 
     day++;
   }
 
-  // تعطيل أزرار الطلب عند انتهاء اللعبة
-  function disableReorderButtons() {
-    clients.forEach(client => {
-      const btn = document.querySelector(`#client-${client.id} button`);
-      if (btn) btn.disabled = true;
-    });
-  }
-
-  // إنهاء اللعبة (فوز)
-  function endGame() {
+  // --- إنهاء اللعبة ---
+  function endGame(won, outOfStockClients = []) {
+    gameActive = false;
     clearInterval(gameTimer);
-    disableReorderButtons();
-    feedbackElem.textContent = `🎉 مبروك! أكملت ${totalDays} أيام من السيطرة على اللوجيستيك بنجاح. نقاطك النهائية: ${score}`;
-    addEvent("🏆 اللعبة انتهت بنجاح!");
+    disableButtons(true);
+    if (won) {
+      feedbackElem.style.color = '#00ff00';
+      feedbackElem.textContent = `🏆 مبروك! أكملت ${totalDays} أيام. نقاطك النهائية: ${score}`;
+      addEvent("🎉 اللعبة انتهت بنجاح!");
+    } else {
+      feedbackElem.style.color = '#ff4c4c';
+      feedbackElem.textContent = `💀 خسرت! نفد المخزون لدى: ${outOfStockClients.join(", ")} في اليوم ${day-1}`;
+      addEvent("⚠️ انتهت اللعبة بسبب نفاد المخزون.");
+    }
   }
 
-  // توليد رقم عشوائي بين min و max
-  function randomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+  // --- تعطيل أو تمكين أزرار ---
+  function disableButtons(disable) {
+    const buttons = clientsContainer.querySelectorAll('button');
+    buttons.forEach(btn => btn.disabled = disable);
   }
 
-  // تحديث الوقت والنقاط
-  function updateStatus() {
+  // --- تحديث الوقت كل ثانية ---
+  function updateTime() {
     timeElapsed++;
     timeElem.textContent = timeElapsed;
+  }
+
+  // --- بدء اللعبة ---
+  function startGame() {
+    score = 0;
+    timeElapsed = 0;
+    difficultyLevel = 1;
+    day = 1;
+    gameActive = true;
+    feedbackElem.style.color = '#ff4c4c';
+    feedbackElem.textContent = "";
+    addEvent("🚀 بدأت اللعبة الشريرة!");
+    createClientsForDifficulty(difficultyLevel);
+    displayClients();
+    disableButtons(false);
     scoreElem.textContent = score;
+    difficultyElem.textContent = difficultyLevel;
+    timeElem.textContent = timeElapsed;
+
+    if (gameTimer) clearInterval(gameTimer);
+    gameTimer = setInterval(() => {
+      nextDay();
+      updateTime();
+    }, 12000);
   }
 
-  displayClients();
+  // --- أحداث الزر ---
+  startBtn.addEventListener('click', () => {
+    startGame();
+  });
 
-  // بدء العد التنازلي لليوم الجديد كل 15 ثانية (يمكن تغيير المدة حسب رغبتك)
-  const gameTimer = setInterval(() => {
-    nextDay();
-    updateStatus();
-  }, 15000);
+  // --- تهيئة الصفحة ---
+  disableButtons(true);
 
-  // تحديث الوقت كل ثانية
-  setInterval(() => {
-    timeElapsed++;
-    timeElem.textContent = timeElapsed;
-  }, 1000);
+  // --- تعريض وظائف عالمية للتفاعل مع HTML ---
+  window.manualReorder = window.manualReorder;
+  window.negotiateClient = window.negotiateClient;
 
 })();
 </script>
