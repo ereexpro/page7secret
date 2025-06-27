@@ -1,394 +1,277 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>🖤 Dark Dominion - Total Mind Control Store 🖤</title>
-
+<title>👑 سلطان اللوجيستيك - لعبة الإدارة الشيطانية</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
-  @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
-
-  /* Reset */
-  * {
-    margin: 0; padding: 0; box-sizing: border-box;
-  }
-  html, body {
-    height: 100%;
-    background: #0a0a0a;
-    font-family: 'Orbitron', sans-serif;
-    color: #ff3b3b;
-    overflow-x: hidden;
-    scroll-behavior: smooth;
-  }
-
-  /* Blood drops */
-  .blood-drop {
-    position: fixed;
-    top: 0;
-    width: 6px;
-    height: 30px;
-    background: #ff0000;
-    border-radius: 50%;
-    animation: drop 1.6s linear infinite;
-    opacity: 0.9;
-    pointer-events: none;
-    filter: drop-shadow(0 0 12px #ff0000);
-    z-index: 9999;
-    mix-blend-mode: screen;
-  }
-  @keyframes drop {
-    0% { top: -35px; opacity: 0.9; }
-    90% { opacity: 0.9; }
-    100% { top: 100vh; opacity: 0; }
-  }
-  .blood-drop:nth-child(1) { left: 8%; animation-delay: 0s; }
-  .blood-drop:nth-child(2) { left: 22%; animation-delay: 0.45s; }
-  .blood-drop:nth-child(3) { left: 40%; animation-delay: 0.9s; }
-  .blood-drop:nth-child(4) { left: 68%; animation-delay: 1.3s; }
-  .blood-drop:nth-child(5) { left: 88%; animation-delay: 1.7s; }
-
-  header {
-    position: sticky;
-    top: 0;
-    background: #1a0000;
-    padding: 40px 30px;
-    text-align: center;
-    font-size: 3rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    color: #ff2222;
-    text-shadow:
-      0 0 20px #ff2222,
-      0 0 40px #ff4444,
-      0 0 60px #ff6666;
-    border-bottom: 5px solid #ff1a1a;
-    user-select: none;
-    z-index: 9999;
-  }
-
-  .container {
-    max-width: 1200px;
-    margin: 80px auto 120px;
-    padding: 0 30px;
-  }
-
-  .product-card {
-    background: #220000;
-    border-radius: 25px;
-    padding: 40px;
-    box-shadow:
-      0 0 35px #ff0000cc,
-      inset 0 0 25px #8b0000cc;
-    position: relative;
-    overflow: hidden;
-    user-select: none;
-    max-width: 400px;
-    margin: 0 auto;
-    text-align: center;
-  }
-
-  .product-card:hover {
-    box-shadow:
-      0 0 60px #ff4444ee,
-      inset 0 0 40px #ff2222ee;
-  }
-
-  .product-img {
-    width: 100%;
-    border-radius: 20px;
-    margin-bottom: 30px;
-    height: 260px;
-    object-fit: cover;
-    filter: drop-shadow(0 0 20px #ff0000);
-    transition: filter 0.3s ease;
-  }
-
-  .product-card:hover .product-img {
-    filter: drop-shadow(0 0 45px #ff5555);
-  }
-
-  .product-name {
-    font-size: 2.4rem;
-    font-weight: 900;
-    margin-bottom: 20px;
-    color: #ff5555;
-    text-shadow: 0 0 15px #ff5555;
-  }
-
-  .product-price {
-    font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: 40px;
-    color: #ff9999;
-  }
-
-  .btn-buy {
-    background: #ff1a1a;
-    border: none;
-    padding: 20px 50px;
-    font-size: 1.5rem;
-    color: #fff;
-    font-weight: 900;
-    border-radius: 18px;
-    cursor: pointer;
-    width: 100%;
-    box-shadow:
-      0 0 25px #ff1a1a,
-      inset 0 0 15px #ff4c4c;
-    transition: background 0.4s ease, box-shadow 0.4s ease;
-  }
-  .btn-buy:hover {
-    background: #ff4c4c;
-    box-shadow:
-      0 0 60px #ff4c4c,
-      inset 0 0 30px #ff9999;
-  }
-
-  /* Countdown */
-  #countdown {
-    text-align: center;
-    font-family: 'Roboto Mono', monospace;
-    font-size: 1.3rem;
-    color: #ff5555;
-    margin-bottom: 20px;
-    user-select: none;
-    letter-spacing: 0.12em;
-  }
-
-  /* Psychological test */
-  #psycho-test {
-    margin-bottom: 40px;
-    font-family: 'Roboto Mono', monospace;
-    color: #ff9999;
-    background: #330000cc;
+  body {
+    background: #111;
+    color: #eee;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    direction: rtl;
     padding: 20px;
-    border-radius: 20px;
-    user-select: none;
+    max-width: 700px;
+    margin: auto;
   }
-  #psycho-test button {
-    margin-top: 15px;
-    background: #ff2222;
-    color: white;
+  h1 {
+    color: #00ffe1;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .status-bar {
+    font-size: 14px;
+    color: #aaa;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .client {
+    background: #222;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 12px crimson;
+  }
+  .client h2 {
+    margin-top: 0;
+    color: #ff4c4c;
+  }
+  .stock-bar {
+    background: #444;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 8px 0 10px 0;
+  }
+  .stock-fill {
+    height: 20px;
+    background: #00ffe1;
+    width: 0%;
+    transition: width 0.5s ease;
+  }
+  button {
+    background: #333;
+    color: #eee;
     border: none;
-    border-radius: 12px;
-    padding: 12px 25px;
-    font-weight: 700;
+    border-radius: 8px;
+    padding: 10px 15px;
+    margin-top: 10px;
     cursor: pointer;
-    font-family: 'Orbitron', sans-serif;
+    font-weight: bold;
+    width: 100%;
     transition: background 0.3s ease;
   }
-  #psycho-test button:hover {
-    background: #ff5555;
+  button:hover {
+    background: #555;
   }
-
-  #analysis-result {
-    margin-top: 20px;
-    font-style: italic;
-    color: #ffbbbb;
-  }
-
-  /* Testimonials */
-  #testimonials {
-    max-width: 800px;
-    margin: 60px auto 100px;
-    background: #330000cc;
-    border-radius: 20px;
-    padding: 30px 40px;
-    box-shadow: 0 0 40px #ff2222cc;
-    color: #ff9999;
-    font-family: 'Roboto Mono', monospace;
-    user-select: none;
-  }
-  #testimonials h3 {
-    color: #ff3333;
-    font-weight: 900;
+  #events {
+    background: #222;
+    border-radius: 12px;
+    padding: 10px;
+    max-height: 120px;
+    overflow-y: auto;
     margin-bottom: 20px;
+    font-size: 14px;
+  }
+  #feedback {
+    margin-top: 10px;
+    font-weight: bold;
     text-align: center;
-    text-shadow: 0 0 15px #ff4444;
-  }
-  .testimonial {
-    background: #440000dd;
-    margin-bottom: 15px;
-    padding: 15px 20px;
-    border-radius: 15px;
-    box-shadow: inset 0 0 10px #ff2222;
-  }
-  .testimonial strong {
-    display: block;
-    color: #ff5555;
-    margin-bottom: 8px;
-  }
-
-  /* Footer */
-  footer {
-    text-align: center;
-    padding: 30px 0;
-    border-top: 1px solid #330000;
-    font-size: 1.1rem;
-    color: #aa3333;
-    user-select: none;
-    font-family: 'Roboto Mono', monospace;
-  }
-
-  /* Fingerprint Effect */
-  #fingerprint {
-    position: fixed;
-    pointer-events: none;
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    border: 3px solid #ff2222;
-    mix-blend-mode: screen;
-    filter: drop-shadow(0 0 12px #ff2222);
-    opacity: 0.7;
-    transition: transform 0.1s ease;
-    z-index: 99999;
-    top: 0; left: 0;
-    transform: translate(-9999px, -9999px);
+    font-size: 18px;
   }
 </style>
-
-<!-- PayPal SDK -->
-<script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&currency=USD"></script>
-
 </head>
 <body>
 
-<!-- Blood drops -->
-<div class="blood-drop"></div>
-<div class="blood-drop"></div>
-<div class="blood-drop"></div>
-<div class="blood-drop"></div>
-<div class="blood-drop"></div>
-
-<header>🖤 Dark Dominion - Total Mind Control Store 🖤</header>
-
-<div class="container">
-
-  <div id="psycho-test">
-    <h2>🧠 Do You Really Control Him? Take the Test!</h2>
-    <p>Answer the questions secretly... The results might shock you.</p>
-    <button id="start-test-btn">Start the Test Now</button>
-    <div id="analysis-result"></div>
-  </div>
-
-  <div class="product-card" id="product-card">
-    <img src="https://i.ibb.co/FsF4y5V/dark-message.jpg" alt="Deadly Product" class="product-img" />
-    <h2 class="product-name">Messages That Destroy The Mind</h2>
-    <p class="product-price">$6.66</p>
-
-    <div id="countdown">⏳ Prepare yourself... Purchase available in:</div>
-
-    <button class="btn-buy" id="buy-btn" disabled>BUY NOW</button>
-
-    <p style="margin-top: 15px; font-family:'Roboto Mono', monospace; font-size:0.9rem; color:#ff9999; user-select:none;">
-      ⚠️ Use with caution — Not for the weak. This is not just a file, it’s a weapon.
-    </p>
-  </div>
-
-  <section id="testimonials">
-    <h3>User Testimonials</h3>
-    <div class="testimonial">
-      <strong>Ryder of Shadows</strong>
-      <p>I never imagined words could be sharper than a blade. Each message fills me with total control.</p>
-    </div>
-    <div class="testimonial">
-      <strong>Sara the Avenger</strong>
-      <p>I used it after being ignored, and the result was incredible. He went crazy for me.</p>
-    </div>
-    <div class="testimonial">
-      <strong>Tarik the Enigma</strong>
-      <p>Simply the best psychological weapon I ever owned. Silence mouths and ignite fires.</p>
-    </div>
-  </section>
-  
+<h1>👑 سلطان اللوجيستيك - الإدارة الشيطانية</h1>
+<div class="status-bar">
+  <div>⏱️ الوقت: <span id="time">0</span> ثانية</div>
+  <div>💠 النقاط: <span id="score">0</span></div>
 </div>
 
-<footer>© 2025 Dark Dominion. All rights reserved.</footer>
+<div id="clients-container"></div>
 
-<!-- Fingerprint Effect -->
-<div id="fingerprint"></div>
+<div id="events"></div>
+
+<div id="feedback"></div>
 
 <script>
-  // Countdown timer logic (30 seconds)
-  const buyBtn = document.getElementById('buy-btn');
-  const countdownEl = document.getElementById('countdown');
-  let countdown = 30;
-  const countdownInterval = setInterval(() => {
-    countdown--;
-    if(countdown <= 0){
-      clearInterval(countdownInterval);
-      countdownEl.textContent = "⚡️ You can now press the BUY button!";
-      buyBtn.disabled = false;
-    } else {
-      countdownEl.textContent = `⏳ Prepare yourself... Purchase available in: ${countdown} seconds`;
+(() => {
+  // --- بيانات العملاء والمخازن ---
+  const clients = [
+    {
+      id: 1,
+      name: "العميل الأحمر",
+      stock: 100,
+      maxStock: 200,
+      dailyDemandRange: [15, 30],
+      reorderPoint: 50,
+      reorderAmount: 100,
+    },
+    {
+      id: 2,
+      name: "العميل الأزرق",
+      stock: 150,
+      maxStock: 300,
+      dailyDemandRange: [20, 40],
+      reorderPoint: 80,
+      reorderAmount: 120,
+    },
+    {
+      id: 3,
+      name: "العميل الأخضر",
+      stock: 80,
+      maxStock: 150,
+      dailyDemandRange: [10, 25],
+      reorderPoint: 40,
+      reorderAmount: 90,
+    },
+  ];
+
+  let score = 0;
+  let timeElapsed = 0;
+  let day = 1;
+  const totalDays = 7;
+
+  const timeElem = document.getElementById("time");
+  const scoreElem = document.getElementById("score");
+  const clientsContainer = document.getElementById("clients-container");
+  const eventsElem = document.getElementById("events");
+  const feedbackElem = document.getElementById("feedback");
+
+  // إنشاء واجهة العميل
+  function createClientUI(client) {
+    const div = document.createElement("div");
+    div.className = "client";
+    div.id = `client-${client.id}`;
+
+    div.innerHTML = `
+      <h2>${client.name}</h2>
+      <div>المخزون الحالي: <span class="stock-value">${client.stock}</span> / ${client.maxStock}</div>
+      <div class="stock-bar"><div class="stock-fill" style="width: ${Math.min(100, (client.stock / client.maxStock) * 100)}%"></div></div>
+      <button onclick="reorder(${client.id})">طلب إعادة توريد (${client.reorderAmount} وحدة)</button>
+    `;
+
+    return div;
+  }
+
+  // عرض كل العملاء
+  function displayClients() {
+    clientsContainer.innerHTML = "";
+    clients.forEach(client => {
+      clientsContainer.appendChild(createClientUI(client));
+    });
+  }
+
+  // تحديث واجهة العميل
+  function updateClientUI(client) {
+    const clientDiv = document.getElementById(`client-${client.id}`);
+    if (!clientDiv) return;
+    clientDiv.querySelector(".stock-value").textContent = client.stock;
+    const fillPercent = Math.min(100, (client.stock / client.maxStock) * 100);
+    clientDiv.querySelector(".stock-fill").style.width = fillPercent + "%";
+  }
+
+  // إضافة حدث في صندوق الأحداث
+  function addEvent(text) {
+    const p = document.createElement("p");
+    p.textContent = `📢 ${text}`;
+    eventsElem.prepend(p);
+    if (eventsElem.childElementCount > 5) {
+      eventsElem.removeChild(eventsElem.lastChild);
     }
-  }, 1000);
+  }
 
-  // Psychological test logic
-  const testBtn = document.getElementById('start-test-btn');
-  const resultEl = document.getElementById('analysis-result');
-
-  testBtn.onclick = () => {
-    const results = [
-      "Analysis: You are the dominant controller! Nothing escapes you.",
-      "Analysis: You play his mind skillfully, but he’s still unaware.",
-      "Analysis: There’s fog in his mind, ready to collapse.",
-      "Analysis: He uses you unknowingly. You are the powerful enigma.",
-      "Analysis: Emotional danger! Control is closer than ever."
-    ];
-    const choice = results[Math.floor(Math.random() * results.length)];
-    resultEl.textContent = choice;
-    testBtn.disabled = true;
-    testBtn.textContent = "Test Completed";
+  // طلب إعادة توريد
+  window.reorder = function(clientId) {
+    const client = clients.find(c => c.id === clientId);
+    if (!client) return;
+    if (client.stock + client.reorderAmount > client.maxStock) {
+      feedbackElem.textContent = `⚠️ لا يمكنك زيادة المخزون فوق الحد الأقصى للعميل ${client.name}`;
+      return;
+    }
+    client.stock += client.reorderAmount;
+    score += 5;
+    updateClientUI(client);
+    feedbackElem.textContent = `✔️ طلب إعادة التوريد للعميل ${client.name} تمت بنجاح! +5 نقاط`;
+    scoreElem.textContent = score;
+    addEvent(`تم طلب توريد ${client.reorderAmount} وحدة للعميل ${client.name}`);
   };
 
-  // PayPal Buttons integration
-  paypal.Buttons({
-    style: {
-      layout: 'vertical',
-      color: 'red',
-      shape: 'pill',
-      label: 'pay'
-    },
-    createOrder: (data, actions) => {
-      return actions.order.create({
-        purchase_units: [{
-          amount: { value: '6.66' },
-          description: "Messages That Destroy The Mind - $6.66"
-        }]
-      });
-    },
-    onApprove: (data, actions) => {
-      return actions.order.capture().then(details => {
-        alert(`Payment completed by ${details.payer.name.given_name}!\nYour download will start now...`);
-        const pdfUrl = 'https://drive.google.com/uc?export=download&id=YOUR_GOOGLE_DRIVE_FILE_ID';
-        const a = document.createElement('a');
-        a.href = pdfUrl;
-        a.download = 'Mind_Destroyer_Messages.pdf';
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-      });
-    },
-    onError: (err) => {
-      alert('An error occurred during payment: ' + err);
+  // تنفيذ يوم جديد: خصم الطلب اليومي العشوائي من كل عميل
+  function nextDay() {
+    if (day > totalDays) {
+      endGame();
+      return;
     }
-  }).render('#buy-btn');
+    feedbackElem.textContent = "";
+    addEvent(`-- بدء اليوم ${day} --`);
 
-  // Fingerprint mouse effect
-  const fingerprint = document.getElementById('fingerprint');
-  window.addEventListener('mousemove', e => {
-    fingerprint.style.transform = `translate(${e.clientX - 60}px, ${e.clientY - 60}px)`;
-  });
+    clients.forEach(client => {
+      const demand = randomInt(client.dailyDemandRange[0], client.dailyDemandRange[1]);
+      client.stock -= demand;
+      addEvent(`العميل ${client.name} طلب ${demand} وحدة.`);
+      if (client.stock < 0) {
+        client.stock = 0;
+      }
+      updateClientUI(client);
+    });
 
-  // Working sound effect on buy click
-  buyBtn.addEventListener('click', () => {
-    const audio = new Audio('https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg');
-    audio.volume = 0.3;
-    audio.play();
-  });
+    // تحقق خسارة إذا نفد المخزون عند أي عميل
+    const outOfStockClients = clients.filter(c => c.stock === 0);
+    if (outOfStockClients.length > 0) {
+      feedbackElem.textContent = `❌ خسرت! نفد المخزون لدى ${outOfStockClients.map(c => c.name).join(", ")} في اليوم ${day}`;
+      clearInterval(gameTimer);
+      disableReorderButtons();
+      return;
+    }
+
+    day++;
+  }
+
+  // تعطيل أزرار الطلب عند انتهاء اللعبة
+  function disableReorderButtons() {
+    clients.forEach(client => {
+      const btn = document.querySelector(`#client-${client.id} button`);
+      if (btn) btn.disabled = true;
+    });
+  }
+
+  // إنهاء اللعبة (فوز)
+  function endGame() {
+    clearInterval(gameTimer);
+    disableReorderButtons();
+    feedbackElem.textContent = `🎉 مبروك! أكملت ${totalDays} أيام من السيطرة على اللوجيستيك بنجاح. نقاطك النهائية: ${score}`;
+    addEvent("🏆 اللعبة انتهت بنجاح!");
+  }
+
+  // توليد رقم عشوائي بين min و max
+  function randomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  // تحديث الوقت والنقاط
+  function updateStatus() {
+    timeElapsed++;
+    timeElem.textContent = timeElapsed;
+    scoreElem.textContent = score;
+  }
+
+  displayClients();
+
+  // بدء العد التنازلي لليوم الجديد كل 15 ثانية (يمكن تغيير المدة حسب رغبتك)
+  const gameTimer = setInterval(() => {
+    nextDay();
+    updateStatus();
+  }, 15000);
+
+  // تحديث الوقت كل ثانية
+  setInterval(() => {
+    timeElapsed++;
+    timeElem.textContent = timeElapsed;
+  }, 1000);
+
+})();
 </script>
 
 </body>
