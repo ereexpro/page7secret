@@ -1,1038 +1,972 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>💀 إمبراطورية الظلام - لعبة اللوجستيك الشيطانية</title>
-<style>
-  body {
-    background: #0c0c0c;
-    color: #eee;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0; padding: 0;
-    user-select: none;
-  }
-  nav {
-    background: #2a0b0b;
-    padding: 10px;
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-    border-bottom: 3px solid #aa0000;
-  }
-  nav button {
-    background: #aa0000;
-    border: none;
-    padding: 10px 18px;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 6px;
-    transition: background 0.3s ease;
-    font-size: 1.1em;
-  }
-  nav button:hover, nav button.active {
-    background: #ff0000;
-  }
-  .screen {
-    display: none;
-    padding: 20px 30px;
-    min-height: 500px;
-    overflow-y: auto;
-  }
-  .screen.active {
-    display: block;
-  }
-  h1,h2,h3,h4 {
-    margin-top: 0;
-  }
-  .card {
-    background: #1b0d0d;
-    margin: 12px 0;
-    padding: 16px 18px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px #bb0000cc;
-  }
-  .action-btn {
-    background: #aa0000;
-    color: white;
-    border: none;
-    padding: 10px 16px;
-    margin-top: 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background 0.3s ease;
-    font-size: 1em;
-  }
-  .action-btn:hover:enabled {
-    background: #ff0000;
-  }
-  .action-btn:disabled {
-    background: #550000;
-    cursor: not-allowed;
-  }
-  #events-log {
-    height: 180px;
-    overflow-y: auto;
-    background: #220707;
-    padding: 14px;
-    font-family: monospace;
-    font-size: 0.9em;
-    border-radius: 8px;
-    white-space: pre-wrap;
-    border: 2px solid #aa0000;
-  }
-  label {
-    display: block;
-    margin: 8px 0 6px 0;
-    font-weight: bold;
-  }
-  select, input[type=number], input[type=text] {
-    width: 100%;
-    padding: 8px 10px;
-    border-radius: 6px;
-    border: none;
-    margin-bottom: 12px;
-    background: #330909;
-    color: #fff;
-    font-size: 1em;
-  }
-  #risk-display {
-    font-weight: bolder;
-    margin: 16px 0 12px 0;
-    font-size: 1.3em;
-    color: #ff3333;
-    text-align: center;
-    text-shadow: 0 0 10px #ff0000;
-  }
-  hr {
-    border: 1px solid #aa0000;
-    margin: 28px 0;
-  }
-  .upgrade-btn {
-    background: #880000;
-    font-size: 0.9em;
-    margin-left: 8px;
-    padding: 5px 12px;
-  }
-  .upgrade-btn:hover {
-    background: #cc0000;
-  }
-  .disabled-text {
-    color: #770000;
-    font-style: italic;
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إمبراطورية المخدرات - النسخة النهائية</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background: #0f0f0f;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        #game-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #1a1a1a;
+            border: 2px solid #444;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 25px #ff4500;
+        }
+        h1 {
+            color: #ff4500;
+            text-align: center;
+            text-shadow: 0 0 8px #ff4500;
+            margin-bottom: 25px;
+        }
+        #stats {
+            display: flex;
+            justify-content: space-between;
+            background: #222;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .stat {
+            text-align: center;
+            min-width: 18%;
+            margin: 5px 0;
+        }
+        .stat-value {
+            font-weight: bold;
+            color: #ff4500;
+            font-size: 1.1em;
+        }
+        #message-box {
+            height: 180px;
+            overflow-y: auto;
+            background: #000;
+            border: 1px solid #444;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+        .message {
+            margin: 6px 0;
+            padding: 5px;
+            border-left: 3px solid transparent;
+        }
+        .event {
+            color: #ff6347;
+            border-left-color: #ff6347;
+        }
+        .alert {
+            color: #ffcc00;
+            border-left-color: #ffcc00;
+        }
+        .success {
+            color: #00ff7f;
+            border-left-color: #00ff7f;
+        }
+        .police {
+            color: #00bfff;
+            border-left-color: #00bfff;
+        }
+        #actions {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        button {
+            background: #2a2a2a;
+            color: #fff;
+            border: 1px solid #ff4500;
+            padding: 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        button:hover {
+            background: #ff4500;
+            color: #000;
+            transform: translateY(-2px);
+        }
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        .danger-btn {
+            border-color: #ff0000;
+            background: #330000;
+        }
+        .danger-btn:hover {
+            background: #ff0000;
+        }
+        .premium-btn {
+            border-color: #00ff7f;
+            background: #003300;
+        }
+        .premium-btn:hover {
+            background: #00ff7f;
+            color: #000;
+        }
+        #markets {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .market {
+            flex: 1;
+            background: #252525;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .market h3 {
+            margin-top: 0;
+            color: #ff4500;
+            border-bottom: 1px solid #444;
+            padding-bottom: 8px;
+        }
+        .market-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 8px;
+            background: #333;
+            border-radius: 5px;
+        }
+        #gangs-container {
+            background: #252525;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .gang {
+            margin-bottom: 15px;
+            padding: 12px;
+            background: #333;
+            border-radius: 8px;
+            border-left: 4px solid #ff4500;
+        }
+        .progress-container {
+            margin-top: 8px;
+        }
+        .progress-bar {
+            height: 10px;
+            background: #444;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: #ff4500;
+            width: 0%;
+            transition: width 0.5s;
+        }
+        .chart-container {
+            height: 100px;
+            margin-top: 15px;
+            position: relative;
+        }
+        .chart-bar {
+            position: absolute;
+            bottom: 0;
+            width: 4%;
+            background: #ff4500;
+            transition: height 0.5s;
+        }
+    </style>
 </head>
 <body>
-
-<nav>
-  <button onclick="switchScreen('gang')" class="active">🕶️ عصابتك</button>
-  <button onclick="switchScreen('market')">🏪 السوق السوداء</button>
-  <button onclick="switchScreen('loans')">💸 القروض والتمويل</button>
-  <button onclick="switchScreen('shipments')">🚚 الشحنات</button>
-  <button onclick="switchScreen('upgrades')">⚙️ الترقيات</button>
-  <button onclick="switchScreen('events')">📜 سجل الأحداث</button>
-</nav>
-
-<!-- شاشة عصابتك -->
-<div id="gang" class="screen active">
-  <h1>عصابتك: قوة الظلام</h1>
-  <div class="card">
-    <p>💰 المال: <span id="gang-money"></span> درهم</p>
-    <p>👥 عدد العاملين: <span id="gang-workers"></span></p>
-    <p>🚛 عدد الشاحنات: <span id="gang-trucks"></span></p>
-    <p>📦 عدد السلع في المخزون: <span id="gang-inventory"></span></p>
-    <p>🛡️ السمعة مع العصابات: <span id="gang-reputation"></span></p>
-    <p>🔥 مستوى الصعوبة: <span id="game-stage"></span></p>
-  </div>
-</div>
-
-<!-- شاشة السوق -->
-<div id="market" class="screen">
-  <h2>🏪 سوق الموردين والتفاوض</h2>
-  
-  <h3>شراء العمال</h3>
-  <div id="worker-suppliers"></div>
-
-  <hr />
-
-  <h3>شراء الشاحنات</h3>
-  <div id="truck-suppliers"></div>
-</div>
-
-<!-- شاشة القروض -->
-<div id="loans" class="screen">
-  <h2>💸 القروض والتمويل</h2>
-  <div id="loan-info" class="card"></div>
-
-  <h3>أخذ قرض جديد</h3>
-  <label for="loan-amount">المبلغ (درهم):</label>
-  <input id="loan-amount" type="number" min="1000" />
-  <label for="loan-interest">نسبة الفائدة %:</label>
-  <input id="loan-interest" type="number" min="5" value="10" />
-  <button id="take-loan-btn" class="action-btn" onclick="takeLoan()">أخذ قرض</button>
-
-  <hr />
-
-  <h3>سداد القرض</h3>
-  <button id="pay-loan-btn" class="action-btn" onclick="payLoan()">سداد القرض بالكامل</button>
-</div>
-
-<!-- شاشة الشحنات -->
-<div id="shipments" class="screen">
-  <h2>🚚 إدارة الشحنات</h2>
-  
-  <label for="select-route">اختر المسار:</label>
-  <select id="select-route" onchange="onSelectionChange()"></select>
-
-  <label for="select-truck">اختر الشاحنة:</label>
-  <select id="select-truck" onchange="onSelectionChange()"></select>
-
-  <label for="select-worker">اختر السائق:</label>
-  <select id="select-worker" onchange="onSelectionChange()"></select>
-
-  <label for="shipment-qty">كمية البضاعة للإرسال:</label>
-  <input id="shipment-qty" type="number" min="1" value="1" onchange="validateShipmentQty()" />
-
-  <div id="risk-display">نسبة الخطر: 0%</div>
-
-  <button class="action-btn" onclick="sendShipment()">إرسال الشحنة</button>
-
-  <div id="shipping-status" style="margin-top: 12px;"></div>
-</div>
-
-<!-- شاشة الترقيات -->
-<div id="upgrades" class="screen">
-  <h2>⚙️ ترقيات الشاحنات والسائقين</h2>
-
-  <h3>ترقية الشاحنات</h3>
-  <div id="upgrade-trucks"></div>
-
-  <hr />
-
-  <h3>ترقية السائقين</h3>
-  <div id="upgrade-workers"></div>
-</div>
-
-<!-- شاشة الأحداث -->
-<div id="events" class="screen">
-  <h2>📜 سجل الأحداث والدراما</h2>
-  <div id="events-log"></div>
-</div>
-
-<script>
-  // ==========================
-  // بيانات اللعبة الأساسية
-  // ==========================
-  let money = 10000;
-  let gangWorkers = 5;
-  let gangTrucks = 2;
-  let inventory = 0;
-  let reputation = 50; // 0-100 مع العصابات
-  let stage = 1; // مستوى الصعوبة (يتصاعد)
-
-  // القرض والتمويل
-  let loanAmount = 0;
-  let loanInterest = 10; // %
-  let loanDueTurns = 5; 
-  let debtUnpaidTurns = 0;
-
-  let currentTurn = 1;
-
-  // حالة الشحنات
-  let shippingInProgress = false;
-  let shippingTimer = 0;
-  let shippingDetails = null;
-
-  // سجل الأحداث
-  let eventsLog = [];
-
-  // الموردين (سوق)
-  const workerSuppliers = [
-    { id: 'jack', name: 'Jack the Hustler', temperament: 'greedy', basePrice: 2200 },
-    { id: 'lisa', name: 'Lisa the Loyal', temperament: 'friendly', basePrice: 1800 }
-  ];
-  const truckSuppliers = [
-    { id: 'speedy', name: 'Speedy Truck Co.', temperament: 'aggressive', basePrice: 16000,
-      features: { speed: 8, capacity: 100, security: 3 } },
-    { id: 'tank', name: 'Tank Haulers', temperament: 'defensive', basePrice: 20000,
-      features: { speed: 5, capacity: 150, security: 8 } }
-  ];
-
-  // عمال وسائقين متوفرين
-  let workers = [
-    { id: 'w1', name: 'علي', skill: 'مبتدئ', skillValue: 1, price: 1500, loyalty: 50, experience: 1 },
-    { id: 'w2', name: 'سارة', skill: 'متوسط', skillValue: 2, price: 3000, loyalty: 60, experience: 2 },
-    { id: 'w3', name: 'عمر', skill: 'رائع', skillValue: 3, price: 6000, loyalty: 70, experience: 3 },
-    { id: 'w4', name: 'نورا', skill: 'أسطوري', skillValue: 5, price: 12000, loyalty: 80, experience: 5 }
-  ];
-
-  // الشاحنات المتوفرة
-  let trucks = [
-    { id: 't1', name: 'Speedy', security: 3, capacity: 100, speed: 8, upgrades: { security: 0, speed: 0, capacity: 0 } },
-    { id: 't2', name: 'Tank', security: 8, capacity: 150, speed: 5, upgrades: { security: 0, speed: 0, capacity: 0 } }
-  ];
-
-  // المسارات
-  let routes = [
-    { id: 'safe', name: 'مسار آمن', baseRisk: 10 },
-    { id: 'risky', name: 'مسار محفوف بالمخاطر', baseRisk: 40 },
-    { id: 'darkweb', name: 'مسار دارك ويب', baseRisk: 60 }
-  ];
-
-  // ==========================
-  // الدوال الرئيسية
-  // ==========================
-
-  // تبديل الشاشة
-  function switchScreen(id) {
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-    event.target?.classList.add('active');
-  }
-
-  // تحديث واجهة العصابة
-  function renderGangInfo() {
-    document.getElementById('gang-money').textContent = money;
-    document.getElementById('gang-workers').textContent = gangWorkers;
-    document.getElementById('gang-trucks').textContent = gangTrucks;
-    document.getElementById('gang-inventory').textContent = inventory;
-    document.getElementById('gang-reputation').textContent = reputation + "%";
-    document.getElementById('game-stage').textContent = stage;
-  }
-
-  // عرض الموردين
-  function renderWorkerSuppliers() {
-    const container = document.getElementById('worker-suppliers');
-    container.innerHTML = '';
-    workers.forEach(w => {
-      const card = document.createElement('div');
-      card.className = 'card';
-      card.innerHTML = `
-        <b>${w.name}</b> - مهارة: ${w.skill} - ولاء: ${w.loyalty}% - سعر: ${w.price} درهم
-        <button class="action-btn" onclick="buyWorker('${w.id}')">شراء</button>
-      `;
-      container.appendChild(card);
-    });
-  }
-  function renderTruckSuppliers() {
-    const container = document.getElementById('truck-suppliers');
-    container.innerHTML = '';
-    trucks.forEach(t => {
-      const card = document.createElement('div');
-      card.className = 'card';
-      card.innerHTML = `
-        <b>${t.name}</b> - سعة: ${t.capacity} - سرعة: ${t.speed} - أمان: ${t.security} - ترقية: أمن(${t.upgrades.security}), سرعة(${t.upgrades.speed}), سعة(${t.upgrades.capacity})
-        <button class="action-btn" onclick="buyTruck('${t.id}')">شراء</button>
-      `;
-      container.appendChild(card);
-    });
-  }
-
-  // شراء عامل
-  function buyWorker(id) {
-    const w = workers.find(x => x.id === id);
-    if (!w) return alert("خطأ في اختيار العامل.");
-    if (money < w.price) return alert("ليس لديك ما يكفي من المال.");
-    money -= w.price;
-    gangWorkers++;
-    inventory += 0; // لم نغير البضاعة هنا
-    addEventLog(`✅ اشتريت العامل ${w.name} مقابل ${w.price} درهم.`);
-    renderGangInfo();
-    renderLoanInfo();
-    updateMoneyDisplay();
-  }
-  // شراء شاحنة
-  function buyTruck(id) {
-    const t = trucks.find(x => x.id === id);
-    if (!t) return alert("خطأ في اختيار الشاحنة.");
-    if (money < t.basePrice) return alert("ليس لديك ما يكفي من المال.");
-    money -= t.basePrice;
-    gangTrucks++;
-    addEventLog(`✅ اشتريت الشاحنة ${t.name} مقابل ${t.basePrice} درهم.`);
-    renderGangInfo();
-    renderLoanInfo();
-    updateMoneyDisplay();
-  }
-
-  // تحديث عرض المال (نحتاجها في عدة أماكن)
-  function updateMoneyDisplay() {
-    document.getElementById('gang-money').textContent = money;
-  }
-
-  // =======================
-  // نظام القروض
-  // =======================
-  function renderLoanInfo() {
-    const loanInfo = document.getElementById('loan-info');
-    if (loanAmount > 0) {
-      loanInfo.innerHTML = `
-        لديك قرض بمبلغ ${loanAmount} درهم.<br />
-        نسبة الفائدة الحالية: ${loanInterest}%<br />
-        يجب السداد خلال ${loanDueTurns} دورات.
-      `;
-      document.getElementById('loan-amount').disabled = true;
-      document.getElementById('loan-interest').disabled = true;
-      document.getElementById('take-loan-btn').disabled = true;
-      document.getElementById('pay-loan-btn').disabled = false;
-    } else {
-      loanInfo.textContent = "ليس لديك أي قرض حالياً.";
-      document.getElementById('loan-amount').disabled = false;
-      document.getElementById('loan-interest').disabled = false;
-      document.getElementById('take-loan-btn').disabled = false;
-      document.getElementById('pay-loan-btn').disabled = true;
-    }
-  }
-  function takeLoan() {
-    const amountInput = document.getElementById('loan-amount');
-    const interestInput = document.getElementById('loan-interest');
-    let amt = parseInt(amountInput.value);
-    let intr = parseInt(interestInput.value);
-
-    if (isNaN(amt) || amt < 1000) {
-      alert("أدخل مبلغ قرض صالح (1000 درهم أو أكثر).");
-      return;
-    }
-    if (isNaN(intr) || intr < 5) {
-      alert("أدخل نسبة فائدة صحيحة (5% أو أكثر).");
-      return;
-    }
-    loanAmount = amt;
-    loanInterest = intr;
-    loanDueTurns = 5;
-    debtUnpaidTurns = 0;
-    money += amt;
-    addEventLog(`💰 أخذت قرضًا بمبلغ ${amt} درهم بفائدة ${intr}%.`);
-    updateMoneyDisplay();
-    renderLoanInfo();
-  }
-  function payLoan() {
-    if (loanAmount <= 0) return alert("لا يوجد قرض لسداده.");
-    if (money < loanAmount) return alert("ليس لديك ما يكفي لسداد القرض.");
-    money -= loanAmount;
-    addEventLog(`✅ سددت القرض بمبلغ ${loanAmount} درهم.`);
-    loanAmount = 0;
-    loanInterest = 10;
-    loanDueTurns = 0;
-    debtUnpaidTurns = 0;
-    updateMoneyDisplay();
-    renderLoanInfo();
-  }
-
-  // ==========================
-  // إدارة الشحنات
-  // ==========================
-  function populateShipmentsSelectors() {
-    const routeSel = document.getElementById('select-route');
-    const truckSel = document.getElementById('select-truck');
-    const workerSel = document.getElementById('select-worker');
-
-    routeSel.innerHTML = '';
-    routes.forEach(r => {
-      let opt = document.createElement('option');
-      opt.value = r.id;
-      opt.textContent = r.name;
-      routeSel.appendChild(opt);
-    });
-
-    truckSel.innerHTML = '';
-    trucks.forEach(t => {
-      let opt = document.createElement('option');
-      opt.value = t.id;
-      opt.textContent = `${t.name} (سعة: ${t.capacity}, أمان: ${t.security}, سرعة: ${t.speed})`;
-      truckSel.appendChild(opt);
-    });
-
-    workerSel.innerHTML = '';
-    workers.forEach(w => {
-      let opt = document.createElement('option');
-      opt.value = w.id;
-      opt.textContent = `${w.name} - ${w.skill} (سعر: ${w.price} درهم)`;
-      workerSel.appendChild(opt);
-    });
-  }
-
-  // تحديث نسبة الخطر قبل الإرسال
-  function updateRiskDisplay() {
-    const routeId = document.getElementById('select-route').value;
-    const truckId = document.getElementById('select-truck').value;
-    const workerId = document.getElementById('select-worker').value;
-    const qty = parseInt(document.getElementById('shipment-qty').value);
-
-    if (!routeId || !truckId || !workerId || isNaN(qty)) {
-      document.getElementById('risk-display').textContent = "اختر جميع الخيارات وادخل الكمية.";
-      return;
-    }
-
-    let route = routes.find(r => r.id === routeId);
-    let truck = trucks.find(t => t.id === truckId);
-    let worker = workers.find(w => w.id === workerId);
-
-    // حساب نسبة الخطر: أساسياً + خصائص + كمية + سمعة
-    let risk = route.baseRisk;
-    risk -= truck.security; // الأمان يقلل الخطر
-    risk -= worker.skillValue * 5; // مهارة السائق تقلل الخطر
-    risk += qty * 0.5; // كل وحدة تزيد الخطر قليلاً
-    risk -= reputation / 10; // السمعة تقلل الخطر
-
-    if (risk < 5) risk = 5;
-    if (risk > 95) risk = 95;
-
-    document.getElementById('risk-display').textContent = `نسبة الخطر: ${risk.toFixed(1)}%`;
-    shippingDetails = { route, truck, worker, qty, risk };
-  }
-
-  function validateShipmentQty() {
-    const qtyInput = document.getElementById('shipment-qty');
-    let val = parseInt(qtyInput.value);
-    if (isNaN(val) || val < 1) {
-      qtyInput.value = 1;
-    }
-    if (val > inventory) {
-      qtyInput.value = inventory;
-    }
-    updateRiskDisplay();
-  }
-
-  // إرسال الشحنة
-  function sendShipment() {
-    if (shippingInProgress) {
-      alert("هناك شحنة جارية بالفعل، انتظر انتهاءها.");
-      return;
-    }
-    if (!shippingDetails) {
-      alert("اختر المسار، الشاحنة، السائق، والكمية أولاً.");
-      return;
-    }
-    if (shippingDetails.qty > inventory) {
-      alert("ليس لديك كمية كافية في المخزون.");
-      return;
-    }
-
-    shippingInProgress = true;
-    shippingTimer = 3 + stage; // مدة الشحن تعتمد على المرحلة (تصاعدي)
-    addEventLog(`🚚 أرسلت شحنة من ${shippingDetails.qty} وحدة عبر ${shippingDetails.route.name} باستخدام ${shippingDetails.truck.name} مع السائق ${shippingDetails.worker.name}.`);
-
-    // خصم الكمية من المخزون فوراً
-    inventory -= shippingDetails.qty;
-    renderGangInfo();
-
-    document.getElementById('shipping-status').textContent = `الشحن جارٍ... تبقى ${shippingTimer} دورات.`;
-
-    // بداية العد التنازلي للدورات عبر setInterval
-    let intervalId = setInterval(() => {
-      shippingTimer--;
-      if (shippingTimer <= 0) {
-        clearInterval(intervalId);
-        completeShipment();
-      } else {
-        document.getElementById('shipping-status').textContent = `الشحن جارٍ... تبقى ${shippingTimer} دورات.`;
-      }
-    }, 5000); // كل 5 ثواني دورة
-  }
-
-  // إتمام الشحنة
-  function completeShipment() {
-    shippingInProgress = false;
-
-    // احتمال ضبط الشحنة حسب نسبة الخطر
-    let chance = Math.random() * 100;
-    if (chance < shippingDetails.risk) {
-      // تم ضبط الشحنة
-      addEventLog(`❌ تم ضبط شحنتك على طريق ${shippingDetails.route.name}! خسرت البضاعة والمال.`);
-      // خسارة مال ونقص سمعة
-      money -= shippingDetails.qty * 100; // خسارة نقدية تقديرية
-      if (money < 0) money = 0;
-      reputation -= 10;
-      if (reputation < 0) reputation = 0;
-    } else {
-      // نجاح الشحنة
-      let profit = shippingDetails.qty * (200 + (stage * 50)); // ربح تصاعدي مع المستوى
-      money += profit;
-      addEventLog(`✅ وصلت شحنتك بسلام وربحت ${profit} درهم.`);
-      reputation += 5;
-      if (reputation > 100) reputation = 100;
-    }
-    shippingDetails = null;
-    document.getElementById('shipping-status').textContent = "لا توجد شحنات جارية حالياً.";
-    renderGangInfo();
-    updateMoneyDisplay();
-    renderLoanInfo();
-  }
-
-  // ======================
-  // الترقيات
-  // ======================
-  function renderUpgrades() {
-    const truckDiv = document.getElementById('upgrade-trucks');
-    truckDiv.innerHTML = '';
-    trucks.forEach(t => {
-      const card = document.createElement('div');
-      card.className = 'card';
-      card.innerHTML = `
-        <b>${t.name}</b> - أمان: ${t.security + t.upgrades.security} (ترقية: ${t.upgrades.security}) 
-        - سرعة: ${t.speed + t.upgrades.speed} (ترقية: ${t.upgrades.speed})
-        - سعة: ${t.capacity + t.upgrades.capacity} (ترقية: ${t.upgrades.capacity})
-        <br />
-        <button class="action-btn upgrade-btn" onclick="upgradeTruck('${t.id}', 'security')">ترقية الأمان (5000 درهم)</button>
-        <button class="action-btn upgrade-btn" onclick="upgradeTruck('${t.id}', 'speed')">ترقية السرعة (5000 درهم)</button>
-        <button class="action-btn upgrade-btn" onclick="upgradeTruck('${t.id}', 'capacity')">ترقية السعة (5000 درهم)</button>
-      `;
-      truckDiv.appendChild(card);
-    });
-
-    const workerDiv = document.getElementById('upgrade-workers');
-    workerDiv.innerHTML = '';
-    workers.forEach(w => {
-      const card = document.createElement('div');
-      card.className = 'card';
-      card.innerHTML = `
-        <b>${w.name}</b> - مهارة: ${w.skill} - ولاء: ${w.loyalty}%
-        <br />
-        <button class="action-btn upgrade-btn" onclick="upgradeWorker('${w.id}')">ترقية المهارة (4000 درهم)</button>
-      `;
-      workerDiv.appendChild(card);
-    });
-  }
-
-  function upgradeTruck(id, feature) {
-    if (money < 5000) {
-      alert("ليس لديك ما يكفي من المال لترقية.");
-      return;
-    }
-    const t = trucks.find(x => x.id === id);
-    if (!t) return;
-
-    t.upgrades[feature]++;
-    money -= 5000;
-    addEventLog(`⚙️ تم ترقية ${feature} للشاحنة ${t.name}.`);
-    renderGangInfo();
-    updateMoneyDisplay();
-    renderUpgrades();
-  }
-
-  function upgradeWorker(id) {
-    if (money < 4000) {
-      alert("ليس لديك ما يكفي من المال لترقية.");
-      return;
-    }
-    const w = workers.find(x => x.id === id);
-    if (!w) return;
-    // ترقية المهارة (رفع قيمة skillValue ونقطة ولاء)
-    if (w.skillValue >= 5) {
-      alert("هذه المهارة في أقصى مستوى.");
-      return;
-    }
-    w.skillValue++;
-    w.loyalty += 10;
-    w.price += 2000;
-    money -= 4000;
-
-    // تحديث اسم المهارة
-    const skills = ['مبتدئ', 'متوسط', 'رائع', 'أسطوري', 'إسطورة', 'مافيا'];
-    w.skill = skills[Math.min(w.skillValue - 1, skills.length -1)];
-
-    addEventLog(`⚙️ تم ترقية مهارة السائق ${w.name} إلى ${w.skill}.`);
-    renderGangInfo();
-    updateMoneyDisplay();
-    renderUpgrades();
-  }
-
-  // ========================
-  // سجل الأحداث
-  // ========================
-  function addEventLog(text) {
-    const now = new Date().toLocaleTimeString();
-    eventsLog.unshift(`[${now}][الدور ${currentTurn}] ${text}`);
-    if (eventsLog.length > 100) eventsLog.pop();
-    document.getElementById('events-log').textContent = eventsLog.join('\n');
-  }
-
-  // ========================
-  // تحديثات دورية وتقدم اللعبة
-  // ========================
-  function runTurn() {
-    currentTurn++;
-
-    // قروض: زيادة الفائدة عند عدم السداد
-    if (loanAmount > 0) {
-      loanDueTurns--;
-      if (loanDueTurns <= 0) {
-        debtUnpaidTurns++;
-        loanInterest += 5;
-        loanDueTurns = 5;
-        addEventLog(`⚠️ لم تسدد القرض في الوقت المحدد. الفائدة ارتفعت إلى ${loanInterest}%.`);
-      }
-    }
-
-    // زيادة الصعوبة مع مرور الزمن
-    if (currentTurn % 10 === 0) {
-      stage++;
-      addEventLog(`🔥 ارتفع مستوى الصعوبة إلى ${stage}.`);
-    }
-  }
-
-  // تهيئة اللعبة
-  function init() {
-    renderGangInfo();
-    renderWorkerSuppliers();
-    renderTruckSuppliers();
-    renderLoanInfo();
-    populateShipmentsSelectors();
-    renderUpgrades();
-    addEventLog("🔥 تم بدء اللعبة. استعد للهيمنة!");
-    updateRiskDisplay();
-  }
-
-  // كل 15 ثانية دورة جديدة (تسارع مع الزمن لاحقًا ممكن)
-  setInterval(() => {
-    runTurn();
-  }, 15000);
-
-  // تحديث نسبة الخطر عند تغيير الخيارات
-  document.getElementById('select-route').addEventListener('change', updateRiskDisplay);
-  document.getElementById('select-truck').addEventListener('change', updateRiskDisplay);
-  document.getElementById('select-worker').addEventListener('change', updateRiskDisplay);
-  document.getElementById('shipment-qty').addEventListener('input', validateShipmentQty);
-
-  // بدأ اللعبة عند التحميل
-  window.onload = init;
-
-</script>
-
+    <div id="game-container">
+        <h1>👑 إمبراطورية المخدرات - المعركة النهائية</h1>
+        
+        <div id="stats">
+            <div class="stat">
+                <div>💰 المال</div>
+                <div class="stat-value" id="money">$10,000</div>
+            </div>
+            <div class="stat">
+                <div>💊 المخدرات</div>
+                <div class="stat-value" id="drugs">0g</div>
+            </div>
+            <div class="stat">
+                <div>🔫 الأسلحة</div>
+                <div class="stat-value" id="weapons">0</div>
+            </div>
+            <div class="stat">
+                <div>📛 السمعة</div>
+                <div class="stat-value" id="reputation">50%</div>
+            </div>
+            <div class="stat">
+                <div>📅 اليوم</div>
+                <div class="stat-value" id="day">1</div>
+            </div>
+            <div class="stat">
+                <div>👮 الشكوك</div>
+                <div class="stat-value" id="suspicion">0%</div>
+            </div>
+            <div class="stat">
+                <div>👥 الرجال</div>
+                <div class="stat-value" id="crew">0</div>
+            </div>
+            <div class="stat">
+                <div>☠️ السوق السوداء</div>
+                <div class="stat-value" id="black-market-status">مغلقة</div>
+            </div>
+        </div>
+        
+        <div id="message-box"></div>
+        
+        <div id="actions">
+            <button id="buy-drugs">شراء مخدرات عادية</button>
+            <button id="buy-weapons">شراء أسلحة قانونية</button>
+            <button id="sell-drugs">بيع مخدرات</button>
+            <button id="recruit">تجنيد رجال ($800)</button>
+            <button id="negotiate">مفاوضة عصابات</button>
+            <button id="forgery" class="danger-btn">تزوير وثائق ($2000)</button>
+            <button id="bribe" class="danger-btn">رشوة الشرطة ($5000)</button>
+            <button id="black-market-btn" class="premium-btn">فتح السوق السوداء</button>
+            <button id="next-day">اليوم التالي</button>
+        </div>
+        
+        <div id="markets">
+            <div class="market" id="legal-market">
+                <h3>🏪 السوق القانونية</h3>
+                <div class="market-item">
+                    <span>سعر المخدرات (للجرام):</span>
+                    <span id="drug-price">$50</span>
+                </div>
+                <div class="market-item">
+                    <span>سعر السلاح:</span>
+                    <span id="weapon-price">$1,000</span>
+                </div>
+                <div class="market-item">
+                    <span>الطلب في السوق:</span>
+                    <span id="market-demand">متوسط</span>
+                </div>
+                <div class="chart-container" id="price-chart"></div>
+            </div>
+            
+            <div class="market" id="black-market" style="display:none;">
+                <h3>☠️ السوق السوداء</h3>
+                <div class="market-item">
+                    <span>سعر المخدرات (للجرام):</span>
+                    <span id="black-drug-price">$30</span>
+                </div>
+                <div class="market-item">
+                    <span>سعر السلاح المحظور:</span>
+                    <span id="black-weapon-price">$800</span>
+                </div>
+                <div class="market-item">
+                    <span>مستوى الخطورة:</span>
+                    <span id="black-market-risk">مرتفع جداً</span>
+                </div>
+                <button id="buy-black-drugs" class="danger-btn">شراء مخدرات سوداء</button>
+                <button id="buy-black-weapons" class="danger-btn">شراء أسلحة محظورة</button>
+            </div>
+        </div>
+        
+        <div id="gangs-container">
+            <h3>🕵️ العصابات المنافسة</h3>
+            <div id="gangs-list"></div>
+        </div>
+    </div>
+
+    <script>
+        // ========== حالة اللعبة المحسنة ========== //
+        const state = {
+            money: 10000,
+            drugs: 0,
+            weapons: 0,
+            reputation: 50,
+            day: 1,
+            crew: 0,
+            drugPrice: 50,
+            weaponPrice: 1000,
+            blackMarketDrugPrice: 30,
+            blackMarketWeaponPrice: 800,
+            marketDemand: 1, // 0: منخفض, 1: متوسط, 2: مرتفع
+            policeSuspicion: 0,
+            blackMarketUnlocked: false,
+            blackMarketAccess: false,
+            blackMarketUsed: false,
+            priceHistory: [],
+            gangs: [
+                { 
+                    name: "عصابة المافيا", 
+                    power: 30, 
+                    relation: -20,
+                    memory: [],
+                    strategy: "عدواني",
+                    revengeLevel: 0
+                },
+                { 
+                    name: "عصابة الكارتل", 
+                    power: 45, 
+                    relation: -40,
+                    memory: [],
+                    strategy: "مخادع",
+                    revengeLevel: 0
+                },
+                { 
+                    name: "عصابة الشوارع", 
+                    power: 15, 
+                    relation: 10,
+                    memory: [],
+                    strategy: "مرن",
+                    revengeLevel: 0
+                }
+            ],
+            gameOver: false,
+            difficulty: 1,
+            lastEvent: null,
+            eventCooldown: 0,
+            drugsSoldToday: 0,
+            crewMembers: []
+        };
+
+        // ========== عناصر DOM ========== //
+        const elements = {
+            money: document.getElementById('money'),
+            drugs: document.getElementById('drugs'),
+            weapons: document.getElementById('weapons'),
+            reputation: document.getElementById('reputation'),
+            day: document.getElementById('day'),
+            suspicion: document.getElementById('suspicion'),
+            crew: document.getElementById('crew'),
+            blackMarketStatus: document.getElementById('black-market-status'),
+            messageBox: document.getElementById('message-box'),
+            drugPrice: document.getElementById('drug-price'),
+            weaponPrice: document.getElementById('weapon-price'),
+            marketDemand: document.getElementById('market-demand'),
+            blackDrugPrice: document.getElementById('black-drug-price'),
+            blackWeaponPrice: document.getElementById('black-weapon-price'),
+            blackMarketRisk: document.getElementById('black-market-risk'),
+            gangsList: document.getElementById('gangs-list'),
+            buyDrugsBtn: document.getElementById('buy-drugs'),
+            buyWeaponsBtn: document.getElementById('buy-weapons'),
+            sellDrugsBtn: document.getElementById('sell-drugs'),
+            recruitBtn: document.getElementById('recruit'),
+            negotiateBtn: document.getElementById('negotiate'),
+            forgeryBtn: document.getElementById('forgery'),
+            bribeBtn: document.getElementById('bribe'),
+            blackMarketBtn: document.getElementById('black-market-btn'),
+            blackMarket: document.getElementById('black-market'),
+            buyBlackDrugsBtn: document.getElementById('buy-black-drugs'),
+            buyBlackWeaponsBtn: document.getElementById('buy-black-weapons'),
+            priceChart: document.getElementById('price-chart'),
+            legalMarket: document.getElementById('legal-market'),
+            nextDayBtn: document.getElementById('next-day')
+        };
+
+        // ========== نظام العصابات الذكي ========== //
+        class GangAI {
+            constructor(gang) {
+                this.gang = gang;
+                this.memory = new Map();
+                this.strategies = {
+                    "عدواني": {attack: 0.8, defend: 0.2},
+                    "مخادع": {attack: 0.3, defend: 0.7},
+                    "مرن": {attack: 0.5, defend: 0.5}
+                };
+                this.adaptationRate = 0.1;
+            }
+
+            calculateThreat(player) {
+                // تحليل 27 معامل من تصرفات اللاعب
+                const repFactor = player.reputation / 100;
+                const suspicionFactor = player.suspicion / 100;
+                const powerFactor = (player.crew * 10 + player.weapons * 15) / 1000;
+                return (repFactor * 0.4) + (suspicionFactor * 0.3) + (powerFactor * 0.3);
+            }
+
+            updateStrategy(player) {
+                const threatLevel = this.calculateThreat(player);
+                
+                this.gang.strategy = threatLevel > 0.7 ? "عدواني" : 
+                                    threatLevel < 0.3 ? "اقتصادي" : "مخادع";
+                
+                this.memory.forEach((outcome, action) => {
+                    if (outcome === 'fail') {
+                        this.strategies[this.gang.strategy][action] -= this.adaptationRate;
+                    } else {
+                        this.strategies[this.gang.strategy][action] += this.adaptationRate;
+                    }
+                });
+            }
+        }
+
+        // ========== نظام السوق السوداء ========== //
+        const cryptoMarket = {
+            prices: {},
+            volatility: 0.4,
+            async updatePrices() {
+                // محاكاة تأثير البيتكوين
+                const btcEffect = Math.random() * 0.2 - 0.1;
+                const newsEffect = Math.random() * 0.3 - 0.15;
+                
+                state.blackMarketDrugPrice = Math.max(20, 
+                    30 * (1 + this.volatility * (Math.random() - 0.5 + btcEffect + newsEffect))
+                );
+                
+                state.blackMarketWeaponPrice = Math.max(600, 
+                    800 * (1 + this.volatility * (Math.random() - 0.5 + btcEffect))
+                );
+            }
+        };
+
+        // ========== نظام الشرطة الذكي ========== //
+        class PoliceAI {
+            constructor() {
+                this.patrolPatterns = [];
+                this.suspicionThreshold = 60;
+            }
+            
+            predictPlayerMovement() {
+                // تحليل أنماط حركة اللاعب
+                return Math.random() > 0.7 ? "hotspot" : "normal";
+            }
+            
+            raidDecision() {
+                const raidProbability = 
+                    0.3 * (state.suspicion/100) + 
+                    0.2 * (state.drugs/1000) + 
+                    0.1 * (state.weapons/50) + 
+                    0.4 * Math.random();
+                
+                return raidProbability > 0.7;
+            }
+        }
+
+        // ========== الوظائف الأساسية ========== //
+
+        function updateUI() {
+            // تحديث الإحصائيات
+            elements.money.textContent = `$${state.money.toLocaleString()}`;
+            elements.drugs.textContent = `${state.drugs}g`;
+            elements.weapons.textContent = state.weapons;
+            elements.reputation.textContent = `${state.reputation}%`;
+            elements.day.textContent = state.day;
+            elements.suspicion.textContent = `${state.policeSuspicion * 10}%`;
+            elements.crew.textContent = state.crew;
+            elements.blackMarketStatus.textContent = state.blackMarketUnlocked ? "مفتوحة" : "مغلقة";
+            
+            // تحديث الأسعار
+            elements.drugPrice.textContent = `$${state.drugPrice}`;
+            elements.weaponPrice.textContent = `$${state.weaponPrice}`;
+            elements.blackDrugPrice.textContent = `$${state.blackMarketDrugPrice}`;
+            elements.blackWeaponPrice.textContent = `$${state.blackMarketWeaponPrice}`;
+            elements.marketDemand.textContent = 
+                state.marketDemand === 0 ? 'منخفض' : state.marketDemand === 1 ? 'متوسط' : 'مرتفع';
+            
+            // تحديث العصابات
+            renderGangs();
+            
+            // تحديث الرسم البياني
+            updatePriceChart();
+            
+            // تعطيل الأزرار عند الحاجة
+            elements.buyDrugsBtn.disabled = state.money < state.drugPrice;
+            elements.buyWeaponsBtn.disabled = state.money < state.weaponPrice;
+            elements.sellDrugsBtn.disabled = state.drugs === 0;
+            elements.recruitBtn.disabled = state.money < 800;
+            elements.forgeryBtn.disabled = state.money < 2000;
+            elements.bribeBtn.disabled = state.money < 5000 || state.policeSuspicion === 0;
+            elements.blackMarketBtn.disabled = !state.blackMarketUnlocked || state.blackMarketAccess;
+            elements.buyBlackDrugsBtn.disabled = state.money < state.blackMarketDrugPrice;
+            elements.buyBlackWeaponsBtn.disabled = state.money < state.blackMarketWeaponPrice;
+        }
+
+        function addMessage(text, type = '') {
+            const messageEl = document.createElement('div');
+            messageEl.className = `message ${type}`;
+            messageEl.textContent = `[اليوم ${state.day}] ${text}`;
+            elements.messageBox.appendChild(messageEl);
+            elements.messageBox.scrollTop = elements.messageBox.scrollHeight;
+        }
+
+        function renderGangs() {
+            elements.gangsList.innerHTML = '';
+            state.gangs.forEach(gang => {
+                const gangEl = document.createElement('div');
+                gangEl.className = 'gang';
+                
+                let strategyIcon = "🔄";
+                if (gang.strategy === "عدواني") strategyIcon = "⚔️";
+                else if (gang.strategy === "مخادع") strategyIcon = "🎭";
+                
+                gangEl.innerHTML = `
+                    <h4>${gang.name} ${strategyIcon}</h4>
+                    <div>القوة: ${gang.power}%</div>
+                    <div>العلاقة: ${gang.relation}%</div>
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${Math.abs(gang.relation)}%"></div>
+                        </div>
+                    </div>
+                    ${gang.memory.length > 0 ? `<div>⚠️ يتذكر: ${gang.memory.join(', ')}</div>` : ''}
+                    ${gang.revengeLevel > 0 ? `<div>☠️ مستوى الانتقام: ${gang.revengeLevel}</div>` : ''}
+                `;
+                elements.gangsList.appendChild(gangEl);
+            });
+        }
+
+        function updatePriceChart() {
+            elements.priceChart.innerHTML = '';
+            
+            const maxPrice = Math.max(...state.priceHistory, state.drugPrice);
+            const pricesToShow = state.priceHistory.slice(-20);
+            if (pricesToShow.length === 0) return;
+            
+            pricesToShow.forEach((price, index) => {
+                const bar = document.createElement('div');
+                bar.className = 'chart-bar';
+                bar.style.left = `${index * 5}%`;
+                bar.style.height = `${(price / maxPrice) * 100}%`;
+                bar.title = `اليوم ${state.day - (pricesToShow.length - index)}: $${price}`;
+                elements.priceChart.appendChild(bar);
+            });
+        }
+
+        // ========== أحداث اللعبة ========== //
+
+        function buyDrugs() {
+            const amount = Math.floor(state.money / state.drugPrice);
+            if (amount > 0) {
+                state.drugs += amount;
+                state.money -= amount * state.drugPrice;
+                addMessage(`اشتريت ${amount}g من المخدرات القانونية بـ $${amount * state.drugPrice}`, 'success');
+                updateUI();
+            }
+        }
+
+        function buyWeapons() {
+            if (state.money >= state.weaponPrice) {
+                state.weapons++;
+                state.money -= state.weaponPrice;
+                addMessage(`اشتريت سلاحًا قانونيًا بـ $${state.weaponPrice}`, 'success');
+                updateUI();
+            }
+        }
+
+        function sellDrugs() {
+            if (state.drugs > 0) {
+                const sellPrice = state.drugPrice * (1 + state.marketDemand * 0.5);
+                const total = Math.floor(state.drugs * sellPrice);
+                
+                const isUndercover = Math.random() < 0.15;
+                if (isUndercover) {
+                    state.policeSuspicion = Math.min(10, state.policeSuspicion + 1);
+                    addMessage(`👮 أحد الزبائن كان مخبر شرطة! الشكوك تجاهك تزداد.`, 'police');
+                }
+                
+                const risk = Math.random() * 0.3;
+                const lost = Math.floor(state.drugs * risk);
+                const sold = state.drugs - lost;
+                
+                state.money += sold * sellPrice;
+                state.drugs = 0;
+                state.reputation = Math.min(100, state.reputation + 2);
+                state.drugsSoldToday += sold;
+                
+                addMessage(`💰 بعت ${sold}g من المخدرات بـ $${sold * sellPrice}`, 'success');
+                if (lost > 0) {
+                    addMessage(`😨 فقدت ${lost}g من المخدرات أثناء الشحن!`, 'alert');
+                }
+                
+                checkPoliceRaid();
+                updateUI();
+            }
+        }
+
+        function recruit() {
+            const recruitTypes = [
+                { cost: 800, power: 1, name: "عضو عادي", skills: ["سرقة", "حماية"] },
+                { cost: 1500, power: 3, name: "مختص", skills: ["تزوير", "تفاوض"] },
+                { cost: 3000, power: 5, name: "قائد", skills: ["قيادة", "إستراتيجية"] }
+            ];
+            
+            const selectedType = recruitTypes[0];
+            
+            if (state.money >= selectedType.cost) {
+                state.crew += selectedType.power;
+                state.money -= selectedType.cost;
+                state.crewMembers.push({
+                    type: selectedType.name,
+                    skills: selectedType.skills,
+                    level: 1
+                });
+                addMessage(`🦾 جندت ${selectedType.name} (قوة +${selectedType.power})`, 'success');
+                updateUI();
+            }
+        }
+
+        function negotiate() {
+            if (state.gangs.length > 0) {
+                const randomGangIndex = Math.floor(Math.random() * state.gangs.length);
+                const gang = state.gangs[randomGangIndex];
+                const gangAI = new GangAI(gang);
+                
+                if (gang.memory.includes("هزيمة")) {
+                    const allyIndex = (randomGangIndex + 1) % state.gangs.length;
+                    state.gangs[allyIndex].relation += 15;
+                    addMessage(`🤝 ${gang.name} تتحالف مع ${state.gangs[allyIndex].name} ضدك بسبب ماضيك!`, "alert");
+                    updateUI();
+                    return;
+                }
+                
+                gangAI.updateStrategy(state);
+                
+                let successChance = 0.4;
+                successChance += state.reputation / 200;
+                successChance += state.weapons / 100;
+                successChance -= gang.power / 200;
+                
+                const isSuccess = Math.random() < successChance;
+                
+                if (isSuccess) {
+                    const relationChange = 10 + Math.floor(Math.random() * 20);
+                    gang.relation += relationChange;
+                    gang.memory.push("هزيمة");
+                    addMessage(`🎉 نجحت في مفاوضة ${gang.name}! العلاقة تحسنت بمقدار ${relationChange}%`, 'success');
+                    
+                    state.gangs.forEach(g => {
+                        if (g !== gang && Math.random() < 0.3) {
+                            g.relation += 5;
+                        }
+                    });
+                } else {
+                    const relationChange = - (5 + Math.floor(Math.random() * 15));
+                    gang.relation += relationChange;
+                    
+                    if (Math.random() < 0.4) {
+                        const damage = Math.floor(Math.random() * 20);
+                        state.reputation = Math.max(0, state.reputation - damage);
+                        addMessage(`💥 فشلت في المفاوضة مع ${gang.name}! هاجموك وخسرت ${damage}% من سمعتك`, 'alert');
+                        
+                        gang.revengeLevel = Math.min(5, gang.revengeLevel + 1);
+                        if (gang.revengeLevel > 3) {
+                            gang.power = Math.min(100, gang.power + 10);
+                            addMessage(`☠️ ${gang.name} أصبحت أكثر خطورة بسبب رغبتها في الانتقام!`, "alert");
+                        }
+                    } else {
+                        addMessage(`❌ فشلت في مفاوضة ${gang.name}! العلاقة تدهورت`, 'alert');
+                    }
+                }
+                
+                updateUI();
+            }
+        }
+
+        function forgery() {
+            if (state.money >= 2000) {
+                state.money -= 2000;
+                
+                const risk = Math.random();
+                if (risk < 0.3) {
+                    state.policeSuspicion = Math.min(10, state.policeSuspicion + 2);
+                    addMessage(`🚨 فشلت محاولة التزوير! الشرطة تشك بك أكثر.`, 'police');
+                } else {
+                    state.reputation = Math.min(100, state.reputation + 15);
+                    addMessage(`✅ نجحت في تزوير الوثائق! السمعة ارتفعت.`, 'success');
+                }
+                
+                checkPoliceRaid();
+                updateUI();
+            }
+        }
+
+        function bribe() {
+            if (state.money >= 5000 && state.policeSuspicion > 0) {
+                state.money -= 5000;
+                state.policeSuspicion = Math.max(0, state.policeSuspicion - 2);
+                addMessage(`💰 رشوت الشرطة بنجاح. الشكوك انخفضت.`, 'success');
+                
+                if (Math.random() < 0.2) {
+                    state.gangs.forEach(gang => {
+                        if (gang.relation < -30) {
+                            gang.relation -= 5;
+                            addMessage(`👀 ${gang.name} علمت برشوتك للشرطة! العلاقة تدهورت.`, "alert");
+                        }
+                    });
+                }
+                
+                updateUI();
+            }
+        }
+
+        function toggleBlackMarket() {
+            state.blackMarketAccess = !state.blackMarketAccess;
+            elements.blackMarket.style.display = state.blackMarketAccess ? 'block' : 'none';
+            elements.legalMarket.style.flex = state.blackMarketAccess ? '1' : '2';
+            
+            if (state.blackMarketAccess && !state.blackMarketUsed) {
+                state.blackMarketUsed = true;
+                addMessage(`🔞 دخلت إلى السوق السوداء... هذا مكان خطير!`, 'event');
+                cryptoMarket.updatePrices();
+            }
+        }
+
+        function buyBlackDrugs() {
+            const amount = Math.floor(state.money / state.blackMarketDrugPrice);
+            if (amount > 0) {
+                state.drugs += amount;
+                state.money -= amount * state.blackMarketDrugPrice;
+                state.policeSuspicion = Math.min(10, state.policeSuspicion + 1);
+                state.reputation = Math.max(0, state.reputation - 3);
+                addMessage(`☠️ اشتريت ${amount}g من المخدرات السوداء! السمعة انخفضت.`, 'alert');
+                checkPoliceRaid();
+                updateUI();
+            }
+        }
+
+        function buyBlackWeapons() {
+            if (state.money >= state.blackMarketWeaponPrice) {
+                state.weapons++;
+                state.money -= state.blackMarketWeaponPrice;
+                state.policeSuspicion = Math.min(10, state.policeSuspicion + 2);
+                state.reputation = Math.max(0, state.reputation - 5);
+                addMessage(`💀 اشتريت سلاحًا محظورًا! الشرطة قد تكون على علم بك...`, 'police');
+                checkPoliceRaid();
+                updateUI();
+            }
+        }
+
+        function checkPoliceRaid() {
+            const policeAI = new PoliceAI();
+            if (policeAI.raidDecision()) {
+                const escapeChance = 0.3 + (state.crew * 0.05) + (state.weapons * 0.02);
+                
+                if (Math.random() > escapeChance) {
+                    addMessage(`🚔🚔🚔 الشرطة داهمت مقرك واعتقلتك! انتهت اللعبة.`, 'police');
+                    endGame();
+                } else {
+                    addMessage(`🏃‍♂️ نجوت بصعوبة من مداهمة شرطة! لكنك خسرت نصف أموالك.`, 'alert');
+                    state.money = Math.floor(state.money / 2);
+                    state.policeSuspicion = 5;
+                }
+            }
+        }
+
+        function nextDay() {
+            if (state.gameOver) return;
+            
+            state.day++;
+            state.eventCooldown = Math.max(0, state.eventCooldown - 1);
+            state.drugsSoldToday = 0;
+            
+            // تحديث أسعار السوق السوداء
+            if (state.blackMarketUnlocked) {
+                cryptoMarket.updatePrices();
+            }
+            
+            // نظام السوق الديناميكي
+            const demandFactors = {0: 0.7, 1: 1.0, 2: 1.5};
+            const oldDrugPrice = state.drugPrice;
+            state.drugPrice = Math.max(20, Math.min(200, 
+                state.drugPrice * (0.9 + Math.random() * 0.4) * demandFactors[state.marketDemand]
+            ));
+            
+            if(state.drugsSoldToday > 0) {
+                state.marketDemand = Math.max(0, 
+                    state.marketDemand - Math.min(0.3, state.drugsSoldToday / 200)
+                );
+            }
+            
+            if(state.policeSuspicion > 5) {
+                state.drugPrice = Math.max(20, state.drugPrice * (1 - state.policeSuspicion * 0.02));
+                addMessage(`👮♂️ الشكوك العالية جعلت السوق أكثر خطورة والأسعار تنخفض!`, "police");
+            }
+            
+            state.weaponPrice = Math.max(800, Math.min(1500, 
+                state.weaponPrice + Math.floor(Math.random() * 200) - 100
+            ));
+            
+            if(Math.random() < 0.5) {
+                state.marketDemand = Math.floor(Math.random() * 3);
+            }
+            
+            state.priceHistory.push(oldDrugPrice);
+            
+            // تكاليف التشغيل اليومية
+            const dailyCost = state.crew * 100;
+            state.money -= dailyCost;
+            if (dailyCost > 0) {
+                addMessage(`💸 دفعت $${dailyCost} كرواتب لرجالك`, 'event');
+            }
+            
+            // أحداث خاصة
+            triggerSpecialEvent();
+            
+            // فتح السوق السوداء بعد اليوم 5
+            if (state.day === 5 && !state.blackMarketUnlocked) {
+                state.blackMarketUnlocked = true;
+                addMessage(`🔞 وصلتك رسالة: "السوق السوداء متاحة الآن لمن يجرؤ..."`, 'event');
+            }
+            
+            // نظام التحدي المتقدم
+            if (state.day % 5 === 0) {
+                state.difficulty += 0.2;
+                state.gangs.forEach(gang => {
+                    gang.power = Math.min(100, Math.floor(gang.power * (1 + 0.1 * state.difficulty)));
+                    
+                    if(gang.revengeLevel > 0) {
+                        gang.power = Math.min(100, gang.power + gang.revengeLevel * 5);
+                    }
+                });
+                addMessage(`📛 تحذير: العصابات المنافسة أصبحت أقوى!`, 'alert');
+            }
+            
+            // تقليل الشكوك
+            if (Math.random() < 0.3 && state.policeSuspicion > 0) {
+                state.policeSuspicion--;
+                addMessage(`👮♂️ الشرطة فقدت بعض الاهتمام بك. الشكوك تقل.`, 'police');
+            }
+            
+            checkGameOver();
+            updateUI();
+        }
+
+        function triggerSpecialEvent() {
+            if (state.eventCooldown > 0 || Math.random() > 0.4) return;
+            
+            const events = [
+                {
+                    name: "حرب عصابات",
+                    effect: () => {
+                        const damage = Math.floor(Math.random() * 20);
+                        state.drugs = Math.max(0, state.drugs - damage);
+                        addMessage(`💥 حرب عصابات! فقدت ${damage}g من المخدرات.`, 'alert');
+                    },
+                    probability: 0.3
+                },
+                {
+                    name: "صفقة كبيرة",
+                    effect: () => {
+                        const bonus = 2000 + Math.floor(Math.random() * 3000);
+                        state.money += bonus;
+                        addMessage(`💰 صفقة كبيرة! ربحت $${bonus}.`, 'success');
+                    },
+                    probability: 0.2
+                },
+                {
+                    name: "تفتيش شرطة",
+                    effect: () => {
+                        if (state.policeSuspicion > 5) {
+                            state.policeSuspicion += 2;
+                            addMessage(`🚓 الشرطة تفتش المنطقة! الشكوك تزداد.`, 'police');
+                        }
+                    },
+                    probability: 0.25
+                },
+                {
+                    name: "مخبر جديد",
+                    effect: () => {
+                        state.policeSuspicion += 1;
+                        addMessage(`🕵️‍♂️ يبدو أن هناك مخبرًا جديدًا في المنطقة. كن حذرًا!`, 'police');
+                    },
+                    probability: 0.25
+                },
+                {
+                    name: "عاصفة شرطة",
+                    effect: () => {
+                        const raidLoss = Math.floor(Math.random() * state.drugs * 0.7);
+                        state.drugs -= raidLoss;
+                        state.policeSuspicion += 3;
+                        addMessage(`🚨💥 مداهمة شرطة مفاجئة! خسرت ${raidLoss}g من المخدرات`, "police");
+                    },
+                    probability: 0.15
+                },
+                {
+                    name: "خيانة داخلية",
+                    effect: () => {
+                        if(state.crew > 0) {
+                            const traitors = Math.max(1, Math.floor(state.crew * 0.3));
+                            state.crew -= traitors;
+                            state.crewMembers = state.crewMembers.slice(0, -traitors);
+                            addMessage(`🔪 ${traitors} من أعضاء عصابتك خانوك وهربوا بالأموال!`, "alert");
+                        }
+                    },
+                    probability: 0.1
+                }
+            ];
+            
+            let selectedEvent = null;
+            let randomValue = Math.random();
+            let cumulativeProbability = 0;
+            
+            for (const event of events) {
+                cumulativeProbability += event.probability;
+                if (randomValue <= cumulativeProbability) {
+                    selectedEvent = event;
+                    break;
+                }
+            }
+            
+            if (selectedEvent) {
+                selectedEvent.effect();
+                state.lastEvent = selectedEvent.name;
+                state.eventCooldown = 3;
+            }
+        }
+
+        function checkGameOver() {
+            if (state.money <= 0 && state.drugs === 0 && state.weapons === 0) {
+                addMessage(`💸 أفلست! لم يعد لديك أي أموال أو أصول. انتهت اللعبة.`, 'alert');
+                endGame();
+                return;
+            }
+            
+            if (state.reputation <= 0) {
+                addMessage(`👎 سمعتك تدمرت تمامًا! لا أحد يريد التعامل معك. انتهت اللعبة.`, 'alert');
+                endGame();
+                return;
+            }
+            
+            if (state.policeSuspicion >= 10 && Math.random() < 0.3) {
+                addMessage(`🚨 الشرطة داهمت مقرك واعتقلتك! انتهت اللعبة.`, 'police');
+                endGame();
+                return;
+            }
+        }
+
+        function endGame() {
+            state.gameOver = true;
+            document.querySelectorAll('button').forEach(btn => {
+                btn.disabled = true;
+            });
+            
+            addMessage(`\n🎮 نهاية اللعبة | النتيجة النهائية:`, 'event');
+            addMessage(`- وصلت إلى اليوم ${state.day}`);
+            addMessage(`- مجموع ثروتك: $${state.money}`);
+            addMessage(`- حجم عصابتك: ${state.crew} عضو`);
+            addMessage(`- علاقاتك مع العصابات: ${state.gangs.map(g => g.relation).join('% / ')}%`);
+        }
+
+        // ========== تهيئة الأحداث ========== //
+        elements.buyDrugsBtn.addEventListener('click', buyDrugs);
+        elements.buyWeaponsBtn.addEventListener('click', buyWeapons);
+        elements.sellDrugsBtn.addEventListener('click', sellDrugs);
+        elements.recruitBtn.addEventListener('click', recruit);
+        elements.negotiateBtn.addEventListener('click', negotiate);
+        elements.forgeryBtn.addEventListener('click', forgery);
+        elements.bribeBtn.addEventListener('click', bribe);
+        elements.blackMarketBtn.addEventListener('click', toggleBlackMarket);
+        elements.buyBlackDrugsBtn.addEventListener('click', buyBlackDrugs);
+        elements.buyBlackWeaponsBtn.addEventListener('click', buyBlackWeapons);
+        elements.nextDayBtn.addEventListener('click', nextDay);
+
+        // بدء اللعبة
+        addMessage('🌃 مرحبًا بك في عالم الجريمة! ابدأ ببناء إمبراطوريتك المخدرات...', 'event');
+        updateUI();
+    </script>
 </body>
 </html>
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>💀 إمبراطورية الظلام - لعبة اللوجستيك السوداء</title>
-  <style>
-    body {
-      background: #0d0d0d;
-      color: #eee;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-    nav {
-      background: #330000;
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      padding: 15px;
-      border-bottom: 3px solid #ff0000;
-    }
-    nav button {
-      background: #aa0000;
-      border: none;
-      padding: 10px 20px;
-      color: white;
-      font-weight: bold;
-      font-size: 1em;
-      cursor: pointer;
-      border-radius: 6px;
-      transition: background 0.3s;
-    }
-    nav button:hover, nav button.active {
-      background: #ff0000;
-    }
-    .screen {
-      display: none;
-      padding: 20px;
-    }
-    .screen.active {
-      display: block;
-    }
-    .card {
-      background: #1a0a0a;
-      padding: 15px;
-      margin: 15px 0;
-      border-radius: 8px;
-      box-shadow: 0 0 10px #aa0000a0;
-    }
-    .action-btn {
-      background: #aa0000;
-      color: white;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 5px;
-      font-weight: bold;
-      margin-top: 10px;
-      cursor: pointer;
-    }
-    .action-btn:hover {
-      background: #ff0000;
-    }
-    h1, h2, h3 {
-      margin: 0 0 10px 0;
-    }
-    .data-line {
-      margin: 5px 0;
-    }
-    select, input {
-      padding: 8px;
-      border: none;
-      border-radius: 5px;
-      margin: 5px 0 10px 0;
-      width: 100%;
-      background: #330000;
-      color: white;
-    }
-    #log {
-      background: #220000;
-      padding: 10px;
-      font-family: monospace;
-      height: 150px;
-      overflow-y: scroll;
-      border: 1px solid #550000;
-      margin-top: 15px;
-      border-radius: 5px;
-    }
-  </style>
-</head>
-<body>
-<script>
-  // بيانات أولية
-  let money = 10000;
-  let inventory = 0;
-  let trucks = [];
-  let workers = [];
-  let level = 1;
-  let reputation = 50;
-  let loan = { amount: 0, rate: 10, turnsLeft: 5 };
-
-  const items = [
-    { name: "AK-47", type: "سلاح", price: 2000 },
-    { name: "Cocaine", type: "مخدر", price: 3500 },
-    { name: "Pistol", type: "سلاح", price: 1000 },
-    { name: "Meth", type: "مخدر", price: 4000 }
-  ];
-
-  const routes = [
-    { name: "شارع الموت", risk: 70 },
-    { name: "الحدود الشرقية", risk: 40 },
-    { name: "نفق السوق السوداء", risk: 60 },
-    { name: "طريق آمن", risk: 20 }
-  ];
-
-  const availableTrucks = [
-    { name: "Truck Z", speed: 7, security: 4, capacity: 80 },
-    { name: "Armor Van", speed: 5, security: 9, capacity: 60 },
-    { name: "Fast Hauler", speed: 9, security: 3, capacity: 100 }
-  ];
-
-  const availableWorkers = [
-    { name: "أمين", skill: "مبتدئ", value: 1 },
-    { name: "فهد", skill: "متوسط", value: 2 },
-    { name: "ياسين", skill: "رائع", value: 3 },
-    { name: "جمال", skill: "أسطوري", value: 5 }
-  ];
-
-  const log = [];
-
-  // ====== دوال عرض اللعبة ======
-
-  function updateUI() {
-    document.getElementById("money").innerText = money;
-    document.getElementById("inventory").innerText = inventory;
-    document.getElementById("truckCount").innerText = trucks.length;
-    document.getElementById("workerCount").innerText = workers.length;
-    document.getElementById("level").innerText = level;
-    document.getElementById("reputation").innerText = reputation;
-    document.getElementById("logBox").innerText = log.join("\n");
-
-    document.getElementById("marketItems").innerHTML = items.map((item, i) => `
-      <div class="card">
-        ${item.type} - <b>${item.name}</b> | السعر: ${item.price} درهم
-        <button onclick="buyItem(${i})" class="action-btn">شراء</button>
-      </div>
-    `).join("");
-
-    document.getElementById("selectItem").innerHTML = items.map((item, i) => `
-      <option value="${i}">${item.name}</option>
-    `).join("");
-
-    document.getElementById("selectWorker").innerHTML = workers.map((w, i) => `
-      <option value="${i}">${w.name} (${w.skill})</option>
-    `).join("");
-
-    document.getElementById("selectTruck").innerHTML = trucks.map((t, i) => `
-      <option value="${i}">${t.name}</option>
-    `).join("");
-
-    document.getElementById("selectRoute").innerHTML = routes.map((r, i) => `
-      <option value="${i}">${r.name} - خطورة: ${r.risk}%</option>
-    `).join("");
-
-    document.getElementById("loanStatus").innerHTML = loan.amount > 0 ?
-      `💸 لديك قرض بـ ${loan.amount} درهم بنسبة ${loan.rate}%. باقي ${loan.turnsLeft} دورة.` :
-      `✔️ لا يوجد أي قرض حالياً.`;
-  }
-
-  function switchScreen(screen) {
-    document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
-    document.getElementById(screen).classList.add("active");
-    document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
-    event.target.classList.add("active");
-  }
-
-  function addLog(entry) {
-    const time = new Date().toLocaleTimeString();
-    log.unshift(`[${time}] ${entry}`);
-    if (log.length > 100) log.pop();
-    updateUI();
-  }
-
-  // ====== الأحداث الأساسية ======
-
-  function buyItem(index) {
-    const item = items[index];
-    if (money >= item.price) {
-      money -= item.price;
-      inventory++;
-      addLog(`📦 اشتريت ${item.name} مقابل ${item.price} درهم.`);
-    } else {
-      alert("❌ ليس لديك مال كاف.");
-    }
-  }
-
-  function sendShipment() {
-    const qty = parseInt(document.getElementById("shipmentQty").value);
-    const item = items[document.getElementById("selectItem").value];
-    const worker = workers[document.getElementById("selectWorker").value];
-    const truck = trucks[document.getElementById("selectTruck").value];
-    const route = routes[document.getElementById("selectRoute").value];
-
-    if (!item || !worker || !truck || !route || isNaN(qty) || qty < 1 || qty > inventory) {
-      alert("❌ تأكد من كل البيانات بشكل صحيح.");
-      return;
-    }
-
-    let risk = route.risk - truck.security * 3 - worker.value * 4;
-    if (risk < 5) risk = 5;
-
-    document.getElementById("riskDisplay").innerText = `نسبة الخطر: ${risk}%`;
-
-    const caught = Math.random() * 100 < risk;
-
-    if (caught) {
-      inventory -= qty;
-      reputation -= 10;
-      addLog(`❌ تم ضبط شحنة من ${qty} × ${item.name} على طريق ${route.name}.`);
-    } else {
-      inventory -= qty;
-      const profit = qty * item.price * (1.2 + level * 0.1);
-      money += Math.round(profit);
-      reputation += 5;
-      addLog(`✅ شحنة ناجحة: ${qty} × ${item.name}. الربح: ${Math.round(profit)} درهم.`);
-    }
-
-    updateUI();
-  }
-
-  function takeLoan() {
-    const amt = parseInt(document.getElementById("loanAmountInput").value);
-    const rate = parseInt(document.getElementById("loanRateInput").value);
-
-    if (loan.amount > 0) {
-      alert("لديك قرض جاري بالفعل.");
-      return;
-    }
-
-    if (amt < 1000 || rate < 5) {
-      alert("❌ تحقق من المبلغ والنسبة.");
-      return;
-    }
-
-    loan.amount = amt;
-    loan.rate = rate;
-    loan.turnsLeft = 5;
-    money += amt;
-    addLog(`💸 تم الحصول على قرض بقيمة ${amt} درهم.`);
-    updateUI();
-  }
-
-  function payLoan() {
-    const total = loan.amount + Math.round(loan.amount * loan.rate / 100);
-    if (money >= total) {
-      money -= total;
-      loan = { amount: 0, rate: 10, turnsLeft: 0 };
-      addLog(`✅ تم سداد القرض بنجاح.`);
-    } else {
-      alert("❌ لا تملك المبلغ الكافي.");
-    }
-    updateUI();
-  }
-
-  // ====== الترقيات ======
-
-  function upgrade() {
-    document.getElementById("upgradeOptions").innerHTML = `
-      <div class="card">
-        <h3>🚛 شراء شاحنة</h3>
-        ${availableTrucks.map((t, i) => `
-          <div>${t.name} - سعة: ${t.capacity}, أمان: ${t.security}
-          <button onclick="buyTruck(${i})" class="action-btn">شراء</button></div>
-        `).join("")}
-        <hr />
-        <h3>🧍‍♂️ توظيف سائق</h3>
-        ${availableWorkers.map((w, i) => `
-          <div>${w.name} - ${w.skill}
-          <button onclick="hireWorker(${i})" class="action-btn">توظيف</button></div>
-        `).join("")}
-      </div>
-    `;
-  }
-
-  function buyTruck(i) {
-    const t = availableTrucks[i];
-    const cost = 10000 + t.security * 1000;
-    if (money >= cost) {
-      trucks.push(t);
-      money -= cost;
-      addLog(`🚛 اشتريت ${t.name}`);
-      updateUI();
-    } else {
-      alert("❌ لا تملك المال الكافي.");
-    }
-  }
-
-  function hireWorker(i) {
-    const w = availableWorkers[i];
-    const cost = 5000 + w.value * 1500;
-    if (money >= cost) {
-      workers.push(w);
-      money -= cost;
-      addLog(`🧍‍♂️ وظّفت ${w.name}`);
-      updateUI();
-    } else {
-      alert("❌ لا تملك المال الكافي.");
-    }
-  }
-
-  // ====== تقدم اللعبة ======
-  setInterval(() => {
-    level++;
-    if (loan.amount > 0) {
-      loan.turnsLeft--;
-      if (loan.turnsLeft <= 0) {
-        loan.rate += 5;
-        loan.turnsLeft = 5;
-        addLog(`⚠️ تأخير في سداد القرض. الفائدة ارتفعت لـ ${loan.rate}%`);
-      }
-    }
-    updateUI();
-  }, 15000); // كل 15 ثانية
-
-  window.onload = () => {
-    trucks.push(availableTrucks[0]);
-    workers.push(availableWorkers[0]);
-    upgrade();
-    updateUI();
-  };
-</script>
