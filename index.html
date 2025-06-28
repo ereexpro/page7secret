@@ -3,401 +3,308 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>إمبراطورية المخدرات - النسخة المظلمة</title>
+<title>إمبراطورية المخدرات - Med-4o الأسطورية</title>
+
+<!-- خطوط وأسلوب التصميم -->
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
   body {
-    background: linear-gradient(135deg, #0a0014 0%, #220033 100%);
-    color: #e0caff;
-    font-family: 'Courier New', monospace;
-    margin: 0; padding: 0; 
+    margin:0; padding:0;
+    background: radial-gradient(circle at center, #120029 0%, #1e0047 90%);
+    font-family: 'Share Tech Mono', monospace;
+    color: #b28cff;
+    user-select:none;
   }
   #game-container {
-    max-width: 900px;
-    margin: 20px auto;
-    padding: 20px;
-    background: #1a0033;
-    border-radius: 12px;
-    box-shadow: 0 0 30px #7a0eff88;
+    max-width: 960px;
+    margin: 25px auto;
+    padding: 30px;
+    background: linear-gradient(145deg, #1a004d, #390066);
+    border-radius: 20px;
+    box-shadow: 0 0 50px #aa77ffcc;
+    border: 3px solid #7e3eff;
   }
-  h1, h2, h3 {
-    color: #b77aff;
-    margin-bottom: 10px;
+  h1,h2,h3 {
+    color: #e0b3ff;
+    text-shadow: 0 0 15px #bb66ff;
   }
-  button {
-    background: #4b0082;
-    border: none;
-    padding: 12px 20px;
-    margin: 10px 5px 20px 0;
-    border-radius: 8px;
-    color: #ffd7ff;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 0 10px #7a0effcc;
-    transition: background 0.3s ease;
-  }
-  button:hover {
-    background: #7a0eff;
-  }
-  #messages {
-    background: #330044;
-    padding: 15px;
-    border-radius: 8px;
-    height: 250px;
-    overflow-y: auto;
-    border: 1px solid #7a0eff;
-    margin-bottom: 15px;
-    font-size: 14px;
-  }
-  .message {
-    margin-bottom: 8px;
-  }
-  .alert { color: #ff6a6a; font-weight: bold; }
-  .success { color: #7aff7a; font-weight: bold; }
-  .event { color: #ffa500; font-weight: bold; }
   #stats {
-    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 30px;
+    border-bottom: 3px solid #7e3eff;
+    padding-bottom: 15px;
   }
   #stats span {
-    display: inline-block;
-    margin-right: 15px;
-    font-weight: bold;
-  }
-  #choices button {
-    margin-right: 10px;
-  }
-  .hidden { display: none; }
-  #universe-info {
-    margin: 15px 0;
-    padding: 12px;
-    background: #440066;
-    border-radius: 8px;
-    box-shadow: inset 0 0 10px #a65aff;
-  }
-  #skill-tree {
-    background: #2c0033;
-    padding: 10px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-  }
-  #skill-tree h3 {
-    margin-top: 0;
-  }
-  .skill {
-    cursor: pointer;
-    margin: 5px 0;
-    padding: 6px 10px;
-    background: #551a8b;
-    border-radius: 5px;
-    box-shadow: 0 0 8px #a65affcc;
+    background: #35006f;
+    padding: 12px 25px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px #a157ffcc;
+    font-weight: 700;
+    font-size: 1.2em;
+    display: flex;
+    align-items: center;
+    gap: 12px;
     transition: background 0.3s ease;
+    cursor: default;
   }
-  .skill.unlocked {
-    background: #a65aff;
-    box-shadow: 0 0 15px #ffaeff;
+  #stats span:hover {
+    background: #7e3eff;
+    box-shadow: 0 0 40px #bb77ffcc;
   }
-  .skill:hover {
-    background: #7a3aff;
+  button {
+    background: #5600bb;
+    border: none;
+    color: #f3d7ff;
+    font-weight: 900;
+    font-size: 1.15em;
+    padding: 18px 40px;
+    border-radius: 15px;
+    cursor: pointer;
+    box-shadow: 0 0 25px #ae65ffcc;
+    margin: 12px 16px;
+    transition: background 0.4s ease, box-shadow 0.4s ease;
+  }
+  button:hover {
+    background: #ae65ff;
+    box-shadow: 0 0 50px #e0afffcc;
+  }
+  #messages {
+    background: #2a006f;
+    height: 320px;
+    overflow-y: auto;
+    border-radius: 15px;
+    padding: 22px;
+    margin-bottom: 35px;
+    font-size: 1.15em;
+    line-height: 1.6em;
+    box-shadow: inset 0 0 30px #7e3effaa;
+    color: #d6bbff;
+  }
+  .message.success { color: #8cff8c; font-weight: bold; }
+  .message.alert { color: #ff5050; font-weight: bold; }
+  .message.event { color: #ffaf3c; font-weight: bold; }
+  #universe-info {
+    padding: 24px;
+    background: #4d0085cc;
+    border-radius: 18px;
+    margin-bottom: 30px;
+    box-shadow: 0 0 40px #bf6fffbb;
+    font-weight: 900;
+    font-size: 1.3em;
+  }
+  /* أنماط إضافية للأكوان المتوازية */
+  .universe-card {
+    background: linear-gradient(135deg, #1e0033 0%, #3c0066 100%);
+    border: 1px solid #8a2be2;
+    border-radius: 12px;
+    padding: 15px;
+    margin: 15px 0;
+    cursor: pointer;
+    transition: all 0.3s;
+    color: #d1b3ff;
+  }
+  .universe-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 7px 20px rgba(138, 43, 226, 0.6);
   }
 </style>
 </head>
 <body>
-<div id="game-container">
-  <h1>🩸 إمبراطورية المخدرات - النسخة المظلمة</h1>
+  <div id="game-container">
+    <h1>🏴‍☠️ إمبراطورية المخدرات - Med-4o Edition</h1>
+    
+    <div id="stats">
+      <span>💰 المال: <strong id="money">150,000$</strong></span>
+      <span>💊 المخدرات: <strong id="drugs">1,200 جم</strong></span>
+      <span>🔫 الأسلحة: <strong id="weapons">25</strong></span>
+      <span>🕵️‍♂️ شكوك الشرطة: <strong id="suspicion">12%</strong></span>
+      <span>🧠 سمعة العصابة: <strong id="reputation">73%</strong></span>
+      <span>📅 اليوم: <strong id="day">42</strong></span>
+    </div>
 
-  <div id="stats">
-    <span>💰 المال: <span id="money">10000</span>$</span>
-    <span>💊 المخدرات: <span id="drugs">200</span> جم</span>
-    <span>🔫 الأسلحة: <span id="weapons">10</span></span>
-    <span>🕵️‍♂️ شكوك الشرطة: <span id="police">0</span></span>
-    <span>🧠 سمعة: <span id="reputation">50</span>%</span>
-    <span>📅 اليوم: <span id="day">1</span></span>
+    <div id="universe-info">🌌 أنت في الكون الأساسي، التحديات تنتظرك!</div>
+
+    <div id="messages"></div>
+
+    <button id="next-day-btn">▶️ اليوم التالي</button>
+
+    <!-- قسم الأكوان المتوازية -->
+    <div id="universes-section" style="margin-top: 35px;">
+      <h2>🌌 الأكوان المتوازية</h2>
+      <div id="universes-list"></div>
+      <button id="jump-universe" style="margin-top: 15px;">قفز إلى كون عشوائي (10 أيام)</button>
+    </div>
   </div>
 
-  <div id="universe-info" class="hidden"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.18.0/dist/tf.min.js"></script>
+  <script>
+    // الحالة الأولية
+    let state = {
+      money: 150000,
+      drugs: 1200,
+      weapons: 25,
+      suspicion: 12,
+      reputation: 73,
+      day: 42,
+      currentUniverse: 'default',
+      drugPrice: 100,
+      policeSuspicion: 12
+    };
 
-  <div id="messages"></div>
+    const messages = document.getElementById('messages');
+    const moneyEl = document.getElementById('money');
+    const drugsEl = document.getElementById('drugs');
+    const weaponsEl = document.getElementById('weapons');
+    const suspicionEl = document.getElementById('suspicion');
+    const reputationEl = document.getElementById('reputation');
+    const dayEl = document.getElementById('day');
+    const universeInfo = document.getElementById('universe-info');
+    const universesList = document.getElementById('universes-list');
 
-  <div id="choices"></div>
-
-  <div id="skill-tree" class="hidden">
-    <h3>⚡ شجرة المهارات</h3>
-    <div id="skills-list"></div>
-  </div>
-
-  <button id="next-day-btn">▶️ اليوم التالي</button>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.18.0/dist/tf.min.js"></script>
-<script>
-  // ======== الحالة الأولية ========
-  const state = {
-    money: 10000,
-    drugs: 200,
-    weapons: 10,
-    police: 0,
-    reputation: 50,
-    day: 1,
-    universe: 'الواقع الأساسي',
-    skills: {
-      stealth: { name: "التسلل", unlocked: false, desc: "تقليل شكوك الشرطة بنسبة 20%" },
-      negotiation: { name: "التفاوض", unlocked: false, desc: "زيادة المال من الصفقات 15%" },
-      intimidation: { name: "الترهيب", unlocked: false, desc: "زيادة سمعة العصابة 10%" }
-    },
-    nemesisAI: null,
-    playerActions: [],
-  };
-
-  // ======== واجهة المستخدم ========
-  const messagesEl = document.getElementById('messages');
-  const choicesEl = document.getElementById('choices');
-  const moneyEl = document.getElementById('money');
-  const drugsEl = document.getElementById('drugs');
-  const weaponsEl = document.getElementById('weapons');
-  const policeEl = document.getElementById('police');
-  const reputationEl = document.getElementById('reputation');
-  const dayEl = document.getElementById('day');
-  const universeInfoEl = document.getElementById('universe-info');
-  const skillTreeEl = document.getElementById('skill-tree');
-  const skillsListEl = document.getElementById('skills-list');
-
-  // ======== وظائف تحديث الواجهة ========
-  function updateStats() {
-    moneyEl.textContent = state.money.toLocaleString();
-    drugsEl.textContent = state.drugs.toLocaleString();
-    weaponsEl.textContent = state.weapons;
-    policeEl.textContent = state.police;
-    reputationEl.textContent = state.reputation;
-    dayEl.textContent = state.day;
-  }
-
-  function addMessage(text, type='') {
-    const div = document.createElement('div');
-    div.className = 'message ' + type;
-    div.textContent = text;
-    messagesEl.appendChild(div);
-    messagesEl.scrollTop = messagesEl.scrollHeight;
-  }
-
-  function clearChoices() {
-    choicesEl.innerHTML = '';
-  }
-
-  // ======== نظام الذكاء الاصطناعي NemesisAI ========
-  class NemesisAI {
-    constructor() {
-      this.model = null;
-      this.playerHistory = [];
-      this.initModel();
-    }
-    async initModel() {
-      this.model = tf.sequential();
-      this.model.add(tf.layers.dense({units: 16, activation: 'relu', inputShape: [5]}));
-      this.model.add(tf.layers.dense({units: 8, activation: 'relu'}));
-      this.model.add(tf.layers.dense({units: 3, activation: 'softmax'}));
-      this.model.compile({optimizer: 'adam', loss: 'categoricalCrossentropy'});
-    }
-    logAction(actionVector) {
-      this.playerHistory.push(actionVector);
-      if (this.playerHistory.length > 20) {
-        this.trainModel();
+    // تعريف الأكوان المتوازية
+    const parallelUniverses = {
+      mafiaVerse: { 
+          name: "عالم المافيا",
+          drugPriceModifier: 0.5, 
+          policeAggression: 2.0,
+          specialEvent: "حرب المافيا الأبدية",
+          color: "#8B0000"
+      },
+      cyberPunkVerse: { 
+          name: "العالم السيبراني",
+          drugPriceModifier: 3.0, 
+          policeAggression: 0.2,
+          specialEvent: "قرصنة العقول",
+          color: "#00FF7F"
+      },
+      zombieVerse: {
+          name: "عالم الزومبي",
+          drugPriceModifier: 1.5,
+          policeAggression: 0.1,
+          specialEvent: "وباء الزومبي",
+          color: "#32CD32"
+      },
+      fantasyVerse: {
+          name: "عالم الفانتازيا",
+          drugPriceModifier: 2.0,
+          policeAggression: 0.5,
+          specialEvent: "تنانين تهرب المخدرات",
+          color: "#9370DB"
       }
-    }
-    async trainModel() {
-      const xs = tf.tensor2d(this.playerHistory);
-      const ys = tf.oneHot(tf.tensor1d(this.playerHistory.map((_, i) => i % 3), 'int32'), 3);
-      await this.model.fit(xs, ys, {epochs: 5});
-    }
-    predictNextMove(stateVector) {
-      if (!this.model) return null;
-      const input = tf.tensor2d([stateVector]);
-      const prediction = this.model.predict(input);
-      return prediction.argMax(1).dataSync()[0];
-    }
-  }
+    };
 
-  // ======== الأكوان المتوازية ========
-  const universes = [
-    {
-      name: 'الواقع الأساسي',
-      drugModifier: 1,
-      policeModifier: 1,
-      description: 'العالم الذي تعرفه، حيث تبدأ الرحلة.'
-    },
-    {
-      name: 'عالم الظل',
-      drugModifier: 1.5,
-      policeModifier: 1.8,
-      description: 'عالم مظلم حيث الشرطة أشد شراسة.'
-    },
-    {
-      name: 'العالم السيبراني',
-      drugModifier: 2.5,
-      policeModifier: 0.7,
-      description: 'عالم متطور تقنيًا، الأسعار مرتفعة والشرطة أقل قسوة.'
-    }
-  ];
-
-  function showUniverseInfo() {
-    universeInfoEl.classList.remove('hidden');
-    universeInfoEl.innerHTML = `<h3>🌌 الكون الحالي: ${state.universe}</h3><p>${universes.find(u=>u.name===state.universe).description}</p>`;
-  }
-
-  // ======== شجرة المهارات ========
-  function renderSkills() {
-    skillsListEl.innerHTML = '';
-    Object.entries(state.skills).forEach(([key, skill]) => {
-      const skillEl = document.createElement('div');
-      skillEl.className = 'skill' + (skill.unlocked ? ' unlocked' : '');
-      skillEl.textContent = skill.name + (skill.unlocked ? ' ✅' : '');
-      skillEl.title = skill.desc;
-      skillEl.onclick = () => {
-        if (!skill.unlocked && state.money >= 5000) {
-          skill.unlocked = true;
-          state.money -= 5000;
-          addMessage(`⚡ تم فتح المهارة: ${skill.name}`, 'success');
-          updateStats();
-          renderSkills();
-        }
-      };
-      skillsListEl.appendChild(skillEl);
-    });
-    skillTreeEl.classList.remove('hidden');
-  }
-
-  // ======== مهام اللعبة ========
-  function presentChoices(choices) {
-    clearChoices();
-    choices.forEach(choice => {
-      const btn = document.createElement('button');
-      btn.textContent = choice.text;
-      btn.onclick = () => {
-        choice.action();
-      };
-      choicesEl.appendChild(btn);
-    });
-  }
-
-  // ======== السيناريوهات ========
-  function startDay() {
-    addMessage(`📅 اليوم ${state.day} يبدأ...`, 'event');
-
-    // زيادة الشكوك يوميًا بنسبة عشوائية
-    state.police += Math.floor(Math.random() * 3);
-    if (state.police > 100) state.police = 100;
-
-    // احتمال حدوث حدث عشوائي سلبي أو إيجابي
-    const eventChance = Math.random();
-    if (eventChance < 0.2) {
-      addMessage('💣 حدث غير متوقع: الشرطة تقوم بمداهمة!', 'alert');
-      state.drugs = Math.max(0, state.drugs - Math.floor(Math.random() * 50));
-      state.money = Math.max(0, state.money - Math.floor(Math.random() * 2000));
-      state.reputation = Math.max(0, state.reputation - 5);
-    } else if (eventChance < 0.3) {
-      addMessage('🎉 حدث سعيد: صفقة مربحة ناجحة!', 'success');
-      state.money += Math.floor(Math.random() * 5000) + 1000;
-      state.drugs = Math.max(0, state.drugs - Math.floor(Math.random() * 30));
-      state.reputation += 3;
+    function addMessage(text, type='event') {
+      const p = document.createElement('p');
+      p.textContent = text;
+      p.className = 'message ' + type;
+      messages.appendChild(p);
+      messages.scrollTop = messages.scrollHeight;
     }
 
+    // تحديث الإحصائيات
+    function updateStats() {
+      moneyEl.textContent = state.money.toLocaleString() + '$';
+      drugsEl.textContent = state.drugs + ' جم';
+      weaponsEl.textContent = state.weapons;
+      suspicionEl.textContent = state.suspicion.toFixed(1) + '%';
+      reputationEl.textContent = state.reputation + '%';
+      dayEl.textContent = state.day;
+    }
+
+    // تحديث عرض الكون الحالي
+    function updateUniverseUI() {
+      const universe = parallelUniverses[state.currentUniverse] || { name: "الواقع الأساسي", color: "#666", specialEvent: "لا أحداث خاصة" };
+      universeInfo.textContent = `🌌 أنت في ${universe.name} — ${universe.specialEvent}`;
+      universeInfo.style.boxShadow = `0 0 40px ${universe.color}bb`;
+      universeInfo.style.border = `2px solid ${universe.color}`;
+    }
+
+    // عرض قائمة الأكوان المتوازية
+    function showUniversesList() {
+      universesList.innerHTML = '';
+      Object.entries(parallelUniverses).forEach(([key, universe]) => {
+        const div = document.createElement('div');
+        div.className = 'universe-card';
+        div.style.borderColor = universe.color;
+        div.innerHTML = `
+          <h3>${universe.name}</h3>
+          <p>📌 ${universe.specialEvent}</p>
+          <p>💊 تعديل السعر: ×${universe.drugPriceModifier}</p>
+          <p>👮 شراسة الشرطة: ×${universe.policeAggression}</p>
+        `;
+        div.onclick = () => {
+          jumpToUniverse(key);
+        };
+        universesList.appendChild(div);
+      });
+    }
+
+    // القفز إلى كون معين
+    function jumpToUniverse(universeKey = null) {
+      if (!universeKey) {
+        const keys = Object.keys(parallelUniverses);
+        universeKey = keys[Math.floor(Math.random() * keys.length)];
+      }
+      const universe = parallelUniverses[universeKey];
+      state.currentUniverse = universeKey;
+      state.drugPrice *= universe.drugPriceModifier;
+      state.suspicion *= universe.policeAggression;
+
+      addMessage(`🪐 فتحت بوابة إلى ${universe.name}! حدث خاص: ${universe.specialEvent}`, 'alert');
+      state.day += 10;
+      updateUniverseUI();
+      updateStats();
+    }
+
+    // حدث اليوم التالي مع تأثيرات ذكية وذكاء اصطناعي مبسط (مموه)
+    function nextDay() {
+      state.day++;
+      // حركة المال والمخدرات بأسلوب عشوائي ضمن نطاقات معقدة
+      const income = Math.floor(Math.random() * 10000 - 3000);
+      state.money += income;
+      const drugChange = Math.floor(Math.random() * 200 - 100);
+      state.drugs += drugChange;
+
+      // تحديث الشكوك وفق مستوى الشرطة في الكون
+      const universe = parallelUniverses[state.currentUniverse] || { policeAggression: 1 };
+      state.suspicion += (Math.random() * 3 - 1) * universe.policeAggression;
+      if (state.suspicion < 0) state.suspicion = 0;
+      if (state.suspicion > 100) {
+        addMessage('🚨 الشرطة تلاحقك بشدة! حان وقت الهروب أو دفع الرشاوي!', 'alert');
+        state.suspicion = 100;
+      }
+
+      // سمعة العصابة ترتبط بالحركات والمال
+      state.reputation += income > 0 ? 1 : -2;
+      if (state.reputation < 0) state.reputation = 0;
+      if (state.reputation > 100) state.reputation = 100;
+
+      // عرض رسائل متنوعة عشوائية لتعزيز التشويق
+      const events = [
+        "🔥 صفقة ناجحة تزيد أرباحك!",
+        "💥 خلاف مع عصابة منافسة يشتعل!",
+        "🔫 اشتباك مسلح ينذر بزيادة الشرطة!",
+        "💸 رشاوي للشرطة تخفض الشكوك مؤقتًا.",
+        "🕵️‍♂️ معلومات استخباراتية جديدة عن السوق.",
+        "📦 شحنة مخدرات ضخمة وصلت بسلام.",
+        "⚠️ تسريب داخل العصابة يهدد سمعتك."
+      ];
+      const event = events[Math.floor(Math.random() * events.length)];
+      addMessage(event, 'event');
+
+      updateStats();
+    }
+
+    // عناصر التحكم
+    document.getElementById('next-day-btn').onclick = nextDay;
+    document.getElementById('jump-universe').onclick = () => jumpToUniverse();
+
+    // بدء اللعبة
+    addMessage('🔥 مرحباً بك في إمبراطورية المخدرات، اجعلها ملكك الخاص!', 'success');
     updateStats();
-    showUniverseInfo();
-
-    presentChoices([
-      { text: 'بيع المخدرات', action: sellDrugs },
-      { text: 'شراء الأسلحة', action: buyWeapons },
-      { text: 'التهرب من الشرطة', action: evadePolice },
-      { text: 'استكشاف كون جديد', action: jumpUniverse },
-      { text: 'فتح شجرة المهارات', action: renderSkills }
-    ]);
-  }
-
-  // ======== إجراءات المهام ========
-  function sellDrugs() {
-    if (state.drugs < 10) {
-      addMessage('⚠️ لا تملك مخدرات كافية للبيع.', 'alert');
-      return startDay();
-    }
-    const basePrice = 100;
-    let price = basePrice * universes.find(u => u.name === state.universe).drugModifier;
-    if (state.skills.negotiation.unlocked) price *= 1.15;
-    const amount = Math.min(state.drugs, Math.floor(Math.random() * 50) + 10);
-    const gain = Math.floor(amount * price);
-
-    state.drugs -= amount;
-    state.money += gain;
-    addMessage(`💰 بعت ${amount} جم مخدرات مقابل $${gain}.`, 'success');
-
-    // تقليل الشكوك قليلاً بسبب البيع الناجح
-    state.police = Math.max(0, state.police - 2);
-    if (state.skills.stealth.unlocked) state.police = Math.max(0, state.police - 3);
-
-    state.reputation += 1;
-    updateStats();
-    startDay();
-  }
-
-  function buyWeapons() {
-    const weaponPrice = 500;
-    if (state.money < weaponPrice) {
-      addMessage('⚠️ لا تملك مالاً كافياً لشراء الأسلحة.', 'alert');
-      return startDay();
-    }
-    state.money -= weaponPrice;
-    state.weapons += 1;
-    addMessage('🔫 اشتريت سلاحاً جديداً.', 'success');
-
-    // شراء الأسلحة يزيد من الشكوك قليلاً
-    state.police += 2;
-    updateStats();
-    startDay();
-  }
-
-  function evadePolice() {
-    if (state.police < 10) {
-      addMessage('🛡️ لا حاجة للتهرب، الشرطة غير مشتبه بك بشدة.', 'event');
-      return startDay();
-    }
-    const evadeChance = 0.5 + (state.weapons * 0.02);
-    if (Math.random() < evadeChance) {
-      addMessage('🚔 نجحت في التهرب من الشرطة!', 'success');
-      state.police = Math.max(0, state.police - 15);
-      state.reputation += 2;
-    } else {
-      addMessage('❌ فشلت في التهرب! الشرطة تضغط عليك.', 'alert');
-      state.police += 10;
-      state.money = Math.max(0, state.money - 3000);
-      state.drugs = Math.max(0, state.drugs - 50);
-      state.reputation = Math.max(0, state.reputation - 10);
-    }
-    updateStats();
-    startDay();
-  }
-
-  function jumpUniverse() {
-    const currentIndex = universes.findIndex(u => u.name === state.universe);
-    const nextIndex = (currentIndex + 1) % universes.length;
-    state.universe = universes[nextIndex].name;
-    addMessage(`🌌 انتقلت إلى الكون: ${state.universe}`, 'event');
-    updateStats();
-    startDay();
-  }
-
-  // ======== بدء اللعبة ========
-  async function initGame() {
-    state.nemesisAI = new NemesisAI();
-    updateStats();
-    addMessage('🔥 مرحبًا بك في عالم إمبراطورية المخدرات المظلم!', 'event');
-    showUniverseInfo();
-    startDay();
-  }
-
-  // ======== زر اليوم التالي ========
-  document.getElementById('next-day-btn').addEventListener('click', () => {
-    state.day++;
-    startDay();
-  });
-
-  initGame();
-</script>
+    updateUniverseUI();
+    showUniversesList();
+  </script>
 </body>
 </html>
