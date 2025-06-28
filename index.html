@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إمبراطورية المخدرات - النسخة الأسطورية</title>
+    <title>إمبراطورية المخدرات - النسخة الأسطورية النهائية</title>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.18.0/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -26,7 +26,7 @@
             box-shadow: 0 0 25px #ff4500;
         }
         
-        /* أنماط الأقسام الجديدة */
+        /* أنماط الأقسام */
         .property-card {
             background: #252525;
             border-left: 4px solid #ff4500;
@@ -59,32 +59,147 @@
             border-radius: 5px;
             width: 0%;
         }
+        .universe-card {
+            background: linear-gradient(135deg, #1e0033 0%, #3c0066 100%);
+            border: 1px solid #8a2be2;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .universe-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(138, 43, 226, 0.4);
+        }
+        .apocalypse-event {
+            background-color: #330000;
+            border-left: 4px solid #ff0000;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        #multiplayer-tab {
+            background: #001a33;
+            border: 1px solid #0077cc;
+        }
+        #deep-state-tab {
+            background: #003314;
+            border: 1px solid #00cc66;
+        }
+        .tab-content {
+            display: none;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        .tab-button {
+            background: #333;
+            border: none;
+            padding: 10px 15px;
+            margin-right: 5px;
+            cursor: pointer;
+        }
+        .tab-button.active {
+            background: #555;
+            border-bottom: 2px solid #ff4500;
+        }
+        #lab-container {
+            background: #1a1a2e;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .chemical-slot {
+            width: 60px;
+            height: 60px;
+            background: #333;
+            border: 2px dashed #666;
+            display: inline-block;
+            margin: 5px;
+            text-align: center;
+            line-height: 60px;
+            cursor: pointer;
+        }
+        .stat {
+            display: inline-block;
+            margin: 0 15px;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 1.5em;
+            color: #ff4500;
+        }
+        .message {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+        .message.success {
+            background: #1a2a1a;
+            border-left: 4px solid #00ff7f;
+        }
+        .message.alert {
+            background: #2a1a1a;
+            border-left: 4px solid #ff0000;
+        }
+        .message.event {
+            background: #1a1a2a;
+            border-left: 4px solid #8a2be2;
+        }
     </style>
 </head>
 <body>
     <div id="game-container">
-        <h1>👑 إمبراطورية المخدرات - النسخة الأسطورية</h1>
+        <h1>👑 إمبراطورية المخدرات - النسخة الأسطورية النهائية</h1>
         
         <!-- الإحصائيات الأساسية -->
         <div id="stats">
-            <!-- ... (إحصائيات موجودة سابقاً) ... -->
+            <div class="stat">
+                <div>💰 المال</div>
+                <div class="stat-value" id="money">10000</div>
+            </div>
+            <div class="stat">
+                <div>💊 المخدرات</div>
+                <div class="stat-value" id="drugs">0</div>
+            </div>
+            <div class="stat">
+                <div>🔫 الأسلحة</div>
+                <div class="stat-value" id="weapons">0</div>
+            </div>
             <div class="stat">
                 <div>📊 المهارة</div>
                 <div class="stat-value" id="skill-level">1</div>
             </div>
+            <div class="stat">
+                <div>📅 اليوم</div>
+                <div class="stat-value" id="day">1</div>
+            </div>
         </div>
         
-        <!-- الأقسام الجديدة -->
+        <!-- نظام التبويبات -->
         <div class="tab-system">
             <button class="tab-button active" onclick="openTab('main-tab')">الرئيسية</button>
             <button class="tab-button" onclick="openTab('properties-tab')">العقارات</button>
             <button class="tab-button" onclick="openTab('missions-tab')">المهام</button>
             <button class="tab-button" onclick="openTab('skills-tab')">المهارات</button>
             <button class="tab-button" onclick="openTab('crypto-tab')">الكريبتو</button>
+            <button class="tab-button" id="universes-tab-btn" onclick="openTab('universes-tab')" style="display:none;">الأكوان</button>
+            <button class="tab-button" id="apocalypse-tab-btn" onclick="openTab('apocalypse-tab')" style="display:none;">النهاية</button>
+            <button class="tab-button" id="multiplayer-tab-btn" onclick="openTab('multiplayer-tab')" style="display:none;">متعدد</button>
+            <button class="tab-button" id="lab-tab-btn" onclick="openTab('lab-tab')" style="display:none;">المختبر</button>
         </div>
         
+        <!-- محتوى التبويبات -->
         <div id="main-tab" class="tab-content">
-            <!-- المحتوى الأصلي -->
+            <div id="messages"></div>
+            <button onclick="nextDay()">اليوم التالي</button>
+            <button onclick="buyDrugs(100)">شراء 100g مخدرات ($5000)</button>
+            <button onclick="sellDrugs(100)">بيع 100g مخدرات ($7000)</button>
+            <button onclick="buyWeapons(10)">شراء 10 أسلحة ($3000)</button>
         </div>
         
         <div id="properties-tab" class="tab-content" style="display:none;">
@@ -109,11 +224,71 @@
             <canvas id="crypto-chart" width="400" height="200"></canvas>
         </div>
         
-        <!-- الأقسام السابقة (الأكوان المتوازية، نهاية العالم، إلخ) -->
+        <div id="universes-tab" class="tab-content" style="display:none;">
+            <h3>🌌 الأكوان المتوازية</h3>
+            <div id="universes-list"></div>
+            <button id="jump-universe">قفز إلى كون عشوائي (10 أيام)</button>
+        </div>
+        
+        <div id="apocalypse-tab" class="tab-content" style="display:none;">
+            <h3>💥 أحداث نهاية العالم</h3>
+            <div id="apocalypse-events"></div>
+        </div>
+        
+        <div id="multiplayer-tab" class="tab-content" style="display:none;">
+            <div class="tab-buttons">
+                <button class="tab-button active" onclick="openMultiTab('global-market-tab')">السوق العالمي</button>
+                <button class="tab-button" onclick="openMultiTab('deep-state-tab')">الحكومة الخفية</button>
+            </div>
+            
+            <div id="global-market-tab" class="tab-content">
+                <h4>🌐 السوق الأسود العالمي</h4>
+                <div id="global-market"></div>
+                <button id="refresh-market">تحديث الأسعار</button>
+            </div>
+            
+            <div id="deep-state-tab" class="tab-content" style="display:none;">
+                <h4>🕵️‍♂️ الحكومة الخفية</h4>
+                <div id="factions-list"></div>
+            </div>
+        </div>
+        
+        <div id="lab-tab" class="tab-content" style="display:none;">
+            <h3>⚗️ مختبر التصنيع السري</h3>
+            <div id="lab-container">
+                <div id="chemical-slots"></div>
+                <button id="craft-drug">صنع مخدر جديد</button>
+                <div id="lab-results"></div>
+            </div>
+        </div>
     </div>
 
     <script>
-        // ======== الأنظمة الجديدة ======== //
+        // ======== حالة اللعبة ======== //
+        const state = {
+            money: 10000,
+            drugs: 0,
+            weapons: 0,
+            drugPrice: 70,
+            weaponPrice: 300,
+            reputation: 50,
+            policeSuspicion: 0,
+            crew: 5,
+            day: 1,
+            currentUniverse: "default",
+            unlockedSections: {
+                universes: false,
+                apocalypse: false,
+                multiplayer: false,
+                lab: false
+            },
+            gangs: [
+                { name: "المافيا الروسية", power: 30 },
+                { name: "عصابات المكسيك", power: 25 }
+            ]
+        };
+
+        // ======== الأنظمة الأساسية ======== //
         
         // 1. نظام العقارات
         const properties = {
@@ -128,6 +303,7 @@
                     state.money -= property.price;
                     addMessage(`✅ اشتريت ${property.name}! دخل يومي: $${property.income}`, "success");
                     updatePropertiesUI();
+                    updateUI();
                 }
             },
             collectIncome() {
@@ -155,6 +331,7 @@
                     state.policeSuspicion += mission.risk * 10;
                     addMessage(`🎉 أكملت المهمة: ${mission.title}! ربحت $${mission.reward}`, "success");
                     updateMissionsUI();
+                    updateUI();
                 }
             }
         };
@@ -176,6 +353,7 @@
                         addMessage(`📈 ارتفعت مهارة ${skill.name} إلى المستوى ${skill.level}!`, "success");
                     }
                     updateSkillsUI();
+                    updateUI();
                 }
             }
         };
@@ -208,204 +386,364 @@
                     state.money -= cost;
                     addMessage(`✅ اشتريت ${amount} ${cryptoName}`, "success");
                     updateCryptoUI();
+                    updateUI();
                 }
             }
         };
 
-        // 5. نظام السمعة العالمية
-        const internationalRep = {
-            regions: {
-                asia: 0,
-                europe: 0,
-                america: 0
+        // ======== الأنظمة المتقدمة ======== //
+        
+        // 1. نظام الأكوان المتوازية
+        const parallelUniverses = {
+            mafiaVerse: { 
+                name: "عالم المافيا",
+                drugPriceModifier: 0.5, 
+                policeAggression: 2.0,
+                specialEvent: "حرب المافيا الأبدية",
+                color: "#8B0000"
             },
-            updateReputation(region, amount) {
-                this.regions[region] = Math.max(0, Math.min(100, this.regions[region] + amount));
-                if (amount > 0) {
-                    addMessage(`🌍 تحسنت سمعتك في ${region} إلى ${this.regions[region]}%`, "success");
-                }
-            }
-        };
-
-        // 6. نظام الأمراض
-        const health = {
-            addiction: 0,
-            diseases: [],
-            update() {
-                if (state.drugs > 500) this.addiction += 5;
-                if (this.addiction >= 50 && Math.random() < 0.1) {
-                    this.diseases.push("إدمان شديد");
-                    addMessage("⚠️ أصبت بإدمان شديد تحتاج إلى علاج!", "alert");
-                }
-            }
-        };
-
-        // 7. نظام الإنجازات
-        const achievements = {
-            list: [
-                { id: "first_sale", name: "أول عملية بيع", unlocked: false },
-                { id: "drug_lord", name: "ملك المخدرات", unlocked: false }
-            ],
-            unlock(id) {
-                const achievement = this.list.find(a => a.id === id);
-                if (achievement && !achievement.unlocked) {
-                    achievement.unlocked = true;
-                    addMessage(`🏆 إنجاز مفتوح: ${achievement.name}!`, "success");
-                }
-            }
-        };
-
-        // 8. نظام التقارير الإخبارية
-        const news = {
-            events: [
-                "شرطة تكثف حملاتها على تجار المخدرات",
-                "زيادة الطلب على المخدرات في السوق السوداء"
-            ],
-            generate() {
-                if (Math.random() < 0.3) {
-                    const randomNews = this.events[Math.floor(Math.random() * this.events.length)];
-                    addMessage(`📰 خبر عاجل: ${randomNews}`, "event");
-                }
-            }
-        };
-
-        // 9. نظام الأسلحة الخاصة
-        const specialWeapons = {
-            list: [
-                { name: "بندقية هجومية", price: 15000, power: 20, owned: false },
-                { name: "قنابل دخانية", price: 8000, power: 10, owned: false }
-            ]
-        };
-
-        // 10. نظام التخفي
-        const stealth = {
-            level: 1,
-            update() {
-                this.level = Math.max(1, Math.min(10, 
-                    skills.list.find(s => s.name === "التخفي")?.level || 1
-                ));
+            cyberPunkVerse: { 
+                name: "العالم السيبراني",
+                drugPriceModifier: 3.0, 
+                policeAggression: 0.2,
+                specialEvent: "قرصنة العقول",
+                color: "#00FF7F"
             },
-            getDetectionChance() {
-                return 0.5 - (this.level * 0.04);
-            }
-        };
-
-        // 11. نظام الاحتجاجات
-        const protests = {
-            active: false,
-            check() {
-                if (state.reputation < 30 && Math.random() < 0.2) {
-                    this.active = true;
-                    addMessage("✊ احتجاجات شعبية ضد عصابتك! المبيعات تنخفض.", "alert");
-                }
-            }
-        };
-
-        // 12. نظام السيارات
-        const vehicles = {
-            list: [
-                { name: "سيارة سريعة", price: 30000, speed: 2, owned: false },
-                { name: "شاحنة تهريب", price: 50000, capacity: 1000, owned: false }
-            ]
-        };
-
-        // 13. نظام المخبرين
-        const informants = {
-            count: 0,
-            cost: 10000,
-            hire() {
-                if (state.money >= this.cost) {
-                    this.count++;
-                    state.money -= this.cost;
-                    addMessage("🕵️‍♂️ وظفت مخبراً جديداً في صفوف الشرطة!", "success");
-                }
-            }
-        };
-
-        // 14. نظام الفصائل الدينية
-        const religiousGroups = {
-            influence: 0,
-            affectBusiness() {
-                if (this.influence > 50) {
-                    state.reputation -= 5;
-                    addMessage("⛪ الفصائل الدينية تضغط على عملك!", "alert");
-                }
-            }
-        };
-
-        // 15. نظام الطقس
-        const weather = {
-            current: "عادي",
-            update() {
-                const conditions = ["عاصف", "ممطر", "جاف", "عاصفة رملية"];
-                if (Math.random() < 0.1) {
-                    this.current = conditions[Math.floor(Math.random() * conditions.length)];
-                    addMessage(`☁️ الطقس اليوم: ${this.current} - قد يؤثر على عملياتك`, "event");
-                }
-            }
-        };
-
-        // 16. نظام السجون
-        const prison = {
-            escapeChance: 0.3,
-            arrested: false,
-            tryEscape() {
-                if (this.arrested && Math.random() < this.escapeChance) {
-                    this.arrested = false;
-                    addMessage("🔓 نجحت في الهروب من السجن!", "success");
-                }
-            }
-        };
-
-        // 17. نظام العملات الأجنبية
-        const foreignCurrency = {
-            exchangeRates: {
-                usd: 1,
-                eur: 0.85,
-                gbp: 0.75
+            zombieVerse: {
+                name: "عالم الزومبي",
+                drugPriceModifier: 1.5,
+                policeAggression: 0.1,
+                specialEvent: "وباء الزومبي",
+                color: "#32CD32"
             },
-            convert(amount, from, to) {
-                return (amount / this.exchangeRates[from]) * this.exchangeRates[to];
+            fantasyVerse: {
+                name: "عالم الفانتازيا",
+                drugPriceModifier: 2.0,
+                policeAggression: 0.5,
+                specialEvent: "تنانين تهرب المخدرات",
+                color: "#9370DB"
             }
         };
 
-        // 18. نظام التوظيف
-        const recruitment = {
-            candidates: [
-                { name: "سائق", skill: "قيادة", cost: 2000 },
-                { name: "قرصان كمبيوتر", skill: "اختراق", cost: 5000 }
-            ]
-        };
-
-        // 19. نظام الأحداث التاريخية
-        const historicalEvents = {
-            events: [
-                { name: "أزمة اقتصادية", effect: () => state.drugPrice *= 0.7 },
-                { name: "حرب عصابات", effect: () => state.gangs.forEach(g => g.power += 10) }
-            ],
-            trigger() {
-                if (Math.random() < 0.05) {
-                    const event = this.events[Math.floor(Math.random() * this.events.length)];
-                    event.effect();
-                    addMessage(`🗓️ حدث تاريخي: ${event.name}!`, "event");
-                }
+        // 2. الذكاء الاصطناعي المعادي
+        class NemesisAI {
+            constructor() {
+                this.model = null;
+                this.playerActions = [];
+                this.backupPlans = ["انقلاب عسكري", "تفجير السوق", "إختراق بنكك"];
+                this.initModel();
             }
-        };
 
-        // 20. نظام الذكريات
-        const memories = {
-            list: [],
-            add(memory) {
-                this.list.push({
-                    day: state.day,
-                    text: memory
+            async initModel() {
+                this.model = tf.sequential();
+                this.model.add(tf.layers.dense({units: 16, activation: 'relu', inputShape: [8]}));
+                this.model.add(tf.layers.dense({units: 8, activation: 'relu'}));
+                this.model.add(tf.layers.dense({units: 4, activation: 'softmax'}));
+                
+                this.model.compile({
+                    optimizer: 'adam',
+                    loss: 'categoricalCrossentropy',
+                    metrics: ['accuracy']
                 });
-                if (this.list.length > 10) this.list.shift();
+            }
+
+            logAction(action) {
+                this.playerActions.push(action);
+                if (this.playerActions.length > 50) {
+                    this.trainModel();
+                }
+            }
+
+            async trainModel() {
+                const actions = this.playerActions.map(a => this.encodeAction(a));
+                const xs = tf.tensor2d(actions);
+                const ys = tf.oneHot(tf.tensor1d(actions.map((_, i) => i % 4), 'int32', 4);
+                
+                await this.model.fit(xs, ys, {
+                    epochs: 10,
+                    batchSize: 8
+                });
+            }
+
+            encodeAction(action) {
+                return [
+                    state.money / 100000,
+                    state.drugs / 1000,
+                    state.weapons / 50,
+                    state.reputation / 100,
+                    state.policeSuspicion / 10,
+                    state.crew / 20,
+                    state.day / 100,
+                    action.length / 20
+                ];
+            }
+
+            predictNextAction() {
+                if (this.playerActions.length < 10) return null;
+                
+                const lastAction = this.encodeAction(this.playerActions[this.playerActions.length-1]);
+                const prediction = this.model.predict(tf.tensor2d([lastAction]));
+                const predictedAction = prediction.argMax(1).dataSync()[0];
+                
+                return ["هجوم", "دفاع", "توسع", "تحالف"][predictedAction];
+            }
+
+            executeCounterAction() {
+                const predictedAction = this.predictNextAction();
+                if (!predictedAction) return;
+                
+                if (predictedAction === "هجوم" && Math.random() < 0.7) {
+                    addMessage(`🛡️ العدو يتوقع هجومك ويجهز دفاعاته!`, "alert");
+                    state.gangs.forEach(g => g.power += 5);
+                }
+            }
+        }
+
+        // 3. أحداث نهاية العالم
+        const apocalypseEvents = [
+            {
+                name: "غزو فضائي للمخدرات",
+                effect: () => {
+                    state.drugPrice *= 0.1;
+                    addMessage(`👽 الفضائيون غزوا الأرض بمواد مخدرة رخيصة! الأسعار انخفضت 90%`, "apocalypse-event");
+                },
+                probability: 0.001
+            },
+            {
+                name: "ثورة الروبوتات",
+                effect: () => {
+                    state.weapons = 0;
+                    addMessage(`🤖 الروبوتات تعطلت جميع أسلحتك! أنت أعزل الآن`, "apocalypse-event");
+                },
+                probability: 0.003
+            },
+            {
+                name: "انهيار النظام المالي",
+                effect: () => {
+                    state.money = Math.floor(state.money * 0.0001);
+                    addMessage(`💸 النظام المالي انهار! أموالك الآن لا تساوي شيئاً`, "apocalypse-event");
+                },
+                probability: 0.005
+            }
+        ];
+
+        // 4. نظام متعدد اللاعبين (محاكاة)
+        const darkWebMarket = {
+            players: [
+                { name: "سيد الظلام", country: "روسيا", drugs: 1500, weapons: 45 },
+                { name: "قرصان", country: "اليابان", drugs: 800, weapons: 30 },
+                { name: "الملك", country: "كولومبيا", drugs: 5000, weapons: 100 }
+            ],
+            getGlobalPrices: function() {
+                return {
+                    drugPrice: Math.floor(state.drugPrice * (0.8 + Math.random() * 0.4)),
+                    weaponPrice: Math.floor(state.weaponPrice * (0.7 + Math.random() * 0.6))
+                };
             }
         };
+
+        // 5. الحكومة الخفية
+        const shadowGovernment = {
+            factions: [
+                {
+                    name: "المتنورون",
+                    description: "تحكم في الاقتصاد العالمي من الظل",
+                    joinCondition: (state) => state.money > 1000000,
+                    joined: false,
+                    power: "تتحكم في أسواق 10 دول"
+                },
+                {
+                    name: "النخبة الفضائية",
+                    description: "تمتلك تقنيات خارقة من خارج الأرض",
+                    joinCondition: (state) => state.suspicion === 0 && state.reputation === 100,
+                    joined: false,
+                    power: "إمكانية الوصول إلى أسلحة غير تقليدية"
+                }
+            ],
+            checkMembership: function() {
+                this.factions.forEach(faction => {
+                    if (!faction.joined && faction.joinCondition(state)) {
+                        faction.joined = true;
+                        addMessage(`🕶️ تمت دعوتك للانضمام إلى ${faction.name}! ${faction.power}`, "success");
+                    }
+                });
+            }
+        };
+
+        // 6. مختبر التصنيع
+        class DrugLab {
+            constructor() {
+                this.chemicals = ["ميثامفيتامين", "كوكايين", "إكستاسي", "أفيون", "قنب", "كيتامين"];
+                this.recipes = {
+                    "السماء الزرقاء": { meth: 2, mercury: 1 },
+                    "الشمس السوداء": { cocaine: 3, opium: 1 },
+                    "الغبار النجمي": { ecstasy: 2, cannabis: 2 }
+                };
+                this.currentMix = [];
+            }
+
+            addChemical(chem) {
+                if (this.currentMix.length < 4) {
+                    this.currentMix.push(chem);
+                    updateLabUI();
+                }
+            }
+
+            craft() {
+                let result = null;
+                
+                for (const [drug, recipe] of Object.entries(this.recipes)) {
+                    const chemCount = {};
+                    this.currentMix.forEach(chem => {
+                        chemCount[chem] = (chemCount[chem] || 0) + 1;
+                    });
+                    
+                    let match = true;
+                    for (const [chem, count] of Object.entries(recipe)) {
+                        if ((chemCount[chem] || 0) < count) {
+                            match = false;
+                            break;
+                        }
+                    }
+                    
+                    if (match) {
+                        result = drug;
+                        break;
+                    }
+                }
+                
+                if (result) {
+                    const amount = Math.floor(Math.random() * 100) + 50;
+                    state.drugs += amount;
+                    addMessage(`⚗️ نجحت في تصنيع ${amount}g من ${result}!`, "success");
+                } else {
+                    addMessage(`⚗️ الخليط فشل في إنتاج أي شيء مفيد!`, "alert");
+                }
+                
+                this.currentMix = [];
+                updateLabUI();
+                updateUI();
+            }
+        }
+
+        // ======== تهيئة الأنظمة ======== //
+        const nemesisAI = new NemesisAI();
+        const drugLab = new DrugLab();
+
+        // ======== وظائف اللعبة الأساسية ======== //
+        function buyDrugs(amount) {
+            const cost = amount * 50; // سعر الشراء 50$ للجرام
+            if (state.money >= cost) {
+                state.drugs += amount;
+                state.money -= cost;
+                addMessage(`✅ اشتريت ${amount}g من المخدرات بـ $${cost}`, "success");
+                updateUI();
+            } else {
+                addMessage(`❌ لا تملك ما يكفي من المال لشراء ${amount}g`, "alert");
+            }
+        }
+
+        function sellDrugs(amount) {
+            if (state.drugs >= amount) {
+                const income = amount * state.drugPrice;
+                state.drugs -= amount;
+                state.money += income;
+                addMessage(`💰 بعت ${amount}g من المخدرات بـ $${income}`, "success");
+                updateUI();
+            } else {
+                addMessage(`❌ لا تملك ${amount}g من المخدرات للبيع`, "alert");
+            }
+        }
+
+        function buyWeapons(amount) {
+            const cost = amount * state.weaponPrice;
+            if (state.money >= cost) {
+                state.weapons += amount;
+                state.money -= cost;
+                addMessage(`🔫 اشتريت ${amount} سلاح بـ $${cost}`, "success");
+                updateUI();
+            } else {
+                addMessage(`❌ لا تملك ما يكفي من المال لشراء ${amount} سلاح`, "alert");
+            }
+        }
+
+        function nextDay() {
+            state.day++;
+            
+            // تحديث الأنظمة الأساسية
+            properties.collectIncome();
+            crypto.updatePrices();
+            missions.generateDailyMissions();
+            
+            // تحديث الأنظمة المتقدمة
+            checkApocalypse();
+            nemesisAI.executeCounterAction();
+            shadowGovernment.checkMembership();
+            
+            // فتح المحتوى بالتدرج
+            if (state.day === 10) unlockSection("universes");
+            if (state.day === 20) unlockSection("apocalypse");
+            if (state.day === 30) unlockSection("multiplayer");
+            if (state.day === 40) unlockSection("lab");
+            
+            updateUI();
+            addMessage(`🌅 بداية اليوم ${state.day}...`, "event");
+        }
+
+        function checkApocalypse() {
+            if (state.day % 30 === 0) {
+                apocalypseEvents.forEach(event => {
+                    if (Math.random() < event.probability * 10) {
+                        event.effect();
+                    }
+                });
+            }
+        }
+
+        function jumpToUniverse() {
+            const universeKeys = Object.keys(parallelUniverses);
+            const randomUniverse = universeKeys[Math.floor(Math.random() * universeKeys.length)];
+            state.currentUniverse = randomUniverse;
+            
+            const universe = parallelUniverses[randomUniverse];
+            state.drugPrice *= universe.drugPriceModifier;
+            state.policeSuspicion *= universe.policeAggression;
+            
+            addMessage(`🪐 إنفتح بوابة إلى ${universe.name}! ${universe.specialEvent}`, "event");
+            addMessage(`🔮 تغيرت قوانين الواقع: سعر المخدرات ×${universe.drugPriceModifier}، شراسة الشرطة ×${universe.policeAggression}`, "event");
+            
+            updateUniverseUI();
+            updateUI();
+        }
+
+        function unlockSection(section) {
+            if (!state.unlockedSections[section]) {
+                state.unlockedSections[section] = true;
+                document.getElementById(`${section}-tab-btn`).style.display = 'inline-block';
+                addMessage(`🔓 تم فتح قسم جديد: ${section.replace('-', ' ')}`, "success");
+            }
+        }
+
+        function addMessage(text, type) {
+            const messageEl = document.createElement('div');
+            messageEl.className = `message ${type}`;
+            messageEl.textContent = text;
+            document.getElementById('messages').prepend(messageEl);
+            
+            // تسجيل الفعل للذكاء الاصطناعي
+            if (type !== 'event') {
+                nemesisAI.logAction(text);
+            }
+        }
 
         // ======== تحديث واجهات المستخدم ======== //
-        
+        function updateUI() {
+            document.getElementById('money').textContent = state.money;
+            document.getElementById('drugs').textContent = state.drugs;
+            document.getElementById('weapons').textContent = state.weapons;
+            document.getElementById('day').textContent = state.day;
+        }
+
         function updatePropertiesUI() {
             let html = '';
             properties.list.forEach(prop => {
@@ -452,7 +790,6 @@
         }
 
         function updateCryptoUI() {
-            // تحديث الأسعار
             let html = `
             <div>
                 <h4>₿ البيتكوين: $${crypto.prices.bitcoin.value.toFixed(2)}</h4>
@@ -466,7 +803,6 @@
             </div>`;
             document.getElementById('crypto-prices').innerHTML = html;
             
-            // تحديث الرسم البياني
             updateCryptoChart();
         }
 
@@ -502,30 +838,103 @@
             });
         }
 
-        // ======== التكامل مع النظام الأساسي ======== //
-        
-        function nextDay() {
-            // الأنظمة الجديدة
-            properties.collectIncome();
-            crypto.updatePrices();
-            health.update();
-            weather.update();
-            historicalEvents.trigger();
+        function updateUniverseUI() {
+            const universe = parallelUniverses[state.currentUniverse] || { name: "الواقع الأساسي", color: "#666" };
             
-            // الباقي...
+            document.getElementById('universes-list').innerHTML = `
+                <div class="universe-card" style="border-color: ${universe.color}">
+                    <h4>${universe.name}</h4>
+                    <p>📌 ${universe.specialEvent || "لا أحداث خاصة"}</p>
+                    <p>💊 تعديل السعر: ×${universe.drugPriceModifier || 1}</p>
+                    <p>👮 شراسة الشرطة: ×${universe.policeAggression || 1}</p>
+                </div>
+            `;
+        }
+
+        function updateMultiplayerUI() {
+            const prices = darkWebMarket.getGlobalPrices();
+            document.getElementById('global-market').innerHTML = `
+                <p>💊 متوسط سعر المخدرات العالمي: $${prices.drugPrice}</p>
+                <p>🔫 متوسط سعر السلاح العالمي: $${prices.weaponPrice}</p>
+                <h4>👥 اللاعبون النشطون:</h4>
+                <ul>
+                    ${darkWebMarket.players.map(p => `<li>${p.name} (${p.country}): ${p.drugs}g مخدرات، ${p.weapons} سلاح</li>`).join('')}
+                </ul>
+            `;
+            
+            document.getElementById('factions-list').innerHTML = `
+                ${shadowGovernment.factions.map(f => `
+                    <div class="faction">
+                        <h4>${f.name} ${f.joined ? '✅' : ''}</h4>
+                        <p>${f.description}</p>
+                        <p>⚡ القوة: ${f.power}</p>
+                        <p>🔓 ${f.joined ? 'عضوية نشطة' : 'متطلبات الانضمام: ' + 
+                            (f.joinCondition.toString().match(/state\.money > (\d+)/) ? `ثروة > $${f.joinCondition.toString().match(/state\.money > (\d+)/)[1]}` : 
+                             f.joinCondition.toString().match(/state\.suspicion === 0/) ? `سمعة 100% بدون شكوك` : 'شروط سرية')}</p>
+                    </div>
+                `).join('')}
+            `;
+        }
+
+        function updateLabUI() {
+            document.getElementById('chemical-slots').innerHTML = '';
+            
+            state.drugLab.chemicals.forEach(chem => {
+                const chemEl = document.createElement('div');
+                chemEl.className = 'chemical-slot';
+                chemEl.textContent = chem;
+                chemEl.onclick = () => drugLab.addChemical(chem);
+                document.getElementById('chemical-slots').appendChild(chemEl);
+            });
+            
+            const mixEl = document.createElement('div');
+            mixEl.style.margin = '15px 0';
+            mixEl.innerHTML = `<h4>الخليط الحالي: ${drugLab.currentMix.join(' + ') || 'فارغ'}</h4>`;
+            document.getElementById('chemical-slots').appendChild(mixEl);
+        }
+
+        function openTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.style.display = 'none';
+            });
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            document.getElementById(tabId).style.display = 'block';
+            event.currentTarget.classList.add('active');
+        }
+
+        function openMultiTab(tabId) {
+            document.querySelectorAll('#multiplayer-tab .tab-content').forEach(tab => {
+                tab.style.display = 'none';
+            });
+            document.querySelectorAll('#multiplayer-tab .tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            document.getElementById(tabId).style.display = 'block';
+            event.currentTarget.classList.add('active');
         }
 
         // ======== تهيئة اللعبة ======== //
-        
         function initGame() {
             missions.generateDailyMissions();
-            setInterval(() => crypto.updatePrices(), 30000); // تحديث كل 30 ثانية
+            setInterval(() => crypto.updatePrices(), 30000);
             
             // تهيئة الواجهات
             updatePropertiesUI();
             updateMissionsUI();
             updateSkillsUI();
             updateCryptoUI();
+            updateUI();
+            
+            // إعداد معالجات الأحداث
+            document.getElementById('jump-universe').addEventListener('click', jumpToUniverse);
+            document.getElementById('refresh-market').addEventListener('click', updateMultiplayerUI);
+            document.getElementById('craft-drug').addEventListener('click', () => drugLab.craft());
+            
+            addMessage('🌃 مرحبًا بك في عالم الجريمة! ابدأ ببناء إمبراطوريتك المخدرات...', 'event');
         }
 
         initGame();
