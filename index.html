@@ -1,310 +1,56 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>إمبراطورية المخدرات - Med-4o الأسطورية</title>
-
-<!-- خطوط وأسلوب التصميم -->
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
-  body {
-    margin:0; padding:0;
-    background: radial-gradient(circle at center, #120029 0%, #1e0047 90%);
-    font-family: 'Share Tech Mono', monospace;
-    color: #b28cff;
-    user-select:none;
-  }
-  #game-container {
-    max-width: 960px;
-    margin: 25px auto;
-    padding: 30px;
-    background: linear-gradient(145deg, #1a004d, #390066);
-    border-radius: 20px;
-    box-shadow: 0 0 50px #aa77ffcc;
-    border: 3px solid #7e3eff;
-  }
-  h1,h2,h3 {
-    color: #e0b3ff;
-    text-shadow: 0 0 15px #bb66ff;
-  }
-  #stats {
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 30px;
-    border-bottom: 3px solid #7e3eff;
-    padding-bottom: 15px;
-  }
-  #stats span {
-    background: #35006f;
-    padding: 12px 25px;
-    border-radius: 15px;
-    box-shadow: 0 0 20px #a157ffcc;
-    font-weight: 700;
-    font-size: 1.2em;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    transition: background 0.3s ease;
-    cursor: default;
-  }
-  #stats span:hover {
-    background: #7e3eff;
-    box-shadow: 0 0 40px #bb77ffcc;
-  }
-  button {
-    background: #5600bb;
-    border: none;
-    color: #f3d7ff;
-    font-weight: 900;
-    font-size: 1.15em;
-    padding: 18px 40px;
-    border-radius: 15px;
-    cursor: pointer;
-    box-shadow: 0 0 25px #ae65ffcc;
-    margin: 12px 16px;
-    transition: background 0.4s ease, box-shadow 0.4s ease;
-  }
-  button:hover {
-    background: #ae65ff;
-    box-shadow: 0 0 50px #e0afffcc;
-  }
-  #messages {
-    background: #2a006f;
-    height: 320px;
-    overflow-y: auto;
-    border-radius: 15px;
-    padding: 22px;
-    margin-bottom: 35px;
-    font-size: 1.15em;
-    line-height: 1.6em;
-    box-shadow: inset 0 0 30px #7e3effaa;
-    color: #d6bbff;
-  }
-  .message.success { color: #8cff8c; font-weight: bold; }
-  .message.alert { color: #ff5050; font-weight: bold; }
-  .message.event { color: #ffaf3c; font-weight: bold; }
-  #universe-info {
-    padding: 24px;
-    background: #4d0085cc;
-    border-radius: 18px;
-    margin-bottom: 30px;
-    box-shadow: 0 0 40px #bf6fffbb;
-    font-weight: 900;
-    font-size: 1.3em;
-  }
-  /* أنماط إضافية للأكوان المتوازية */
-  .universe-card {
-    background: linear-gradient(135deg, #1e0033 0%, #3c0066 100%);
-    border: 1px solid #8a2be2;
-    border-radius: 12px;
-    padding: 15px;
-    margin: 15px 0;
-    cursor: pointer;
-    transition: all 0.3s;
-    color: #d1b3ff;
-  }
-  .universe-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 7px 20px rgba(138, 43, 226, 0.6);
-  }
-</style>
+  <meta charset="UTF-8">
+  <title>🔥 القلاية الهوائية الذكية – عرض محدود 🔥</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: 'Cairo', sans-serif; background: #f9f9f9; margin: 0; padding: 0; }
+    .container { max-width: 600px; margin: auto; background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 0 15px rgba(0,0,0,0.1);}
+    h1 { color: #d62828; font-size: 28px; text-align: center; }
+    .price-box { background: #ffe5e5; padding: 15px; text-align: center; border-radius: 8px; margin: 20px 0; }
+    .price-box span { font-size: 24px; font-weight: bold; color: #222; }
+    .btn { display: block; width: 100%; padding: 15px; background: #d62828; color: #fff; text-align: center; font-size: 20px; border-radius: 10px; text-decoration: none; }
+    .features li { margin: 10px 0; }
+    .form-group { margin: 10px 0; }
+    input { width: 100%; padding: 10px; font-size: 16px; margin-top: 5px; border-radius: 8px; border: 1px solid #ccc; }
+  </style>
 </head>
 <body>
-  <div id="game-container">
-    <h1>🏴‍☠️ إمبراطورية المخدرات - Med-4o Edition</h1>
-    
-    <div id="stats">
-      <span>💰 المال: <strong id="money">150,000$</strong></span>
-      <span>💊 المخدرات: <strong id="drugs">1,200 جم</strong></span>
-      <span>🔫 الأسلحة: <strong id="weapons">25</strong></span>
-      <span>🕵️‍♂️ شكوك الشرطة: <strong id="suspicion">12%</strong></span>
-      <span>🧠 سمعة العصابة: <strong id="reputation">73%</strong></span>
-      <span>📅 اليوم: <strong id="day">42</strong></span>
-    </div>
 
-    <div id="universe-info">🌌 أنت في الكون الأساسي، التحديات تنتظرك!</div>
+<div class="container">
+  <h1>🔥 القلاية الهوائية الذكية – بدون زيت 🔥</h1>
+  <img src="https://example.com/airfryer.jpg" width="100%" alt="القلاية الهوائية">
+  
+  <ul class="features">
+    <li>✅ سعة 7 لتر – تكفي عائلة كاملة</li>
+    <li>✅ تقنيات طهي ذكية وتوزيع حراري 360°</li>
+    <li>✅ شاشة لمس وتحكم عن بُعد</li>
+    <li>✅ توفير 90% من الدهون</li>
+    <li>✅ تنظيف سهل وسريع</li>
+  </ul>
 
-    <div id="messages"></div>
-
-    <button id="next-day-btn">▶️ اليوم التالي</button>
-
-    <!-- قسم الأكوان المتوازية -->
-    <div id="universes-section" style="margin-top: 35px;">
-      <h2>🌌 الأكوان المتوازية</h2>
-      <div id="universes-list"></div>
-      <button id="jump-universe" style="margin-top: 15px;">قفز إلى كون عشوائي (10 أيام)</button>
-    </div>
+  <div class="price-box">
+    السعر الآن فقط: <span>399 ريال سعودي</span>  
+    <br>🚚 الدفع عند الاستلام – التوصيل خلال 2–5 أيام
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.18.0/dist/tf.min.js"></script>
-  <script>
-    // الحالة الأولية
-    let state = {
-      money: 150000,
-      drugs: 1200,
-      weapons: 25,
-      suspicion: 12,
-      reputation: 73,
-      day: 42,
-      currentUniverse: 'default',
-      drugPrice: 100,
-      policeSuspicion: 12
-    };
+  <form action="https://YOUR_COD_AFFILIATE_LINK_HERE" method="POST">
+    <div class="form-group">
+      <label>الاسم الكامل</label>
+      <input type="text" name="name" required>
+    </div>
+    <div class="form-group">
+      <label>رقم الهاتف</label>
+      <input type="tel" name="phone" required>
+    </div>
+    <div class="form-group">
+      <label>العنوان / المدينة</label>
+      <input type="text" name="address" required>
+    </div>
+    <button class="btn" type="submit">📦 اطلب الآن والدفع عند الاستلام</button>
+  </form>
+</div>
 
-    const messages = document.getElementById('messages');
-    const moneyEl = document.getElementById('money');
-    const drugsEl = document.getElementById('drugs');
-    const weaponsEl = document.getElementById('weapons');
-    const suspicionEl = document.getElementById('suspicion');
-    const reputationEl = document.getElementById('reputation');
-    const dayEl = document.getElementById('day');
-    const universeInfo = document.getElementById('universe-info');
-    const universesList = document.getElementById('universes-list');
-
-    // تعريف الأكوان المتوازية
-    const parallelUniverses = {
-      mafiaVerse: { 
-          name: "عالم المافيا",
-          drugPriceModifier: 0.5, 
-          policeAggression: 2.0,
-          specialEvent: "حرب المافيا الأبدية",
-          color: "#8B0000"
-      },
-      cyberPunkVerse: { 
-          name: "العالم السيبراني",
-          drugPriceModifier: 3.0, 
-          policeAggression: 0.2,
-          specialEvent: "قرصنة العقول",
-          color: "#00FF7F"
-      },
-      zombieVerse: {
-          name: "عالم الزومبي",
-          drugPriceModifier: 1.5,
-          policeAggression: 0.1,
-          specialEvent: "وباء الزومبي",
-          color: "#32CD32"
-      },
-      fantasyVerse: {
-          name: "عالم الفانتازيا",
-          drugPriceModifier: 2.0,
-          policeAggression: 0.5,
-          specialEvent: "تنانين تهرب المخدرات",
-          color: "#9370DB"
-      }
-    };
-
-    function addMessage(text, type='event') {
-      const p = document.createElement('p');
-      p.textContent = text;
-      p.className = 'message ' + type;
-      messages.appendChild(p);
-      messages.scrollTop = messages.scrollHeight;
-    }
-
-    // تحديث الإحصائيات
-    function updateStats() {
-      moneyEl.textContent = state.money.toLocaleString() + '$';
-      drugsEl.textContent = state.drugs + ' جم';
-      weaponsEl.textContent = state.weapons;
-      suspicionEl.textContent = state.suspicion.toFixed(1) + '%';
-      reputationEl.textContent = state.reputation + '%';
-      dayEl.textContent = state.day;
-    }
-
-    // تحديث عرض الكون الحالي
-    function updateUniverseUI() {
-      const universe = parallelUniverses[state.currentUniverse] || { name: "الواقع الأساسي", color: "#666", specialEvent: "لا أحداث خاصة" };
-      universeInfo.textContent = `🌌 أنت في ${universe.name} — ${universe.specialEvent}`;
-      universeInfo.style.boxShadow = `0 0 40px ${universe.color}bb`;
-      universeInfo.style.border = `2px solid ${universe.color}`;
-    }
-
-    // عرض قائمة الأكوان المتوازية
-    function showUniversesList() {
-      universesList.innerHTML = '';
-      Object.entries(parallelUniverses).forEach(([key, universe]) => {
-        const div = document.createElement('div');
-        div.className = 'universe-card';
-        div.style.borderColor = universe.color;
-        div.innerHTML = `
-          <h3>${universe.name}</h3>
-          <p>📌 ${universe.specialEvent}</p>
-          <p>💊 تعديل السعر: ×${universe.drugPriceModifier}</p>
-          <p>👮 شراسة الشرطة: ×${universe.policeAggression}</p>
-        `;
-        div.onclick = () => {
-          jumpToUniverse(key);
-        };
-        universesList.appendChild(div);
-      });
-    }
-
-    // القفز إلى كون معين
-    function jumpToUniverse(universeKey = null) {
-      if (!universeKey) {
-        const keys = Object.keys(parallelUniverses);
-        universeKey = keys[Math.floor(Math.random() * keys.length)];
-      }
-      const universe = parallelUniverses[universeKey];
-      state.currentUniverse = universeKey;
-      state.drugPrice *= universe.drugPriceModifier;
-      state.suspicion *= universe.policeAggression;
-
-      addMessage(`🪐 فتحت بوابة إلى ${universe.name}! حدث خاص: ${universe.specialEvent}`, 'alert');
-      state.day += 10;
-      updateUniverseUI();
-      updateStats();
-    }
-
-    // حدث اليوم التالي مع تأثيرات ذكية وذكاء اصطناعي مبسط (مموه)
-    function nextDay() {
-      state.day++;
-      // حركة المال والمخدرات بأسلوب عشوائي ضمن نطاقات معقدة
-      const income = Math.floor(Math.random() * 10000 - 3000);
-      state.money += income;
-      const drugChange = Math.floor(Math.random() * 200 - 100);
-      state.drugs += drugChange;
-
-      // تحديث الشكوك وفق مستوى الشرطة في الكون
-      const universe = parallelUniverses[state.currentUniverse] || { policeAggression: 1 };
-      state.suspicion += (Math.random() * 3 - 1) * universe.policeAggression;
-      if (state.suspicion < 0) state.suspicion = 0;
-      if (state.suspicion > 100) {
-        addMessage('🚨 الشرطة تلاحقك بشدة! حان وقت الهروب أو دفع الرشاوي!', 'alert');
-        state.suspicion = 100;
-      }
-
-      // سمعة العصابة ترتبط بالحركات والمال
-      state.reputation += income > 0 ? 1 : -2;
-      if (state.reputation < 0) state.reputation = 0;
-      if (state.reputation > 100) state.reputation = 100;
-
-      // عرض رسائل متنوعة عشوائية لتعزيز التشويق
-      const events = [
-        "🔥 صفقة ناجحة تزيد أرباحك!",
-        "💥 خلاف مع عصابة منافسة يشتعل!",
-        "🔫 اشتباك مسلح ينذر بزيادة الشرطة!",
-        "💸 رشاوي للشرطة تخفض الشكوك مؤقتًا.",
-        "🕵️‍♂️ معلومات استخباراتية جديدة عن السوق.",
-        "📦 شحنة مخدرات ضخمة وصلت بسلام.",
-        "⚠️ تسريب داخل العصابة يهدد سمعتك."
-      ];
-      const event = events[Math.floor(Math.random() * events.length)];
-      addMessage(event, 'event');
-
-      updateStats();
-    }
-
-    // عناصر التحكم
-    document.getElementById('next-day-btn').onclick = nextDay;
-    document.getElementById('jump-universe').onclick = () => jumpToUniverse();
-
-    // بدء اللعبة
-    addMessage('🔥 مرحباً بك في إمبراطورية المخدرات، اجعلها ملكك الخاص!', 'success');
-    updateStats();
-    updateUniverseUI();
-    showUniversesList();
-  </script>
 </body>
 </html>
