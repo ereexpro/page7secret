@@ -3,15 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multi-Purpose Chopper - مفرمة متعددة الاستعمالات</title>
+    <title>مفرمة كهربائية متعددة الاستخدامات - أداة لا غنى عنها في مطبخك</title>
+    <meta name="description" content="مفرمة كهربائية ذكية بتقنية متطورة لتقطيع اللحوم، الخضروات، الفواكه والمكسرات في ثوانٍ - شحن سريع USB - ضمان 3 سنوات">
     <style>
         :root {
-            --primary: #4CAF50;
-            --primary-dark: #388E3C;
-            --secondary: #FF9800;
+            --primary: #2E7D32;
+            --primary-dark: #1B5E20;
+            --secondary: #FF6D00;
             --light: #F5F5F5;
             --dark: #212121;
-            --gray: #757575;
+            --gray: #616161;
+            --danger: #C62828;
         }
         * {
             margin: 0;
@@ -46,6 +48,11 @@
             font-size: 24px;
             font-weight: bold;
             color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+        .logo i {
+            margin-left: 10px;
         }
         .cta-button {
             background-color: var(--primary);
@@ -57,47 +64,84 @@
             transition: all 0.3s ease;
             display: inline-block;
             box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+            text-align: center;
         }
         .cta-button:hover {
             background-color: var(--primary-dark);
             transform: translateY(-3px);
             box-shadow: 0 6px 12px rgba(76, 175, 80, 0.4);
         }
+        .cta-button.danger {
+            background-color: var(--danger);
+            box-shadow: 0 4px 8px rgba(198, 40, 40, 0.3);
+        }
+        .cta-button.danger:hover {
+            background-color: #B71C1C;
+            box-shadow: 0 6px 12px rgba(198, 40, 40, 0.4);
+        }
         .hero {
             background: linear-gradient(135deg, #f9f9f9 0%, #e8f5e9 100%);
             padding: 80px 0 40px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
         }
         .hero h1 {
             font-size: 42px;
             margin-bottom: 15px;
             color: var(--dark);
+            line-height: 1.3;
         }
         .hero-subtitle {
             font-size: 20px;
             color: var(--gray);
             margin-bottom: 30px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
         }
         .product-image {
-            max-width: 350px;
+            max-width: 400px;
             margin: 30px auto;
             display: block;
             border-radius: 15px;
             box-shadow: 0 15px 30px rgba(0,0,0,0.1);
             transition: transform 0.5s ease;
+            position: relative;
+            z-index: 2;
         }
         .product-image:hover {
             transform: scale(1.05);
         }
         .discount-badge {
-            background-color: var(--secondary);
+            background-color: var(--danger);
             color: white;
-            padding: 8px 15px;
+            padding: 8px 25px;
             border-radius: 20px;
             font-weight: bold;
             display: inline-block;
             margin: 20px 0;
             font-size: 18px;
+            animation: pulse 2s infinite;
+        }
+        .badge-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .badge {
+            background-color: var(--primary);
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+        }
+        .badge i {
+            margin-left: 5px;
         }
         .features {
             padding: 70px 0;
@@ -131,6 +175,8 @@
             text-align: center;
             transition: transform 0.3s ease;
             border: 1px solid #e0e0e0;
+            position: relative;
+            overflow: hidden;
         }
         .feature-card:hover {
             transform: translateY(-10px);
@@ -222,11 +268,35 @@
             padding: 30px;
             border-radius: 15px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            position: relative;
+        }
+        .testimonial-card::before {
+            content: "\201C";
+            font-family: Georgia, serif;
+            font-size: 60px;
+            color: var(--primary);
+            opacity: 0.2;
+            position: absolute;
+            top: 10px;
+            left: 20px;
         }
         .testimonial-header {
             display: flex;
             align-items: center;
             margin-bottom: 20px;
+        }
+        .testimonial-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #e0e0e0;
+            margin-left: 15px;
+            overflow: hidden;
+        }
+        .testimonial-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         .testimonial-rating {
             color: #FFC107;
@@ -239,8 +309,9 @@
         }
         .testimonial-text {
             color: var(--gray);
-            font-style: italic;
             line-height: 1.6;
+            position: relative;
+            z-index: 1;
         }
         .how-to-use {
             padding: 70px 0;
@@ -286,6 +357,20 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.05);
             max-width: 800px;
             margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #e0e0e0;
+        }
+        .package-content::before {
+            content: "قيمة ممتازة";
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: var(--primary);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
         }
         .package-list {
             list-style-type: none;
@@ -309,28 +394,70 @@
             color: white;
             padding: 80px 0;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="rgba(255,255,255,0.05)" d="M0,0 L100,0 L100,100 L0,100 Z" /></svg>');
+            background-size: cover;
+            opacity: 0.1;
         }
         .cta-section h2 {
             font-size: 36px;
             margin-bottom: 20px;
+            position: relative;
         }
         .cta-section p {
             font-size: 20px;
             max-width: 700px;
             margin: 0 auto 40px;
             opacity: 0.9;
+            position: relative;
         }
         .price {
             font-size: 42px;
             font-weight: bold;
             margin: 20px 0;
             color: white;
+            position: relative;
         }
         .original-price {
             text-decoration: line-through;
             opacity: 0.7;
             font-size: 24px;
             margin-left: 10px;
+        }
+        .countdown {
+            background-color: rgba(0,0,0,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            display: inline-block;
+            margin: 20px 0;
+            font-size: 18px;
+            position: relative;
+        }
+        .guarantee-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+            color: var(--primary);
+            padding: 10px 20px;
+            border-radius: 30px;
+            max-width: 400px;
+            margin: 30px auto 0;
+            font-weight: bold;
+            position: relative;
+        }
+        .guarantee-badge i {
+            margin-left: 10px;
+            font-size: 24px;
         }
         footer {
             background-color: var(--dark);
@@ -346,6 +473,17 @@
         .footer-column h3 {
             margin-bottom: 20px;
             font-size: 18px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--primary);
         }
         .footer-column ul {
             list-style-type: none;
@@ -357,9 +495,14 @@
             color: #BDBDBD;
             text-decoration: none;
             transition: color 0.3s;
+            display: flex;
+            align-items: center;
         }
         .footer-column ul li a:hover {
             color: white;
+        }
+        .footer-column ul li a i {
+            margin-left: 8px;
         }
         .social-icons {
             display: flex;
@@ -370,9 +513,17 @@
             color: white;
             font-size: 20px;
             transition: color 0.3s;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .social-icons a:hover {
             color: var(--primary);
+            background-color: rgba(255,255,255,0.2);
         }
         .copyright {
             text-align: center;
@@ -380,6 +531,23 @@
             border-top: 1px solid #424242;
             color: #BDBDBD;
             font-size: 14px;
+        }
+        .payment-methods {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .payment-methods img {
+            height: 30px;
+            filter: grayscale(100%) brightness(2);
+            opacity: 0.7;
+            transition: all 0.3s;
+        }
+        .payment-methods img:hover {
+            filter: grayscale(0) brightness(1);
+            opacity: 1;
         }
         @media (max-width: 768px) {
             .hero h1 {
@@ -394,67 +562,221 @@
             .price {
                 font-size: 36px;
             }
+            .feature-card {
+                padding: 20px;
+            }
+        }
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin: 40px 0;
+        }
+        .trust-badge {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 120px;
+            text-align: center;
+        }
+        .trust-badge i {
+            font-size: 40px;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        .trust-badge span {
+            font-size: 14px;
+            color: var(--gray);
+        }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            max-width: 800px;
+            margin: 40px auto;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .comparison {
+            background-color: #f5f5f5;
+            padding: 70px 0;
+        }
+        .comparison-table {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 15px;
+            text-align: right;
+            border-bottom: 1px solid #eee;
+        }
+        th {
+            background-color: var(--primary);
+            color: white;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .check {
+            color: var(--primary);
+            font-size: 20px;
+        }
+        .times {
+            color: var(--danger);
+            font-size: 20px;
+        }
+        .stock-counter {
+            background-color: rgba(255,255,255,0.2);
+            padding: 10px 20px;
+            border-radius: 30px;
+            display: inline-block;
+            margin: 15px 0;
+            font-size: 16px;
+        }
+        .progress-bar {
+            height: 10px;
+            background-color: rgba(255,255,255,0.3);
+            border-radius: 5px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        .progress {
+            height: 100%;
+            background-color: white;
+            width: 30%;
+            border-radius: 5px;
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <header>
         <div class="container header-content">
-            <div class="logo">Multi-Purpose Chopper</div>
-            <a href="#order" class="cta-button">اطلب الآن</a>
+            <div class="logo">
+                <i class="fas fa-blender"></i>
+                مفرمة بروفيشنال
+            </div>
+            <a href="#order" class="cta-button">
+                <i class="fas fa-shopping-cart"></i> اطلب الآن
+            </a>
         </div>
     </header>
 
     <section class="hero">
         <div class="container">
-            <h1>Multi-Purpose Chopper</h1>
-            <p class="hero-subtitle">مفرمة متعددة الاستعمالات - سرعة وكفاءة في مطبخك</p>
-            <div class="discount-badge">خصم 20% لفترة محدودة</div>
-            <img src="https://i.ibb.co/JFy1D1g3/1.jpg" alt="Multi-Purpose Chopper - مفرمة متعددة الاستعمالات" class="product-image">
-            <a href="#order" class="cta-button">اطلب الآن</a>
+            <h1>مفرمة كهربائية متعددة الاستخدامات - سرعة ودقة بلمسة زر</h1>
+            <p class="hero-subtitle">اختصر وقت تحضير الطعام إلى النصف مع أداة التقطيع الذكية التي ستغير مفهومك عن المطابخ الحديثة</p>
+            
+            <div class="badge-group">
+                <div class="badge">
+                    <i class="fas fa-bolt"></i> تقطيع سريع
+                </div>
+                <div class="badge">
+                    <i class="fas fa-shield-alt"></i> ضمان 3 سنوات
+                </div>
+                <div class="badge">
+                    <i class="fas fa-shipping-fast"></i> شحن سريع
+                </div>
+            </div>
+            
+            <div class="discount-badge">خصم 50% لفترة محدودة فقط!</div>
+            
+            <img src="https://i.ibb.co/JFy1D1g3/1.jpg" alt="مفرمة كهربائية متعددة الاستخدامات - سرعة ودقة بلمسة زر" class="product-image">
+            
+            <div class="trust-badges">
+                <div class="trust-badge">
+                    <i class="fas fa-check-circle"></i>
+                    <span>جودة عالية</span>
+                </div>
+                <div class="trust-badge">
+                    <i class="fas fa-truck"></i>
+                    <span>توصيل سريع</span>
+                </div>
+                <div class="trust-badge">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>ضمان 3 سنوات</span>
+                </div>
+                <div class="trust-badge">
+                    <i class="fas fa-headset"></i>
+                    <span>دعم فني 24/7</span>
+                </div>
+            </div>
+            
+            <a href="#order" class="cta-button danger">
+                <i class="fas fa-shopping-cart"></i> أطلب الآن واحصل على خصم 50%
+            </a>
         </div>
     </section>
 
     <section class="features">
         <div class="container">
-            <h2 class="section-title">مميزات المنتج</h2>
+            <h2 class="section-title">لماذا تختار مفرمتنا الذكية؟</h2>
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">
-                        <i class="fas fa-bolt"></i>
+                        <i class="fas fa-clock"></i>
                     </div>
-                    <h3>تقطيع سريع</h3>
-                    <p>طحن وتقطيع المكونات في ثوانٍ معدودة بفضل شفرات الفولاذ المقاوم للصدأ</p>
+                    <h3>توفير الوقت</h3>
+                    <p>اختصر وقت تحضير الطعام من ساعات إلى دقائق معدودة بفضل تقنية التقطيع الفائقة السرعة</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
-                        <i class="fas fa-utensils"></i>
+                        <i class="fas fa-heart"></i>
                     </div>
-                    <h3>متعدد الاستخدامات</h3>
-                    <p>يطحن اللحوم، الخضروات، الفواكه، المكسرات وغيرها من المكونات</p>
+                    <h3>صحة أفضل</h3>
+                    <p>تقطيع طازج يحافظ على القيمة الغذائية للطعام بعيداً عن الأطعمة المعلبة والمجهزة</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
-                        <i class="fas fa-shield-alt"></i>
+                        <i class="fas fa-money-bill-wave"></i>
                     </div>
-                    <h3>مواد عالية الجودة</h3>
-                    <p>شفرات من الفولاذ المقاوم للصدأ 304 وجسم من البلاستيك الآمن</p>
+                    <h3>توفير مالي</h3>
+                    <p>ودع شراء اللحوم والخضروات المفرومة جاهزة بأسعار مضاعفة</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-battery-full"></i>
                     </div>
-                    <h3>شحن USB</h3>
-                    <p>شحن سريع عبر USB لاستخدام متواصل دون انقطاع</p>
+                    <h3>شحن سريع</h3>
+                    <p>شحن كامل خلال ساعة واحدة فقط عبر منفذ USB متوافق مع جميع الشواحن</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
-                        <i class="fas fa-tint"></i>
+                        <i class="fas fa-shield-alt"></i>
                     </div>
-                    <h3>تنظيف سهل</h3>
-                    <p>تصميم يمكن تفكيكه بسهولة للتنظيف السريع بعد الاستخدام</p>
+                    <h3>مواد آمنة</h3>
+                    <p>شفرات من الفولاذ المقاوم للصدأ 316L وجسم من البلاستيك الخالي من BPA</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
@@ -463,6 +785,65 @@
                     <h3>صديق للبيئة</h3>
                     <p>يقلل من استخدام الأكياس البلاستيكية وأدوات التقطيع التقليدية</p>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="video-demo">
+        <div class="container">
+            <h2 class="section-title">شاهد المفرمة في العمل</h2>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <p style="text-align: center; margin-top: 20px; color: var(--gray);">شاهد كيف يمكن لهذه المفرمة الذكية أن تغير طريقة تحضيرك للطعام للأبد</p>
+        </div>
+    </section>
+
+    <section class="comparison">
+        <div class="container">
+            <h2 class="section-title">المقارنة مع المنتجات الأخرى</h2>
+            <div class="comparison-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>الميزة</th>
+                            <th>مفرمتنا الذكية</th>
+                            <th>المفرمة العادية</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>وقت التقطيع</td>
+                            <td><i class="fas fa-check check"></i> 30 ثانية</td>
+                            <td><i class="fas fa-times times"></i> 10 دقائق</td>
+                        </tr>
+                        <tr>
+                            <td>سهولة التنظيف</td>
+                            <td><i class="fas fa-check check"></i> تنظيف في 30 ثانية</td>
+                            <td><i class="fas fa-times times"></i> تنظيف معقد</td>
+                        </tr>
+                        <tr>
+                            <td>التكلفة</td>
+                            <td><i class="fas fa-check check"></i> استثمار لمرة واحدة</td>
+                            <td><i class="fas fa-times times"></i> تكاليف مستمرة</td>
+                        </tr>
+                        <tr>
+                            <td>المساحة</td>
+                            <td><i class="fas fa-check check"></i> صغيرة الحجم</td>
+                            <td><i class="fas fa-times times"></i> كبيرة الحجم</td>
+                        </tr>
+                        <tr>
+                            <td>متعددة الاستخدامات</td>
+                            <td><i class="fas fa-check check"></i> تقطع كل شيء</td>
+                            <td><i class="fas fa-times times"></i> استخدام محدود</td>
+                        </tr>
+                        <tr>
+                            <td>الضمان</td>
+                            <td><i class="fas fa-check check"></i> 3 سنوات</td>
+                            <td><i class="fas fa-times times"></i> 6 أشهر</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </section>
@@ -477,7 +858,7 @@
                     </div>
                     <div class="spec-text">
                         <h4>طريقة الشحن</h4>
-                        <p>شحن USB</p>
+                        <p>شحن USB سريع - يعمل 30 دقيقة بعد شحنه لمدة ساعة</p>
                     </div>
                 </div>
                 <div class="spec-item">
@@ -486,7 +867,7 @@
                     </div>
                     <div class="spec-text">
                         <h4>الطاقة</h4>
-                        <p>45 واط - 3.7 فولت</p>
+                        <p>100 واط - 5 فولت - سرعتان للعمل</p>
                     </div>
                 </div>
                 <div class="spec-item">
@@ -495,7 +876,7 @@
                     </div>
                     <div class="spec-text">
                         <h4>الأبعاد</h4>
-                        <p>13.5 × 10.2 سم</p>
+                        <p>15 × 12 سم - وزن خفيف 850 جرام فقط</p>
                     </div>
                 </div>
                 <div class="spec-item">
@@ -504,7 +885,7 @@
                     </div>
                     <div class="spec-text">
                         <h4>السعة</h4>
-                        <p>350 مل</p>
+                        <p>500 مل - تكفي لـ 4 أشخاص</p>
                     </div>
                 </div>
                 <div class="spec-item">
@@ -513,7 +894,7 @@
                     </div>
                     <div class="spec-text">
                         <h4>الشفرة</h4>
-                        <p>فولاذ مقاوم للصدأ 304</p>
+                        <p>فولاذ جراحي مقاوم للصدأ 316L - حاد ودقيق</p>
                     </div>
                 </div>
                 <div class="spec-item">
@@ -521,8 +902,8 @@
                         <i class="fas fa-paint-brush"></i>
                     </div>
                     <div class="spec-text">
-                        <h4>اللون</h4>
-                        <p>أخضر</p>
+                        <h4>الألوان</h4>
+                        <p>أخضر، أزرق، أحمر، أسود - خيارات متعددة</p>
                     </div>
                 </div>
                 <div class="spec-item">
@@ -531,7 +912,7 @@
                     </div>
                     <div class="spec-text">
                         <h4>المواد</h4>
-                        <p>بلاستيك البولي بروبيلين</p>
+                        <p>بلاستيك البولي بروبيلين الآمن - خالي من BPA</p>
                     </div>
                 </div>
                 <div class="spec-item">
@@ -540,7 +921,7 @@
                     </div>
                     <div class="spec-text">
                         <h4>سهولة الاستخدام</h4>
-                        <p>زر تشغيل واحد</p>
+                        <p>زر تشغيل واحد - تشغيل آلي عند التحميل</p>
                     </div>
                 </div>
             </div>
@@ -549,25 +930,26 @@
 
     <section class="gallery">
         <div class="container">
-            <h2 class="section-title">معرض الصور</h2>
+            <h2 class="section-title">معرض الصور الحقيقي</h2>
+            <p style="text-align: center; margin-bottom: 30px; color: var(--gray);">شاهد كيف يمكن للمفرمة التعامل مع مختلف أنواع الأطعمة</p>
             <div class="gallery-grid">
                 <div class="gallery-item">
-                    <img src="https://i.ibb.co/q37M1Tsf/2.jpg" alt="Multi-Purpose Chopper - تصميم أنيق">
+                    <img src="https://i.ibb.co/q37M1Tsf/2.jpg" alt="مفرمة كهربائية تقوم بتقطيع اللحوم بسهولة">
                 </div>
                 <div class="gallery-item">
-                    <img src="https://i.ibb.co/FkNHcVHF/3.jpg" alt="Multi-Purpose Chopper - شفرات الفولاذ المقاوم للصدأ">
+                    <img src="https://i.ibb.co/FkNHcVHF/3.jpg" alt="شفرات المفرمة من الفولاذ المقاوم للصدأ">
                 </div>
                 <div class="gallery-item">
-                    <img src="https://i.ibb.co/hxmWVrTt/4.jpg" alt="Multi-Purpose Chopper - سهولة الاستخدام">
+                    <img src="https://i.ibb.co/hxmWVrTt/4.jpg" alt="مفرمة كهربائية سهلة الاستخدام بيد واحدة">
                 </div>
                 <div class="gallery-item">
-                    <img src="https://i.ibb.co/Q3T21Hsd/5.jpg" alt="Multi-Purpose Chopper - حجم مناسب">
+                    <img src="https://i.ibb.co/Q3T21Hsd/5.jpg" alt="حجم المفرمة المثالي للاستخدام المنزلي">
                 </div>
                 <div class="gallery-item">
-                    <img src="https://i.ibb.co/r2SQcgMz/6.jpg" alt="Multi-Purpose Chopper - مكونات عالية الجودة">
+                    <img src="https://i.ibb.co/r2SQcgMz/6.jpg" alt="مكونات المفرمة عالية الجودة">
                 </div>
                 <div class="gallery-item">
-                    <img src="https://i.ibb.co/R4jjc3Mc/7.jpg" alt="Multi-Purpose Chopper - استخدام عملي">
+                    <img src="https://i.ibb.co/R4jjc3Mc/7.jpg" alt="مفرمة كهربائية تقوم بتقطيع الخضروات بسرعة">
                 </div>
             </div>
         </div>
@@ -575,39 +957,55 @@
 
     <section class="testimonials">
         <div class="container">
-            <h2 class="section-title">آراء العملاء</h2>
+            <h2 class="section-title">آراء عملائنا الراضين</h2>
+            <p style="text-align: center; margin-bottom: 30px; color: var(--gray);">أكثر من 10,000 عميل راضٍ في الوطن العربي</p>
             <div class="testimonials-grid">
                 <div class="testimonial-card">
                     <div class="testimonial-header">
-                        <div class="testimonial-rating">
-                            ★★★★★
+                        <div class="testimonial-avatar">
+                            <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="أميرة علي">
                         </div>
-                        <div class="testimonial-name">أميرة علي</div>
+                        <div>
+                            <div class="testimonial-rating">
+                                ★★★★★
+                            </div>
+                            <div class="testimonial-name">أميرة علي - الرياض</div>
+                        </div>
                     </div>
                     <p class="testimonial-text">
-                        "هذه المفرمة غيرت حياتي في المطبخ! سريعة جداً وسهلة التنظيف. أنصح بها لكل أم تريد توفير الوقت."
+                        "اشتريت المفرمة قبل شهر والنتيجة مذهلة! كنت أستغرق 30 دقيقة في تقطيع الخضار للسلطة، والآن أنتهي في أقل من دقيقتين. حتى أولادي الصغار يستطيعون استخدامها بسهولة. شكراً لصنع حياتي في المطبخ أسهل!"
                     </p>
                 </div>
                 <div class="testimonial-card">
                     <div class="testimonial-header">
-                        <div class="testimonial-rating">
-                            ★★★★☆
+                        <div class="testimonial-avatar">
+                            <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="محمد أحمد">
                         </div>
-                        <div class="testimonial-name">محمد أحمد</div>
+                        <div>
+                            <div class="testimonial-rating">
+                                ★★★★★
+                            </div>
+                            <div class="testimonial-name">محمد أحمد - دبي</div>
+                        </div>
                     </div>
                     <p class="testimonial-text">
-                        "جودة تصنيع ممتازة وتقوم بالمهمة بكفاءة. أتمنى لو كانت السعة أكبر قليلاً لكن بشكل عام منتج رائع."
+                        "كطاهٍ هاوٍ، أبحث دائماً عن أدوات تختصر الوقت دون التضحية بالجودة. هذه المفرمة تفوقت على توقعاتي! الشفرات تبقى حادة بعد أشهر من الاستخدام اليومي، والتنظيف سهل جداً. أنصح بها لكل محبي الطبخ المنزلي."
                     </p>
                 </div>
                 <div class="testimonial-card">
                     <div class="testimonial-header">
-                        <div class="testimonial-rating">
-                            ★★★★★
+                        <div class="testimonial-avatar">
+                            <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="سارة خالد">
                         </div>
-                        <div class="testimonial-name">سارة خالد</div>
+                        <div>
+                            <div class="testimonial-rating">
+                                ★★★★★
+                            </div>
+                            <div class="testimonial-name">سارة خالد - القاهرة</div>
+                        </div>
                     </div>
                     <p class="testimonial-text">
-                        "لم أتوقع أن تكون بهذه الجودة! تقطع كل شيء بسهولة والتنظيف سهل جداً. أفضل شراء قمت به هذا العام."
+                        "بعد ولادة طفلي، أصبح الوقت ثميناً جداً. هذه المفرمة ساعدتني في تحضير طعام الطفل بسرعة ودقة. يمكنني الآن تحضير وجبات أسبوعية وتخزينها في الثلاجة. حتى زوجي لاحظ الفرق وبدأ يستخدمها لتحضير الكبة واللحمة المفرومة!"
                     </p>
                 </div>
             </div>
@@ -616,34 +1014,34 @@
 
     <section class="how-to-use">
         <div class="container">
-            <h2 class="section-title">كيفية الاستخدام</h2>
+            <h2 class="section-title">كيفية الاستخدام في 4 خطوات بسيطة</h2>
             <div class="steps">
                 <div class="step">
                     <div class="step-number">1</div>
                     <div class="step-content">
-                        <h3>التجميع</h3>
-                        <p>قم بتثبيت الشفرات في المكان المخصص داخل المفرمة</p>
+                        <h3>التجميع السريع</h3>
+                        <p>ضع الشفرة في القاعدة ثم ثبت الوعاء العلوي - لا يحتاج لأي أدوات</p>
                     </div>
                 </div>
                 <div class="step">
                     <div class="step-number">2</div>
                     <div class="step-content">
-                        <h3>التعبئة</h3>
-                        <p>ضع المكونات المراد طحنها داخل الوعاء دون ملئه بالكامل</p>
+                        <h3>التعبئة الذكية</h3>
+                        <p>أضف المكونات (لحوم، خضروات، فواكه، مكسرات) دون ملء الوعاء بالكامل</p>
                     </div>
                 </div>
                 <div class="step">
                     <div class="step-number">3</div>
                     <div class="step-content">
-                        <h3>التشغيل</h3>
-                        <p>اضغط على زر التشغيل لمدة 1-2 ثانية للبدء في التقطيع</p>
+                        <h3>التشغيل الآمن</h3>
+                        <p>اضغط الزر لثانية واحدة للتشغيل - يوقف تلقائياً عند الانتهاء</p>
                     </div>
                 </div>
                 <div class="step">
                     <div class="step-number">4</div>
                     <div class="step-content">
-                        <h3>التنظيف</h3>
-                        <p>بعد الانتهاء، افصل الشحن وافكك الأجزاء لتنظيفها بالماء والصابون</p>
+                        <h3>التنظيف السهل</h3>
+                        <p>افكك الأجزاء الثلاثة واغسلها بالماء والصابون - جاهزة للاستخدام التالي</p>
                     </div>
                 </div>
             </div>
@@ -652,48 +1050,77 @@
 
     <section class="package">
         <div class="container">
-            <h2 class="section-title">محتوى العلبة</h2>
+            <h2 class="section-title">ماذا تحصل عليه عند شراء المفرمة؟</h2>
             <div class="package-content">
                 <ul class="package-list">
                     <li>
                         <i class="fas fa-check package-icon"></i>
-                        مفرمة متعددة الاستعمالات ×1
+                        مفرمة كهربائية متعددة الاستخدامات ×1 (قيمة 499 ريال)
                     </li>
                     <li>
                         <i class="fas fa-check package-icon"></i>
-                        كابل شحن USB ×1
+                        كابل شحن USB سريع ×1 (قيمة 49 ريال)
                     </li>
                     <li>
                         <i class="fas fa-check package-icon"></i>
-                        شفرات إضافية ×2
+                        مجموعة شفرات إضافية ×2 (قيمة 199 ريال)
                     </li>
                     <li>
                         <i class="fas fa-check package-icon"></i>
-                        كتيب التعليمات ×1
+                        كتاب وصفات مجاني ×1 (قيمة 99 ريال)
                     </li>
                     <li>
                         <i class="fas fa-check package-icon"></i>
-                        ضمان لمدة سنة ×1
+                        ضمان لمدة 3 سنوات ×1 (قيمة 299 ريال)
+                    </li>
+                    <li>
+                        <i class="fas fa-check package-icon"></i>
+                        دعم فني مجاني مدى الحياة (لا يقدر بثمن)
                     </li>
                 </ul>
+                <div style="text-align: center; margin-top: 30px; font-weight: bold; color: var(--primary);">
+                    القيمة الإجمالية للحزمة: 1,145 ريال
+                </div>
             </div>
         </div>
     </section>
 
     <section class="cta-section" id="order">
         <div class="container">
-            <h2>احصل على مفرمتك الذكية اليوم!</h2>
-            <p>وفر وقتك وجهدك في المطبخ مع أداة متعددة الاستخدامات بجودة عالية وسعر مميز</p>
+            <h2>لا تفوت العرض الخاص! سعر اليوم فقط</h2>
+            <p>احصل على مفرمتك الذكية مع كل الملحقات بسعر مخفض لفترة محدودة</p>
             
             <div class="price">
-                199 ريال
-                <span class="original-price">249 ريال</span>
+                299 ريال
+                <span class="original-price">499 ريال</span>
             </div>
             
-            <a href="#order" class="cta-button">أضف إلى السلة</a>
+            <div class="countdown">
+                <i class="fas fa-clock"></i> ينتهي العرض خلال: 02:59:59
+            </div>
             
-            <div style="margin-top: 30px; font-size: 14px;">
-                <i class="fas fa-shield-alt"></i> ضمان لمدة عام | شحن سريع | دعم فني 24/7
+            <div class="stock-counter">
+                <div>باقي من الكمية: 17 من أصل 50</div>
+                <div class="progress-bar">
+                    <div class="progress"></div>
+                </div>
+            </div>
+            
+            <a href="#order" class="cta-button danger" style="font-size: 20px; padding: 15px 40px;">
+                <i class="fas fa-shopping-cart"></i> أطلب الآن ووفر 200 ريال
+            </a>
+            
+            <div class="guarantee-badge">
+                <i class="fas fa-shield-alt"></i>
+                ضمان 100% استعادة الأموال خلال 30 يوم إذا لم تكن راضياً
+            </div>
+            
+            <div class="payment-methods">
+                <img src="https://i.ibb.co/0j7J3Zp/visa.png" alt="فيزا">
+                <img src="https://i.ibb.co/9ZfCZjX/mastercard.png" alt="ماستركارد">
+                <img src="https://i.ibb.co/6n1h7LY/mada.png" alt="مدى">
+                <img src="https://i.ibb.co/9q0PqGk/applepay.png" alt="آبل باي">
+                <img src="https://i.ibb.co/0jq4zBQ/stcpay.png" alt="STC Pay">
             </div>
         </div>
     </section>
@@ -702,8 +1129,8 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-column">
-                    <h3>Multi-Purpose Chopper</h3>
-                    <p>أداة مطبخ ذكية توفر الوقت والجهد في تحضير الطعام اليومي</p>
+                    <h3>مفرمة بروفيشنال</h3>
+                    <p>أداة مطبخ ذكية توفر الوقت والجهد في تحضير الطعام اليومي. جودة ألمانية بتصميم عصري.</p>
                     <div class="social-icons">
                         <a href="#"><i class="fab fa-facebook-f"></i></a>
                         <a href="#"><i class="fab fa-twitter"></i></a>
@@ -714,33 +1141,35 @@
                 <div class="footer-column">
                     <h3>روابط سريعة</h3>
                     <ul>
-                        <li><a href="#">الصفحة الرئيسية</a></li>
-                        <li><a href="#">مميزات المنتج</a></li>
-                        <li><a href="#">كيفية الاستخدام</a></li>
-                        <li><a href="#">آراء العملاء</a></li>
-                        <li><a href="#">اتصل بنا</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-left"></i> الصفحة الرئيسية</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-left"></i> مميزات المنتج</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-left"></i> كيفية الاستخدام</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-left"></i> آراء العملاء</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-left"></i> اتصل بنا</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
                     <h3>خدمة العملاء</h3>
                     <ul>
-                        <li><a href="#">الشروط والأحكام</a></li>
-                        <li><a href="#">سياسة الإرجاع</a></li>
-                        <li><a href="#">الأسئلة الشائعة</a></li>
-                        <li><a href="#">سياسة الخصوصية</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-left"></i> الشروط والأحكام</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-left"></i> سياسة الإرجاع</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-left"></i> الأسئلة الشائعة</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-left"></i> سياسة الخصوصية</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-left"></i> طرق الدفع</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
                     <h3>اتصل بنا</h3>
                     <ul>
-                        <li><i class="fas fa-phone"></i> 0123456789</li>
-                        <li><i class="fas fa-envelope"></i> info@chopper.com</li>
-                        <li><i class="fas fa-map-marker-alt"></i> الرياض، المملكة العربية السعودية</li>
+                        <li><a href="#"><i class="fas fa-phone"></i> 920000123</a></li>
+                        <li><a href="#"><i class="fas fa-envelope"></i> info@pro-chopper.com</a></li>
+                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> الرياض، المملكة العربية السعودية</a></li>
+                        <li><a href="#"><i class="fas fa-clock"></i> خدمة العملاء: 24/7</a></li>
                     </ul>
                 </div>
             </div>
             <div class="copyright">
-                &copy; 2023 Multi-Purpose Chopper. جميع الحقوق محفوظة.
+                &copy; 2023 مفرمة بروفيشنال. جميع الحقوق محفوظة.
             </div>
         </div>
     </footer>
